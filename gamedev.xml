@@ -2,10 +2,9 @@
 ---
 <?xml version="1.0"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-<title>{{site.name}}</title>
-<!-- <link href="https://rsaarelm.github.io/"/> -->
+<title>{{site.name}} | gamedev</title>
 <link href="{{site.url}}/"/>
-    <link type="application/atom+xml" rel="self" href="{{site.url}}/atom.xml"/>
+    <link type="application/atom+xml" rel="self" href="{{site.url}}/gamedev.xml"/>
 <updated>{{ site.time | date_to_xmlschema }}</updated>
 <id>{{site.url}}/</id>
 <author>
