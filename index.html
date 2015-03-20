@@ -1,1 +1,16 @@
-it lives!
+---
+layout: default
+---
+
+<h1>rsaarelm blog</h1>
+
+<div class="posts">
+    {% for post in site.posts %}
+    <article class="post">
+    <p>
+        <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+        | {{ post.date | date: "%Y-%m-%d" }}
+    </p>
+    </article>
+    {% endfor %}
+</div>

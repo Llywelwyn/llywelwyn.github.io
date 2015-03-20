@@ -1,0 +1,9 @@
+timezone: Europe/Helsinki
+name: rsaarelm blog
+url: https://rsaarelm.github.io
+
+exclude:
+    - LICENSE
+    - README.md
+
+permalink: /:title/
