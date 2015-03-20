@@ -7,3 +7,7 @@ exclude:
     - README.md
 
 permalink: /:title/
+
+
+kramdown:
+    smart_quotes: ["apos", "apos", "quot", "quot"]
