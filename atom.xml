@@ -20,7 +20,6 @@
 <name>Risto Saarelma</name>
 <uri>{{site.url}}/</uri>
 </author>
-<content type="html">{{ post.content | xml_escape }}</content>
 </entry>
 {% endfor %}
 </feed>
