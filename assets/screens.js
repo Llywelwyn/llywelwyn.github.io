@@ -8,6 +8,10 @@ Game.Screen.start_screen = {
         // renders prompt to screen
         display.drawText(1, 1, "%c{yellow}llywelwyn.github.io");
         display.drawText(1, 2, "Press %c{green}[Enter] %c{}to start.");
+        display.drawText(1, 4, "Controls:");
+        display.drawText(1, 6, "Movement        -       %c{green}[Arrow Keys]");
+        display.drawText(1, 7, "Move Up         -       %c{green}[>]");
+        display.drawText(1, 8, "Move Down       -       %c{green}[<]");
     },
     handle_input: function(input_type, input_data) {
         if(input_type === 'keydown') {
@@ -94,7 +98,10 @@ Game.Screen.play_screen = {
                 this.move(0, -1, 0);
             } else if(input_data.key === 'ArrowDown') {
                 this.move(0, 1, 0);
+            } else if(input_data.key == '.') {
+                this.wait(); // Pass
             } else {
+                console.log(input_data);
                 return;
             }
             // Unlock the engine
@@ -116,7 +123,8 @@ Game.Screen.play_screen = {
         var new_y = this._player.y() + d_y;
         var new_z = this._player.z() + d_z;
         this._player.try_move(new_x, new_y, new_z, this._map);
-    }
+    },
+    wait: function() { this._player.wait(); }
 }
 
 Game.Screen.win_screen = {

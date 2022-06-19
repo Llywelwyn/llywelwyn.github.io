@@ -36,10 +36,12 @@ Game.Mixins.Moveable = {
             return true;
         } else if(tile.is_diggable()) { // If tile is diggable, dig
             map.dig(x, y, z);
+            Game.send_message(this, "You dig through the dirt.");
             return true;
         }
         return false;
-    }
+    },
+    wait: function() { Game.send_message(this, "You wait."); }
 };
 Game.Mixins.Destructible = {
     name: 'Destructible',
@@ -92,13 +94,19 @@ Game.Mixins.MessageRecipient = {
     name: 'MessageRecipient',
     init: function(template) {
         this._messages = [];
+        this._buffer;
+        this._last_shown;
+        this._max_onscreen = 5;
     },
     messages: function() { return this._messages; },
     receive_message: function(message) {
         this._messages.push(message);
+        if (this._messages.length >= this._max_onscreen) {
+            this._messages.splice(0, this._messages.length - this._max_onscreen)
+        };
     },
     clear_messages: function() {
-        this._messages = [];
+            this._messages = [];
     }
 };
 
@@ -112,7 +120,7 @@ Game.Mixins.PlayerActor = {
         // Lock engine, wait for input
         this.map().engine().lock();
         // Clear message queue
-        this.clear_messages();
+        //this.clear_messages();
     }
 };
 Game.Mixins.FungusActor = {

@@ -32,11 +32,11 @@ Game.Tile.dungeon_wall_tile = new Game.Tile({
 });
 Game.Tile.stairs_up_tile = new Game.Tile({
     character: '<',
-    foreground: 'grey',
+    foreground: 'white',
     is_walkable: true
 });
 Game.Tile.stairs_down_tile = new Game.Tile({
     character: '>',
-    foreground: 'grey',
+    foreground: 'white',
     is_walkable: true
 });

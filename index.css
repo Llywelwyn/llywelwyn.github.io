@@ -1,0 +1,19 @@
+html {
+    display: table;
+    margin: auto;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+html,body {
+    background-color: black;
+    margin: auto;
+    margin-top: 10px;
+    padding: 0;
+    border: solid darkgoldenrod;
+    border-width: thick;
+    box-sizing: border-box;
+}
