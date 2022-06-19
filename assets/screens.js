@@ -92,13 +92,13 @@ Game.Screen.play_screen = {
         stats += vsprintf('HP: %d/%d ', [this._player.hp(), this._player.max_hp()]);
         stats += vsprintf('                         Floor: %d', [this._player.z()]);
         display.drawText(stats_x, stats_y, stats);
-        var help_message = "%c{white}Press %c{green}[?]%c{white} for help"
+        var help_message = "%c{white}Press %c{seagreen}[?]%c{white} for help"
         display.drawText(Game.width() - 19, Game.height(), help_message)
 
         var help_x;
         var help_y;
         if(this._help) { // TODO: Make a function for drawing boxes (w/ text)
-            display.drawText(5, 5, `
+            display.drawText(Game.width()/2 - 21, Game.height()/2 + 10, `
             %c{yellow}╔═ %c{white}CONTROLS%c{yellow} ══════════════════════════════╗
             ║                                         ║
             ║ %c{white}Movement           -       %c{seagreen}[Arrow Keys]%c{yellow} ║
@@ -112,32 +112,35 @@ Game.Screen.play_screen = {
     },
     handle_input: function(input_type, input_data) {
         if (input_type === 'keydown') {
-            if (input_data.key === 'ArrowLeft') {
-                this.move(-1, 0, 0);
-            } else if (input_data.key === 'ArrowRight') {
-                this.move(1, 0, 0);
-            } else if(input_data.key === 'ArrowUp') {
-                this.move(0, -1, 0);
-            } else if(input_data.key === 'ArrowDown') {
-                this.move(0, 1, 0);
-            } else if(input_data.key == '.') {
-                this.wait(); // Pass
-            } else if(input_data.key == '>') {
-                this.move(0, 0, 1);
-            } else if(input_data.key == '<') {
-                this.move(0, 0, -1);
-            } else if(input_data.key == '?') {
-                this._help = !this._help;
-                Game.refresh();
-                return;
-            } else {
-                console.log(input_data);
-                return;
+            // If unpaused
+            if(!this._help) {
+                if (input_data.key === 'ArrowLeft') {
+                    this.move(-1, 0, 0);
+                } else if (input_data.key === 'ArrowRight') {
+                    this.move(1, 0, 0);
+                } else if(input_data.key === 'ArrowUp') {
+                    this.move(0, -1, 0);
+                } else if(input_data.key === 'ArrowDown') {
+                    this.move(0, 1, 0);
+                } else if(input_data.key === '.') {
+                    this.wait(); // Pass
+                } else if(input_data.key === '>') {
+                    this.move(0, 0, 1);
+                } else if(input_data.key === '<') {
+                    this.move(0, 0, -1);
+                } else if(input_data.key === '?') {
+                    this._help = true;
+                    Game.refresh();
+                    return;
+                } else {
+                    return;
+                }
+                // Unlock the engine
+                this._map.engine().unlock();
+            } else if (input_data.key === '?') {
+                this._help = false;
+                this._map.engine().unlock();
             }
-            // Close the help menu
-            this._help = false;
-            // Unlock the engine
-            this._map.engine().unlock();
         }
     },
     move: function(d_x, d_y, d_z) {
