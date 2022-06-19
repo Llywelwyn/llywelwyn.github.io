@@ -12,6 +12,7 @@ Game.Screen.start_screen = {
         display.drawText(1, 6, "Movement        -       %c{green}[Arrow Keys]");
         display.drawText(1, 7, "Move Up         -       %c{green}[>]");
         display.drawText(1, 8, "Move Down       -       %c{green}[<]");
+        display.drawText(1, 9, "Wait            -       %c{green}[.]");
     },
     handle_input: function(input_type, input_data) {
         if(input_type === 'keydown') {
