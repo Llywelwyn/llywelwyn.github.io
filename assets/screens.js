@@ -6,7 +6,7 @@ Game.Screen.start_screen = {
     exit: function() { console.log("Exited start screen."); },
     render: function(display) {
         // renders prompt to screen
-        display.drawText(1, 1, "%c{yellow}Rogues in Space");
+        display.drawText(1, 1, "%c{yellow}llywelwyn.github.io");
         display.drawText(1, 2, "Press %c{green}[Enter] %c{}to start.");
     },
     handle_input: function(input_type, input_data) {
@@ -33,19 +33,6 @@ Game.Screen.play_screen = {
                 map[x].push(Game.Tile.null_tile);
             }
         }
-        var generator = new ROT.Map.Cellular(map_width, map_height);
-        generator.randomize(0.5);
-        var iterations = 3;
-        for(var i = 0; i < iterations - 1; i++) {
-            generator.create();
-        }
-        generator.create(function(x,y,v) {
-            if(v === 1) {
-                map[x][y] = Game.Tile.floor_tile;
-            } else {
-                map[x][y] = Game.Tile.wall_tile;
-            }
-        });
         // Print to console random section of the map for testing.
         for(var x = 0; x < 5; x++) {
             for(var y = 0; y < 5; y++) {
@@ -92,6 +79,23 @@ Game.Screen.play_screen = {
                 )
             }
         }
+        // Get messages in player queue and renders
+        var messages = this._player.messages();
+        var message_x = 0;
+        var message_y = 0;
+        for (var i = 0; i < messages.length; i++) {
+            message_y += display.drawText(
+                message_x,
+                message_y,
+                '%c{white}%b{black}' + messages[i]
+            )
+        }
+        // Render player HP
+        var stats = '%c{white}%b{black}';
+        var stats_x = 0;
+        var stats_y = Game.height();
+        stats += vsprintf('HP: %d/%d ', [this._player.hp(), this._player.max_hp()]);
+        display.drawText(stats_x, stats_y, stats);
     },
     handle_input: function(input_type, input_data) {
         if(input_type === 'keydown') {

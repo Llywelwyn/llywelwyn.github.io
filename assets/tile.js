@@ -13,14 +13,30 @@ Game.Tile.prototype.is_walkable = function() { return this._is_walkable; };
 Game.Tile.prototype.is_diggable = function() { return this._is_diggable; };
 
 // Tiles - https://www.w3.org/wiki/CSS/Properties/color/keywords
+
+// Generic
 Game.Tile.null_tile = new Game.Tile({});
 Game.Tile.floor_tile = new Game.Tile({
     character: '.',
     foreground: 'grey',
     is_walkable: true
 });
-Game.Tile.wall_tile = new Game.Tile({
+Game.Tile.cave_wall_tile = new Game.Tile({
     character: '#',
     foreground: 'goldenrod',
     is_diggable: true
+});
+Game.Tile.dungeon_wall_tile = new Game.Tile({
+    character: '#',
+    foreground: 'darkgrey',
+});
+Game.Tile.stairs_up_tile = new Game.Tile({
+    character: '<',
+    foreground: 'grey',
+    is_walkable: true
+});
+Game.Tile.stairs_down_tile = new Game.Tile({
+    character: '>',
+    foreground: 'grey',
+    is_walkable: true
 });
