@@ -1,8 +1,8 @@
 Game.Glyph = function(properties) {
     properties = properties || {};
     this._character = properties['character'] || ' ';
-    this._foreground = properties['foreground'] || 'white';
-    this._background = properties['background'] || 'black';
+    this._foreground = one_of(properties['foreground']) || 'white';
+    this._background = one_of(properties['background']) || 'black';
 };
 
 Game.Glyph.prototype.character = function() { return this._character; };

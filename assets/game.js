@@ -24,6 +24,8 @@ function shuffle(array) {
 var Game = {
     _display: null,
     _current_screen: null,
+    _title: "llywelwyn.github.io",
+    _start_message: "Press %c{seagreen}[Enter]%c{white} to start.",
     _width: 80,
     _height: 40,
 
@@ -31,6 +33,8 @@ var Game = {
     display: function() { return this._display; },
     width: function() { return this._width; },
     height: function() { return this._height; },
+    title: function() { return this._title; },
+    start_message: function() { return this._start_message; },
 
     init: function() {
         this._display = new ROT.Display({

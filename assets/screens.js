@@ -6,13 +6,15 @@ Game.Screen.start_screen = {
     exit: function() { console.log("Exited start screen."); },
     render: function(display) {
         // renders prompt to screen
-        display.drawText(1, 1, "%c{yellow}llywelwyn.github.io");
-        display.drawText(1, 2, "Press %c{green}[Enter] %c{}to start.");
-        display.drawText(1, 4, "Controls:");
-        display.drawText(1, 6, "Movement        -       %c{green}[Arrow Keys]");
-        display.drawText(1, 7, "Move Up         -       %c{green}[>]");
-        display.drawText(1, 8, "Move Down       -       %c{green}[<]");
-        display.drawText(1, 9, "Wait            -       %c{green}[.]");
+        // TODO: FUNCTIONS, FUNCTIONS, FUNCTIONS. OR JSON.
+        display.drawText(Game.width()/2 - Game.title().length/2, Game.height()/2 - 3, "%c{yellow}" + Game.title());
+        display.drawText(Game.width()/2 - (Game.start_message().length-22)/2, Game.height()/2 + 4, "%c{white}" + Game.start_message());
+        display.drawText(Game.width()/2 - "╔═ CONTROLS ══════════════════════════╗".length/2, Game.height()/2 - 1,
+            `%c{white}Movement           -       %c{seagreen}[Arrow Keys]
+            %c{white}Ascend/Descend     -            %c{seagreen}[>]%c{white}/%c{seagreen}[<]
+            %c{white}Wait               -                %c{seagreen}[.]
+            %c{white}Controls           -                %c{seagreen}[?]`
+                );
     },
     handle_input: function(input_type, input_data) {
         if(input_type === 'keydown') {
@@ -26,6 +28,7 @@ Game.Screen.start_screen = {
 Game.Screen.play_screen = {
     _map: null,
     _player: null,
+    _help: false,
     enter: function() { 
         console.log("Entered play screen.");
         var width = 80;
@@ -82,12 +85,30 @@ Game.Screen.play_screen = {
                 '%c{white}%b{black}' + messages[i]
             )
         }
-        // Render player HP
+        // Render player HP - TODO: Actual functions, make all this modular instead of hardcoded terribleness
         var stats = '%c{white}%b{black}';
-        var stats_x = 0;
+        var stats_x = 1;
         var stats_y = Game.height();
         stats += vsprintf('HP: %d/%d ', [this._player.hp(), this._player.max_hp()]);
+        stats += vsprintf('                         Floor: %d', [this._player.z()]);
         display.drawText(stats_x, stats_y, stats);
+        var help_message = "%c{white}Press %c{green}[?]%c{white} for help"
+        display.drawText(Game.width() - 19, Game.height(), help_message)
+
+        var help_x;
+        var help_y;
+        if(this._help) { // TODO: Make a function for drawing boxes (w/ text)
+            display.drawText(5, 5, `
+            %c{yellow}╔═ %c{white}CONTROLS%c{yellow} ══════════════════════════════╗
+            ║                                         ║
+            ║ %c{white}Movement           -       %c{seagreen}[Arrow Keys]%c{yellow} ║
+            ║ %c{white}Ascend/Descend     -            %c{seagreen}[>]%c{white}/%c{seagreen}[<]%c{yellow} ║
+            ║ %c{white}Wait               -                %c{seagreen}[.]%c{yellow} ║
+            ║ %c{white}Controls           -                %c{seagreen}[?]%c{yellow} ║
+            ║                                         ║
+            ╚════════════════════ %c{white}Press %c{seagreen}[?]%c{white} to close%c{yellow} ═╝`
+                );
+        }
     },
     handle_input: function(input_type, input_data) {
         if (input_type === 'keydown') {
@@ -101,20 +122,20 @@ Game.Screen.play_screen = {
                 this.move(0, 1, 0);
             } else if(input_data.key == '.') {
                 this.wait(); // Pass
+            } else if(input_data.key == '>') {
+                this.move(0, 0, 1);
+            } else if(input_data.key == '<') {
+                this.move(0, 0, -1);
+            } else if(input_data.key == '?') {
+                this._help = !this._help;
+                Game.refresh();
+                return;
             } else {
                 console.log(input_data);
                 return;
             }
-            // Unlock the engine
-            this._map.engine().unlock();
-        } else if (input_type === 'keypress') {
-            if (input_data.key === '>') {
-                this.move(0, 0, 1);
-            } else if (input_data.key === '<') {
-                this.move(0, 0, -1);
-            } else {
-                return;
-            }
+            // Close the help menu
+            this._help = false;
             // Unlock the engine
             this._map.engine().unlock();
         }

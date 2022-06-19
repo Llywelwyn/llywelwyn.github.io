@@ -68,23 +68,28 @@ Game.Mixins.Attacker = {
     group_name: 'Attacker',
     init: function(template) {
         this._attack_value = template['attack_value'] || 1;
-        this._attacks_by = template['attacks_by'] || 'strike';
-        this._attacks_by_pl = template['attacks_by_pl'] || 'strikes';
+        this._verb = template['verb'] || {singular:['punch'], plural:['kick']};
     },
     attack_value: function() { return this._attack_value; },
-    attacks_by: function() { return this._attacks_by; },
-    attacks_by_pl: function() { return this._attacks_by_pl; },
+    refresh_verbs: function() {
+        var random = Math.floor(Math.random() * this._verb['singular'].length);
+        var selected_verbs = {
+            'singular': this._verb['singular'][random],
+            'plural': this._verb['plural'][random]}
+        return selected_verbs;
+    },
     attack: function(target) {
         if (target.has_mixin('Destructible')) {
             var attack = this.attack_value();
             var defence = target.defence_value();
             var max = Math.max(0, attack - defence);
             var damage = 1 + Math.floor(Math.random() * max);
+            var verb = this.refresh_verbs();
 
             Game.send_message(this, 'You %s the %s for %d damage!',
-                [this.attacks_by(), target.name(), damage]);
+                [verb['singular'], target.name(), damage]);
             Game.send_message(target, 'The %s %s you for %d damage!',
-                [this.name(), this.attacks_by_pl(), damage]);
+                [this.name(), verb['plural'], damage]);
 
             target.take_damage(this, 1 + Math.floor(Math.random() * max));
         }
@@ -182,8 +187,10 @@ Game.PlayerTemplate = {
     background: 'black',
     max_hp: 40,
     attack_value: 10,
-    attacks_by: 'strike',
-    attacks_by_pl: 'strikes',
+    verb: {
+        singular: ['punch', 'kick'],
+        plural: ['punches', 'kicks']
+    },
     mixins: [Game.Mixins.PlayerActor, Game.Mixins.Moveable, Game.Mixins.MessageRecipient,
             Game.Mixins.Attacker, Game.Mixins.Destructible]
 };
