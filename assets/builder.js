@@ -8,7 +8,7 @@ Game.Builder = function(width, height, depth) {
     // Instantiate arrays as multi-dimensional
     for (var z = 0; z < depth; z++) {
         // Create each level
-        if (Math.random() < 0.5) {
+        if (Math.random() < 0.8) {
             this._tiles[z] = this._generate_cave();
         } else {
             this._tiles[z] = this._generate_uniform();

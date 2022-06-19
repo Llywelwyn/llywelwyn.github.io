@@ -18,12 +18,12 @@ Game.Tile.prototype.is_diggable = function() { return this._is_diggable; };
 Game.Tile.null_tile = new Game.Tile({});
 Game.Tile.floor_tile = new Game.Tile({
     character: '.',
-    foreground: 'grey',
+    foreground: ['grey', 'darkgrey', 'dimgray', 'slategrey', 'darkslategrey'],
     is_walkable: true
 });
 Game.Tile.cave_wall_tile = new Game.Tile({
     character: '#',
-    foreground: 'goldenrod',
+    foreground: ['goldenrod', 'darkgoldenrod', 'brown'],
     is_diggable: true
 });
 Game.Tile.dungeon_wall_tile = new Game.Tile({
