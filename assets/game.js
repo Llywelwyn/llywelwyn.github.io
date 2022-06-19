@@ -4,6 +4,23 @@ Object.prototype.extend = function(a) {
     return this;
 };
 
+function shuffle(array) {
+    var currentIndex = array.length, randomIndex;
+    
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+    
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+    
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
+    
+    return array;
+ }
+
 var Game = {
     _display: null,
     _current_screen: null,
@@ -18,7 +35,7 @@ var Game = {
     init: function() {
         this._display = new ROT.Display({
             width: this._width, 
-            height: this._height
+            height: this._height + 1
         });
 
         var game = this;
@@ -56,7 +73,7 @@ var Game = {
             this.refresh();
         }
     }
-}
+};
 
 window.onload = function() {
     Game.init();
@@ -64,4 +81,43 @@ window.onload = function() {
     document.body.appendChild(Game.display().getContainer());
 
     Game.switch_screen(Game.Screen.start_screen);
+};
+
+// Message sending functions
+Game.send_message = function(recipient, message, args) {
+    if (recipient.has_mixin(Game.Mixins.MessageRecipient)) {
+        if(args) {
+            message = vsprintf(message, args);
+        }
+        recipient.receive_message(message);
+    }
+};
+Game.send_message_nearby = function(map, centre_x, centre_y, message, args) {
+    // If args passed, format message
+    if (args) {
+        message = vsprintf(message, args);
+    }
+    // Get nearby entities
+    entities = map.entities_within_radius(centre_x, centre_y, 5);
+    // Iterate through entities, send message if they can receive it
+    for(var i = 0; i < entities.length; i++) {
+        if(entities[i].has_mixin(Game.Mixins.MessageRecipient)) {
+            entities[i].receive_message(message);
+        }
+    }
+}
+
+Game.neighbour_positions = function(x, y, range = 1) {
+    var tiles = [];   
+    // Generate all possible offsets
+    for (var d_x = -range; d_x < range+1; d_x++) {
+        for (var d_y = -range; d_y < range+1; d_y++) {
+            // Exclude the same tile
+            if (d_x == 0 && d_y == 0) {
+                continue;
+            }
+            tiles.push({x: x + d_x, y: y + d_y});
+        }
+    }
+    return shuffle(tiles);
 }
