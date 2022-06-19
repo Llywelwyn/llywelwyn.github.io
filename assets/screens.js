@@ -23,27 +23,13 @@ Game.Screen.play_screen = {
     _player: null,
     enter: function() { 
         console.log("Entered play screen.");
-        var map = [];
-        var map_width = 100;
-        var map_height = 100;
-
-        for(var x = 0; x < map_width; x++) {
-            map.push([]);
-            for(var y = 0; y < map_height; y++) {
-                map[x].push(Game.Tile.null_tile);
-            }
-        }
-        // Print to console random section of the map for testing.
-        for(var x = 0; x < 5; x++) {
-            for(var y = 0; y < 5; y++) {
-                console.log(map[x][y]);
-            }
-        }
-        // Create player & map from tiles
+        var width = 80;
+        var height = 80;
+        var depth = 6;
+        // Create map from the tiles and player
+        var tiles = new Game.Builder(width, height, depth).tiles();
         this._player = new Game.Entity(Game.PlayerTemplate);
-        console.log("Created player template.")
-        this._map = new Game.Map(map, this._player);
-        console.log("Created map from tiles.");
+        this._map = new Game.Map(tiles, this._player);
         this._map.engine().start();
     },
     exit: function() { console.log("Exited play screen."); },
@@ -52,10 +38,10 @@ Game.Screen.play_screen = {
         top_left_x = Math.min(top_left_x, this._map.width() - Game.width());
         var top_left_y = Math.max(0, this._player.y() - (Game.height() / 2));
         top_left_y = Math.min(top_left_y, this._map.height() - Game.height());
-
+        // Iterate through all visible tiles
         for(let x = top_left_x; x < top_left_x + Game.width(); x++) {
             for(let y = top_left_y; y < top_left_y + Game.height(); y++) {
-                var tile = this._map.tile(x, y);
+                var tile = this._map.tile(x, y, this._player.z());
                 display.draw(
                     x - top_left_x,
                     y - top_left_y,
@@ -69,7 +55,8 @@ Game.Screen.play_screen = {
             var entity = entities[i];
             // Render only if onscreen
             if(entity.x() >= top_left_x && entity.x() < top_left_x + Game.width() &&
-            entity.y() >= top_left_y && entity.y() < top_left_y + Game.height()) {
+            entity.y() >= top_left_y && entity.y() < top_left_y + Game.height() &&
+            entity.z() == this._player.z()) {
                 display.draw(
                     entity.x() - top_left_x,
                     entity.y() - top_left_y,
@@ -98,26 +85,37 @@ Game.Screen.play_screen = {
         display.drawText(stats_x, stats_y, stats);
     },
     handle_input: function(input_type, input_data) {
-        if(input_type === 'keydown') {
-            if(input_data.key === 'ArrowLeft') {
-                this.move(-1, 0);
+        if (input_type === 'keydown') {
+            if (input_data.key === 'ArrowLeft') {
+                this.move(-1, 0, 0);
             } else if (input_data.key === 'ArrowRight') {
-                this.move(1, 0);
+                this.move(1, 0, 0);
             } else if(input_data.key === 'ArrowUp') {
-                this.move(0, -1);
+                this.move(0, -1, 0);
             } else if(input_data.key === 'ArrowDown') {
-                this.move(0, 1);
+                this.move(0, 1, 0);
             } else {
-                console.log(input_data);
+                return;
+            }
+            // Unlock the engine
+            this._map.engine().unlock();
+        } else if (input_type === 'keypress') {
+            if (input_data.key === '>') {
+                this.move(0, 0, 1);
+            } else if (input_data.key === '<') {
+                this.move(0, 0, -1);
+            } else {
+                return;
             }
             // Unlock the engine
             this._map.engine().unlock();
         }
     },
-    move: function(d_x, d_y) {
+    move: function(d_x, d_y, d_z) {
         var new_x = this._player.x() + d_x;
         var new_y = this._player.y() + d_y;
-        this._player.try_move(new_x, new_y, this._map);
+        var new_z = this._player.z() + d_z;
+        this._player.try_move(new_x, new_y, new_z, this._map);
     }
 }
 

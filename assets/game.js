@@ -49,7 +49,7 @@ var Game = {
         }
         bind_event_to_screen('keydown');
         //bind_event_to_screen('keyup');
-        //bind_event_to_screen('keypress');
+        bind_event_to_screen('keypress');
     },
 
     refresh: function() {
@@ -92,13 +92,13 @@ Game.send_message = function(recipient, message, args) {
         recipient.receive_message(message);
     }
 };
-Game.send_message_nearby = function(map, centre_x, centre_y, message, args) {
+Game.send_message_nearby = function(map, centre_x, centre_y, centre_z, message, args) {
     // If args passed, format message
     if (args) {
         message = vsprintf(message, args);
     }
     // Get nearby entities
-    entities = map.entities_within_radius(centre_x, centre_y, 5);
+    entities = map.entities_within_radius(centre_x, centre_y, centre_z, 5);
     // Iterate through entities, send message if they can receive it
     for(var i = 0; i < entities.length; i++) {
         if(entities[i].has_mixin(Game.Mixins.MessageRecipient)) {
