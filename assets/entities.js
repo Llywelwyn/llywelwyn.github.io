@@ -149,7 +149,7 @@ Game.Mixins.FungusActor = {
             this.y() + y_offset,
             this.z())
         ) {
-            var entity = new Game.Entity(Game.FungusTemplate);
+            var entity = new Game.EntityRepository.create('fungus');
             entity.set_pos(
                 this.x() + x_offset,
                 this.y() + y_offset,
@@ -199,14 +199,19 @@ Game.PlayerTemplate = {
     mixins: [Game.Mixins.PlayerActor, Game.Mixins.MessageRecipient, Game.Mixins.Sight, 
             Game.Mixins.Attacker, Game.Mixins.Destructible, Game.Mixins.Digger]
 };
-Game.FungusTemplate = {
+
+// Entity Repository stuff -- grouping entities together
+// TODO: sub-groups, i.e. for spawning from 'goblins'
+Game.EntityRepository = new Game.Repository('entities', Game.Entity);
+
+Game.EntityRepository.define('fungus', {
     name: 'fungus',
     character: 'f',
     foreground: 'green',
     max_hp: 10,
     mixins: [Game.Mixins.FungusActor, Game.Mixins.Destructible]
-};
-Game.BatTemplate = {
+});
+Game.EntityRepository.define('bat', {
     name: 'bat',
     character: 'b',
     foreground: 'beige',
@@ -217,8 +222,8 @@ Game.BatTemplate = {
         plural: ['bites', 'scratches', 'claws']
     },
     mixins: [Game.Mixins.WanderActor, Game.Mixins.Attacker, Game.Mixins.Destructible]
-};
-Game.NewtTemplate = {
+});
+Game.EntityRepository.define('newt', {
     name: 'newt',
     character: 'n',
     foreground: 'yellow',
@@ -229,4 +234,4 @@ Game.NewtTemplate = {
         plural: ['scratches', 'nips']
     },
     mixins: [Game.Mixins.WanderActor, Game.Mixins.Attacker, Game.Mixins.Destructible]
-};
+});

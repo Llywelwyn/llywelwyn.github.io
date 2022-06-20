@@ -66,20 +66,32 @@ Game.Screen.play_screen = {
             for(let y = top_left_y; y < top_left_y + Game.height(); y++) {
                 if (map.is_explored(x, y, current_z)) {
                     // Fetch glyph for tile and render at offset position
-                    var tile = this._map.tile(x, y, this._player.z());
-                    // if visible, display foreground. 
-                    // if explored but !visible, darken the tile inversely to its current brightness, 
-                    // to prevent dark tiles from becoming entirely black. brighter tiles can afford
-                    // to be darkened more whilst still looking good.
-                    // TODO: improve this.
-                    var foreground = visible_cells[x + ',' + y] ? tile.foreground() : tinycolor(tile.foreground()).darken((tinycolor(tile.foreground()).getBrightness() / 255) * 70);
-                    var background = visible_cells[x + ',' + y] ? tile.background() : tinycolor(tile.background()).darken(30);
+                    var glyph = this._map.tile(x, y, this._player.z());
+                    // We are in a cell in FOV, check for items/entities
+                    if (visible_cells[x + ',' + y]) {
+                        var items = map.items_at(x, y, current_z);
+                        // if(items), render topmost
+                        if (items) {
+                            glyph = items[items.length - 1];
+                        }
+                        // Check for entities
+                        if (map.entity_at(x, y, current_z)) {
+                            glyph = map.entity_at(x, y, current_z);
+                        }
+                        // Update foreground in case of glyph change
+                        foreground = glyph.foreground();
+                    } else {
+                        // If tile is explored but !visible, darken foreground
+                        // with an amount inverse to its brightness - prevents tiles becoming entirely black. 
+                        var darken_multiplier = 60;
+                        foreground = tinycolor(glyph.foreground()).darken((tinycolor(glyph.foreground()).getBrightness() / 255) * darken_multiplier);
+                    }
                     display.draw(
                         x - top_left_x,
                         y - top_left_y,
-                        tile.character(),
+                        glyph.character(),
                         foreground,
-                        background
+                        glyph.background()
                     );
                 }
             }

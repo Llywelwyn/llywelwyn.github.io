@@ -8,6 +8,8 @@ Game.Map = function(tiles, player) {
     this.setup_fov();
     // Creates table to hold entities
     this._entities = {};
+    // Create a table to hold items
+    this._items = {};
     // Create engine and scheduler
     this._scheduler = new ROT.Scheduler.Simple();
     console.log("Created scheduler.");
@@ -17,14 +19,19 @@ Game.Map = function(tiles, player) {
     this.add_entity_at_random_position(player, 0);
     console.log("Added player to start position.");
     // Add random enemies to each floor.
-    var templates = [Game.FungusTemplate, Game.BatTemplate, Game.NewtTemplate];
+    var entities_per_floor = 20;
+    var items_per_floor = 10;
     for (var z = 0; z < this._depth; z++) {
-        for(var i = 0; i < 30; i++) {
-            var template = templates[Math.floor(Math.random() * templates.length)];
-            this.add_entity_at_random_position(new Game.Entity(template), z);
+        for (var i = 0; i < entities_per_floor; i++) {
+            this.add_entity_at_random_position(Game.EntityRepository.create_random(), z);
         }
+        console.log("Added enemies to floors.");
+        for (var i = 0; i < items_per_floor; i++) {
+            // Add random entity from ItemRepo
+            this.add_item_at_random_position(Game.ItemRepository.create_random(), z);
+        }
+        console.log("Added items to floors.");
     }
-    console.log("Added random enemies.");
     // Setup explored tiles
     this._explored = new Array(this._depth);
     this._setup_explored_array();
@@ -186,4 +193,34 @@ Game.Map.prototype.is_explored = function(x, y, z) {
     } else {
         return false;
     }
+};
+
+// Item stuff
+Game.Map.prototype.items_at = function(x, y, z) {
+    return this._items[x + ',' + y + ',' + z];
+};
+Game.Map.prototype.set_items = function(x, y, z, items) {
+    // If array is empty, delete key from table
+    var key = x + ',' + y + ',' + z;
+    if (items.length === 0) {
+        if (this._items[key]) {
+            delete this._items[key];
+        }
+    } else {
+        // Update items at key
+        this._items[key] = items;
+    }
+};
+Game.Map.prototype.add_item = function(x, y, z, item) {
+    // If items are in pos already, append
+    var key = x + ',' + y + ',' + z;
+    if (this._items[key]) {
+        this._items[key].push(item);
+    } else {
+        this._items[key] = [item];
+    }
+};
+Game.Map.prototype.add_item_at_random_position = function(item, z) {
+    var position = this.random_floor_position(z);
+    this.add_item(position.x, position.y, position.z, item);
 };
