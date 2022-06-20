@@ -98,6 +98,68 @@ Game.Mixins.MessageRecipient = {
             this._messages = [];
     }
 };
+Game.Mixins.HasInventory = {
+    name: 'HasInventory',
+    init: function(template) {
+        // Default to 10
+        var inventory_slots = template['inventory_slots'] || 10;
+        this._items = new Array(inventory_slots);
+    },
+    items: function() { return this._items; },
+    item: function(i) { return this._items[i]; },
+    add_item: function(item) {
+        // Search for free slot, return true if added successfully
+        for (var i = 0; i < this._items.length; i++) {
+            if (!this._items[i]) {
+                this._items[i] = item;
+                return true;
+            }
+        }
+        return false;
+    },
+    remove_item: function(i) { this._items[i] = null; },
+    can_add_item: function() {
+        // Check for empty slot
+        for (var i = 0; i < this._items.length; i++) {
+            if (!this._items[i]) {
+                return true;
+            }
+        }
+        return false;
+    },
+    pickup_items: function(indices) {
+        // Allows the user to pick up items from the map, where indices
+        // is the indices for the array returned by map.items_at(x, y, z)
+        var map_items = this._map.items_at(this.x(), this.y(), this.z());
+        var added = 0;
+        // Iterate through indices
+        for (var i = 0; i < indices.length; i++) {
+            // Try to add item. If inventory is not full, then splice
+            // the item out of the list of items. In order to fetch the
+            // right item, offset the number of items already added.
+            if (this.add_item(map_items[indices[i] - added, 1])) {
+                map_items.splice(indices[i] - added, 1);
+                added++;
+            } else {
+                // Inventory is full
+                break;
+            }
+        }
+        // Update map items
+        this._map.set_items_at(this.x(), this.y(), this.z(), map_items);
+        // Return true if we added all items
+        return added === indices.length;
+    },
+    drop_item: function(i) {
+        // Drops items to current map tile
+        if (this._items[i]) {
+            if (this._map) {
+                this._map.add_item(this.x(), this.y(), this.z(), this._items[i]);
+            }
+            this.remove_item(i);
+        }
+    }
+};
 
 // Actors
 Game.Mixins.PlayerActor = {
@@ -189,15 +251,17 @@ Game.PlayerTemplate = {
     character: '@',
     foreground: 'white',
     background: 'black',
-    sight_radius: 8,
     max_hp: 40,
     attack_value: 10,
+    sight_radius: 8,
+    inventory_slots: 22,
     verb: {
         singular: ['punch', 'kick'],
         plural: ['punches', 'kicks']
     },
     mixins: [Game.Mixins.PlayerActor, Game.Mixins.MessageRecipient, Game.Mixins.Sight, 
-            Game.Mixins.Attacker, Game.Mixins.Destructible, Game.Mixins.Digger]
+            Game.Mixins.Attacker, Game.Mixins.Destructible, Game.Mixins.Digger,
+            Game.Mixins.HasInventory]
 };
 
 // Entity Repository stuff -- grouping entities together
