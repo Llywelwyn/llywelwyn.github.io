@@ -1,48 +1,6 @@
 Game.Mixins = {};
 
 // Mixins
-Game.Mixins.Moveable = {
-    name: 'Moveable',
-    try_move: function(x, y, z, map) {
-        var map = this.map();
-        var tile = map.tile(x, y, this.z());
-        var target = map.entity_at(x, y, this.z());
-        // If z-level changed, check if we are on stairs
-        if (z < this.z()) {
-            if (tile != Game.Tile.stairs_up_tile) {
-                Game.send_message(this, "You can't go up here!");
-                return false;
-            } else {
-                Game.send_message(this, "You ascend up to level %d!", [z+1]);
-            }
-        } else if ( z > this.z()) {
-            if (tile != Game.Tile.stairs_down_tile) {
-                Game.send_message(this, "You can't go down here!");
-                return false;
-            } else {
-                Game.send_message(this, "You descend to level %d.", [z+1]);
-            }
-        }
-        // If entity is present at tile & this is an attacker, attack entity
-        if(target && target != this) {
-            if(this.has_mixin('Attacker')) {
-                this.attack(target);
-                return true;
-            } else {
-                return false;
-            }
-        } else if(tile.is_walkable()) { // If tile is walkable, move
-            this.set_pos(x, y, z)
-            return true;
-        } else if(tile.is_diggable()) { // If tile is diggable, dig
-            map.dig(x, y, z);
-            Game.send_message(this, "You dig through the dirt.");
-            return true;
-        }
-        return false;
-    },
-    wait: function() { Game.send_message(this, "You wait."); }
-};
 Game.Mixins.Sight = {
     name: 'Sight',
     group_name: 'Sight',
@@ -51,6 +9,21 @@ Game.Mixins.Sight = {
     },
     sight_radius: function() { return this._sight_radius; }
 };
+Game.Mixins.Digger = {
+    name: 'Digger',
+    init: function(template) {
+        this._dig_strength = template['dig_strength'] || 1;
+    },
+    dig_strength: function() { return this._dig_strength; },
+    try_dig: function(x, y, z, tile, map) {
+        // If tile isn't diggable, fail
+        if(!tile.is_diggable()) { return false; };
+        // If diggable and strong enough, dig the tile and give a message to this
+        map.dig(x, y, z);
+        Game.send_message(this, "You dig through the dirt.");
+        return true;
+    }
+}
 Game.Mixins.Destructible = {
     name: 'Destructible',
     init: function(template) {
@@ -186,6 +159,20 @@ Game.Mixins.FungusActor = {
         }
     }
 };
+Game.Mixins.WanderActor = {
+    name: 'WanderActor',
+    group_name: 'Actor',
+    act: function() {
+        // Determine positive or negative direction
+        var offset = (Math.round(Math.random()) === 1) ? 1 : -1;
+        // Determine x- or y-direction
+        if (Math.round(Math.random()) === 1) {
+            this.try_move(this.x() + offset, this.y(), this.z());
+        } else {
+            this.try_move(this.x(), this.y() + offset, this.z());
+        }
+    }
+}
 
 // Templates
 Game.PlayerTemplate = {
@@ -200,8 +187,8 @@ Game.PlayerTemplate = {
         singular: ['punch', 'kick'],
         plural: ['punches', 'kicks']
     },
-    mixins: [Game.Mixins.PlayerActor, Game.Mixins.Moveable, Game.Mixins.MessageRecipient,
-            Game.Mixins.Attacker, Game.Mixins.Destructible, Game.Mixins.Sight]
+    mixins: [Game.Mixins.PlayerActor, Game.Mixins.MessageRecipient, Game.Mixins.Sight, 
+            Game.Mixins.Attacker, Game.Mixins.Destructible, Game.Mixins.Digger]
 };
 Game.FungusTemplate = {
     name: 'fungus',
@@ -209,4 +196,20 @@ Game.FungusTemplate = {
     foreground: 'green',
     max_hp: 10,
     mixins: [Game.Mixins.FungusActor, Game.Mixins.Destructible]
+};
+Game.BatTemplate = {
+    name: 'bat',
+    character: 'b',
+    foreground: 'beige',
+    max_hp: 5,
+    attack_value: 4,
+    mixins: [Game.Mixins.WanderActor, Game.Mixins.Attacker, Game.Mixins.Destructible]
+};
+Game.NewtTemplate = {
+    name: 'newt',
+    character: 'n',
+    foreground: 'yellow',
+    max_hp: 3,
+    attack_value: 2,
+    mixins: [Game.Mixins.WanderActor, Game.Mixins.Attacker, Game.Mixins.Destructible]
 };

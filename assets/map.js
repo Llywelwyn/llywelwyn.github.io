@@ -6,8 +6,8 @@ Game.Map = function(tiles, player) {
     // Setup fov
     this._fov = [];
     this.setup_fov();
-    // Creates list to hold entities
-    this._entities = [];
+    // Creates table to hold entities
+    this._entities = {};
     // Create engine and scheduler
     this._scheduler = new ROT.Scheduler.Simple();
     console.log("Created scheduler.");
@@ -16,16 +16,19 @@ Game.Map = function(tiles, player) {
     // Add the player
     this.add_entity_at_random_position(player, 0);
     console.log("Added player to start position.");
-    // Add fungi
+    // Add random enemies to each floor.
+    var templates = [Game.FungusTemplate, Game.BatTemplate, Game.NewtTemplate];
     for (var z = 0; z < this._depth; z++) {
         for(var i = 0; i < 30; i++) {
-            this.add_entity_at_random_position(new Game.Entity(Game.FungusTemplate), z);
+            var template = templates[Math.floor(Math.random() * templates.length)];
+            this.add_entity_at_random_position(new Game.Entity(template), z);
         }
     }
-    console.log("Added fungi.");
+    console.log("Added random enemies.");
     // Setup explored tiles
     this._explored = new Array(this._depth);
     this._setup_explored_array();
+    console.log("Setup explored tiles.");
 };
 
 // Getters
@@ -33,7 +36,12 @@ Game.Map.prototype.width = function() { return this._width; };
 Game.Map.prototype.height = function() { return this._height; };
 Game.Map.prototype.depth = function() { return this._depth; };
 Game.Map.prototype.engine = function() { return this._engine; };
-Game.Map.prototype.entities = function() { return this._entities; };
+Game.Map.prototype.entities = function() {
+    return this._entities; 
+};
+Game.Map.prototype.entity_at = function(x, y, z) {
+    return this._entities[x + ',' + y + ',' + z];
+};
 Game.Map.prototype.tile = function(x, y, z) {
     if (
         x < 0 || x >= this._width ||
@@ -54,18 +62,6 @@ Game.Map.prototype.random_floor_position = function(z) {
     } while (!this.is_empty_floor(x, y, z));
     return {x: x, y: y, z: z};
 };
-Game.Map.prototype.entity_at = function(x, y, z) {
-    for (var i = 0; i < this._entities.length; i++) {
-        if (
-            this._entities[i].x() == x &&
-            this._entities[i].y() == y &&
-            this._entities[i].z() == z
-        ) {
-            return this._entities[i];
-        }
-    }
-    return false;
-};
 Game.Map.prototype.entities_within_radius = function(centre_x, centre_y, centre_z, r) {
     results = [];
     // Determine bounds
@@ -74,30 +70,25 @@ Game.Map.prototype.entities_within_radius = function(centre_x, centre_y, centre_
     var top_y = centre_y - r;
     var bottom_y = centre_y + r;
     // Iterate through entities, add those in bounds
-    for (var i = 0; i < this._entities.length; i++) {
-        if (
-            this._entities[i].x() >= left_x &&
-            this._entities[i].x() <= right_x &&
-            this._entities[i].y() >= top_y &&
-            this._entities[i].y() <= bottom_y &&
-            this._entities[i].z() == centre_z
+    for (var key in this._entities) {
+        var entity = this._entities[key];
+        if(key === 'extend') {
+            // TODO: Fix 'extend' prototype being added to entities.
+        } else if (
+            entity.x() >= left_x &&
+            entity.x() <= right_x &&
+            entity.y() >= top_y &&
+            entity.y() <= bottom_y &&
+            entity.z() == centre_z
         ) {
-            results.push(this._entities[i]);
+            results.push(entity);
         }
     }
     return results;
 };
 Game.Map.prototype.add_entity = function(entity) {
-    if (
-        entity.x() < 0 || entity.x() >= this._width ||
-        entity.y() < 0 || entity.y() >= this._height ||
-        entity.z() < 0 || entity.z() >= this._depth
-    ) {
-        throw new Error('Adding entity out of bounds.');
-    }
-    // Update entity's map and add to list of entities
     entity.set_map(this);
-    this._entities.push(entity);
+    this.update_entity_position(entity);
     // If entity can act, add them to scheduler
     if (entity.has_mixin('Actor')) {
         this._scheduler.add(entity, true);
@@ -111,15 +102,38 @@ Game.Map.prototype.add_entity_at_random_position = function(entity, z) {
     this.add_entity(entity);
 };
 Game.Map.prototype.remove_entity = function(entity) {
-    for (var i = 0; i < this._entities.length; i++) {
-        if (this._entities[i] == entity) {
-            this._entities.splice(i, 1);
-            break;
-        }
+    var key = entity.x() + ',' + entity.y() + ',' + entity.z();
+    if (this._entities[key] == entity) {
+        delete this._entities[key];
     }
+    // If entity is an actor, remove from scheduler
     if (entity.has_mixin('Actor')) {
         this._scheduler.remove(entity);
     }
+};
+Game.Map.prototype.update_entity_position = function(entity, old_x, old_y, old_z) {
+    // Delete old key if it is the same entity and old positions are stored
+    if (old_x) {
+        var old_key = old_x + ',' + old_y + ',' + old_z;
+        if (this._entities[old_key] == entity) {
+            delete this._entities[old_key];
+        }
+    }
+    // Make sure within bounds
+    if (
+        entity.x() < 0 || entity.x() >= this._width ||
+        entity.y() < 0 || entity.y() >= this._height ||
+        entity.z() < 0 || entity.z() >= this._depth
+    ) {
+        throw new Error("Entity's position is out of bounds.");
+    }
+    // Sanity check
+    var key = entity.x() + ',' + entity.y() + ',' + entity.z();
+    if (this._entities[key]) {
+        throw new Error("Tried to add an entity at an occupied position.");
+    }
+    // Add the entity to the table.
+    this._entities[key] = entity;
 };
 Game.Map.prototype.is_empty_floor = function(x, y, z) {
     return this.tile(x, y, z) == Game.Tile.floor_tile && !this.entity_at(x, y, z);

@@ -49,9 +49,55 @@ Game.Entity.prototype.set_y = function(y) { this._y = y; };
 Game.Entity.prototype.set_z = function(z) { this._z = z; };
 Game.Entity.prototype.set_map = function(map) { this._map = map; };
 Game.Entity.prototype.set_pos = function(x, y, z) {
-    this._x = x; this._y = y; this._z = z;
+    // Save current position
+    var old_x = this._x;
+    var old_y = this._y;
+    var old_z = this._z;
+    // Update position
+    this._x = x;
+    this._y = y;
+    this._z = z;
+    // If entity is on a map, notify the map of new position
+    if (this._map) {
+        this._map.update_entity_position(this, old_x, old_y, old_z);
+    }
 }
-
+Game.Entity.prototype.try_move = function(x, y, z, map) {
+    var map = this.map();
+    var tile = map.tile(x, y, this.z());
+    var target = map.entity_at(x, y, this.z());
+    // If z-level changed, check if we are on stairs
+    if (z < this.z()) {
+        if (tile != Game.Tile.stairs_up_tile) {
+            Game.send_message(this, "You can't go up here!");
+            return false;
+        } else {
+            Game.send_message(this, "You ascend up to level %d!", [z]); // TODO: ?? [z+1]?
+        }
+    } else if ( z > this.z()) {
+        if (tile != Game.Tile.stairs_down_tile) {
+            Game.send_message(this, "You can't go down here!");
+            return false;
+        } else {
+            Game.send_message(this, "You descend to level %d.", [z]);
+        }
+    }
+    // If entity is present at tile & this is an attacker, attack entity
+    if(target && target != this) {
+        if(this.has_mixin('Attacker')) {
+            this.attack(target);
+            return true;
+        } else {
+            return false;
+        }
+    } else if(tile.is_walkable()) { // If tile is walkable, move
+        this.set_pos(x, y, z)
+        return true;
+    } else if(tile.is_diggable() && this.has_mixin(Game.Mixins.Digger)) { // If tile is diggable, dig
+        return this.try_dig(x, y, z, tile, map);
+    }
+    return false;
+};
 Game.Entity.prototype.has_mixin = function(o) {
     if(typeof o === 'object') {
         return this._attached_mixins[o.name];

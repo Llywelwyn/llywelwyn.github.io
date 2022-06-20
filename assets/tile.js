@@ -10,6 +10,7 @@ Game.Tile = function(properties) {
 Game.Tile.extend(Game.Glyph);
 
 // Getters
+Game.Tile.prototype.character = function() { return this._character; };
 Game.Tile.prototype.is_walkable = function() { return this._walkable; };
 Game.Tile.prototype.is_diggable = function() { return this._diggable; };
 Game.Tile.prototype.is_blocking_light = function() {return this._blocks_light; };

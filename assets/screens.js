@@ -85,22 +85,24 @@ Game.Screen.play_screen = {
             }
         }
         // Render entities
+        // FIXME: Final entry of entities = [[Prototype]]: Object. Why?
         var entities = this._map.entities();
-        for(var i = 0; i < entities.length; i++) {
-            var entity = entities[i];
-            // Render only if onscreen
+        for (var key in entities) {
+            var entity = entities[key];
+            // Render if entity would show up on screen
             if(
-            entity.x() >= top_left_x && entity.x() < top_left_x + Game.width() &&
-            entity.y() >= top_left_y && entity.y() < top_left_y + Game.height() &&
-            entity.z() == this._player.z()
+                key != 'extend' && // FIXME: this is atrocious
+                entity.x() >= top_left_x && entity.x() < top_left_x + Game.width() &&
+                entity.y() >= top_left_y && entity.y() < top_left_y + Game.height() &&
+                entity.z() == this._player.z()
             ) {
-                if (visible_cells[entity.x() + ',' + entity.y()]) {
+                if(visible_cells[entity.x() + ',' + entity.y()]) {
                     display.draw(
                         entity.x() - top_left_x,
                         entity.y() - top_left_y,
                         entity.character(),
                         entity.foreground(),
-                        entity.background(),
+                        entity.background()
                     );
                 }
             }
@@ -154,7 +156,7 @@ Game.Screen.play_screen = {
                 } else if(input_data.key === 'ArrowDown') {
                     this.move(0, 1, 0);
                 } else if(input_data.key === '.') {
-                    this.wait(); // Pass
+                    Game.send_message(this._player, "You wait."); // Pass
                 } else if(input_data.key === '>') {
                     this.move(0, 0, 1);
                 } else if(input_data.key === '<') {
