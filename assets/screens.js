@@ -29,6 +29,7 @@ Game.Screen.play_screen = {
     _map: null,
     _player: null,
     _help: false,
+    _EXPLORED_COLOUR: 'navy',
     enter: function() { 
         console.log("Entered play screen.");
         var width = 80;
@@ -42,36 +43,66 @@ Game.Screen.play_screen = {
     },
     exit: function() { console.log("Exited play screen."); },
     render: function(display) {
+        // Make sure we still have enough space to fit the game screen
         var top_left_x = Math.max(0, this._player.x() - (Game.width() / 2));
         top_left_x = Math.min(top_left_x, this._map.width() - Game.width());
         var top_left_y = Math.max(0, this._player.y() - (Game.height() / 2));
         top_left_y = Math.min(top_left_y, this._map.height() - Game.height());
-        // Iterate through all visible tiles
+        // Object to store visible map cells
+        var visible_cells = {};
+        // Store this._map and player-z to prevent losing in callback
+        var map = this._map;
+        var current_z = this._player.z();
+        // Find all visible cells and update the object
+        map.fov(current_z).compute(
+            this._player.x(), this._player.y(),
+            this._player.sight_radius(),
+            function(x, y, radius, visibility) {
+                visible_cells[x + "," + y] = true;
+                map.set_explored(x, y, current_z, true);
+            });
+        // Render explored + visible tiles
         for(let x = top_left_x; x < top_left_x + Game.width(); x++) {
             for(let y = top_left_y; y < top_left_y + Game.height(); y++) {
-                var tile = this._map.tile(x, y, this._player.z());
-                display.draw(
-                    x - top_left_x,
-                    y - top_left_y,
-                    tile.character(),
-                    tile.foreground(),
-                    tile.background())
+                if (map.is_explored(x, y, current_z)) {
+                    // Fetch glyph for tile and render at offset position
+                    var tile = this._map.tile(x, y, this._player.z());
+                    // if visible, display foreground. 
+                    // if explored but !visible, darken the tile inversely to its current brightness, 
+                    // to prevent dark tiles from becoming entirely black. brighter tiles can afford
+                    // to be darkened more whilst still looking good.
+                    // TODO: improve this.
+                    var foreground = visible_cells[x + ',' + y] ? tile.foreground() : tinycolor(tile.foreground()).darken((tinycolor(tile.foreground()).getBrightness() / 255) * 70);
+                    var background = visible_cells[x + ',' + y] ? tile.background() : tinycolor(tile.background()).darken(30);
+                    display.draw(
+                        x - top_left_x,
+                        y - top_left_y,
+                        tile.character(),
+                        foreground,
+                        background
+                    );
+                }
             }
         }
+        // Render entities
         var entities = this._map.entities();
         for(var i = 0; i < entities.length; i++) {
             var entity = entities[i];
             // Render only if onscreen
-            if(entity.x() >= top_left_x && entity.x() < top_left_x + Game.width() &&
+            if(
+            entity.x() >= top_left_x && entity.x() < top_left_x + Game.width() &&
             entity.y() >= top_left_y && entity.y() < top_left_y + Game.height() &&
-            entity.z() == this._player.z()) {
-                display.draw(
-                    entity.x() - top_left_x,
-                    entity.y() - top_left_y,
-                    entity.character(),
-                    entity.foreground(),
-                    entity.background(),
-                )
+            entity.z() == this._player.z()
+            ) {
+                if (visible_cells[entity.x() + ',' + entity.y()]) {
+                    display.draw(
+                        entity.x() - top_left_x,
+                        entity.y() - top_left_y,
+                        entity.character(),
+                        entity.foreground(),
+                        entity.background(),
+                    );
+                }
             }
         }
         // Get messages in player queue and renders

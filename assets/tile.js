@@ -2,15 +2,17 @@ Game.Tile = function(properties) {
     properties = properties || {};
     Game.Glyph.call(this, properties);
 
-    this._is_walkable = properties['is_walkable'] || false;
-    this._is_diggable = properties['is_diggable'] || false;
+    this._walkable = properties['walkable'] || false;
+    this._diggable = properties['diggable'] || false;
+    this._blocks_light = (properties['blocks_light'] !== undefined) ? properties['blocksLight'] : true;
 };
 
 Game.Tile.extend(Game.Glyph);
 
 // Getters
-Game.Tile.prototype.is_walkable = function() { return this._is_walkable; };
-Game.Tile.prototype.is_diggable = function() { return this._is_diggable; };
+Game.Tile.prototype.is_walkable = function() { return this._walkable; };
+Game.Tile.prototype.is_diggable = function() { return this._diggable; };
+Game.Tile.prototype.is_blocking_light = function() {return this._blocks_light; };
 
 // Tiles - https://www.w3.org/wiki/CSS/Properties/color/keywords
 
@@ -18,13 +20,14 @@ Game.Tile.prototype.is_diggable = function() { return this._is_diggable; };
 Game.Tile.null_tile = new Game.Tile({});
 Game.Tile.floor_tile = new Game.Tile({
     character: '.',
-    foreground: ['grey', 'darkgrey', 'dimgray', 'slategrey', 'darkslategrey'],
-    is_walkable: true
+    foreground: ['grey', 'dimgray', 'slategrey'],
+    walkable: true,
+    blocks_light: false
 });
 Game.Tile.cave_wall_tile = new Game.Tile({
     character: '#',
     foreground: ['goldenrod', 'darkgoldenrod', 'brown'],
-    is_diggable: true
+    diggable: true
 });
 Game.Tile.dungeon_wall_tile = new Game.Tile({
     character: '#',
@@ -33,10 +36,12 @@ Game.Tile.dungeon_wall_tile = new Game.Tile({
 Game.Tile.stairs_up_tile = new Game.Tile({
     character: '<',
     foreground: 'white',
-    is_walkable: true
+    walkable: true,
+    blocks_light: false
 });
 Game.Tile.stairs_down_tile = new Game.Tile({
     character: '>',
     foreground: 'white',
-    is_walkable: true
+    walkable: true,
+    blocks_light: false
 });
