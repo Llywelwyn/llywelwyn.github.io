@@ -149,7 +149,7 @@ Game.Mixins.FungusActor = {
             this.y() + y_offset,
             this.z())
         ) {
-            var entity = new Game.EntityRepository.create('fungus');
+            var entity = Game.EntityRepository.create('fungus');
             entity.set_pos(
                 this.x() + x_offset,
                 this.y() + y_offset,
