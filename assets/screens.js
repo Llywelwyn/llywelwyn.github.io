@@ -121,7 +121,7 @@ Game.Screen.play_screen = {
         var stats_x = 1;
         var stats_y = Game.height();
         stats += vsprintf('HP: %d/%d ', [this._player.hp(), this._player.max_hp()]);
-        stats += vsprintf('                         Floor: %d', [this._player.z()]);
+        stats += vsprintf('                         Floor: %d', [this._player.z() + 1]);
         display.drawText(stats_x, stats_y, stats);
         var help_message = "%c{white}Press %c{seagreen}[?]%c{white} for help"
         display.drawText(Game.width() - 19, Game.height(), help_message)
