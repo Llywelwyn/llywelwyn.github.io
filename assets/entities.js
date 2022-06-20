@@ -43,6 +43,14 @@ Game.Mixins.Moveable = {
     },
     wait: function() { Game.send_message(this, "You wait."); }
 };
+Game.Mixins.Sight = {
+    name: 'Sight',
+    group_name: 'Sight',
+    init: function(template) {
+        this._sight_radius = template['sight_radius'] || 5;
+    },
+    sight_radius: function() { return this._sight_radius; }
+};
 Game.Mixins.Destructible = {
     name: 'Destructible',
     init: function(template) {
@@ -185,6 +193,7 @@ Game.PlayerTemplate = {
     character: '@',
     foreground: 'white',
     background: 'black',
+    sight_radius: 8,
     max_hp: 40,
     attack_value: 10,
     verb: {
@@ -192,7 +201,7 @@ Game.PlayerTemplate = {
         plural: ['punches', 'kicks']
     },
     mixins: [Game.Mixins.PlayerActor, Game.Mixins.Moveable, Game.Mixins.MessageRecipient,
-            Game.Mixins.Attacker, Game.Mixins.Destructible]
+            Game.Mixins.Attacker, Game.Mixins.Destructible, Game.Mixins.Sight]
 };
 Game.FungusTemplate = {
     name: 'fungus',

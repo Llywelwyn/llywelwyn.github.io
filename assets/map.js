@@ -3,6 +3,9 @@ Game.Map = function(tiles, player) {
     this._depth = tiles.length;
     this._width = tiles[0].length;
     this._height = tiles[0][0].length;
+    // Setup fov
+    this._fov = [];
+    this.setup_fov();
     // Creates list to hold entities
     this._entities = [];
     // Create engine and scheduler
@@ -20,6 +23,9 @@ Game.Map = function(tiles, player) {
         }
     }
     console.log("Added fungi.");
+    // Setup explored tiles
+    this._explored = new Array(this._depth);
+    this._setup_explored_array();
 };
 
 // Getters
@@ -121,5 +127,49 @@ Game.Map.prototype.is_empty_floor = function(x, y, z) {
 Game.Map.prototype.dig = function(x, y, z) {
     if (this.tile(x, y, z).is_diggable()) {
         this._tiles[z][x][y] = Game.Tile.floor_tile;
+    }
+};
+
+// FOV and Fog of War
+Game.Map.prototype.setup_fov = function() {
+    // Keep this in 'map' so it isn't lost
+    var map = this;
+    // Iterate through each depth
+    for (var z = 0; z < this._depth; z++) {
+        // Scope to prevent depth being hoisted out of loop
+        (function() {
+            // For each depth, callback to figure out if light can pass through given tile
+            var depth = z;
+            //map._fov.push(new ROT.FOV.DiscreteShadowcasting(function(x, y) { return !map.tile(x, y, depth).is_blocking_light();}, {topology: 4}));
+            map._fov.push(new ROT.FOV.PreciseShadowcasting(function(x, y) { return !map.tile(x, y, depth).is_blocking_light();}))
+        })();
+    }
+};
+Game.Map.prototype.fov = function(depth) {
+    return this._fov[depth];
+};
+Game.Map.prototype._setup_explored_array = function() {
+    for (var z= 0; z < this._depth; z++) {
+        this._explored[z] = new Array(this._width);
+        for (var x = 0; x < this._width; x++) {
+            this._explored[z][x] = new Array(this._height);
+            for (var y = 0; y < this._height; y++) {
+                this._explored[z][x][y] = false;
+            }
+        }
+    }
+};
+Game.Map.prototype.set_explored = function(x, y, z, state) {
+    // Only update if within bounds
+    if (this.tile(x, y, z) !== Game.Tile.null_tile) {
+        this._explored[z][x][y] = state;
+    }
+};
+Game.Map.prototype.is_explored = function(x, y, z) {
+    // Only return if within bounds
+    if (this.tile(x, y, z) !== Game.Tile.null_tile) {
+        return this._explored[z][x][y];
+    } else {
+        return false;
     }
 };
