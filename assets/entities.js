@@ -29,7 +29,7 @@ Game.Mixins.Destructible = {
     init: function(template) {
         this._max_hp = template['max_hp'] || 10;
         this._hp = template['hp'] || this._max_hp;
-        this._defence_value = template['defence_value'] || 0
+        this._defence_value = template['defence_value'] || 0;
     },
     hp : function() { return this._hp; },
     max_hp : function() { return this._max_hp; },
@@ -39,8 +39,11 @@ Game.Mixins.Destructible = {
         // If hp <= 0, remove from map
         if (this._hp <= 0) {
             Game.send_message(attacker, 'You kill the %s.', [this.name()]);
-            Game.send_message(this, 'You die!');
-            this.map().remove_entity(this);
+            if (this.has_mixin(Game.Mixins.PlayerActor)) {
+                this.act();
+            } else {
+                this.map().remove_entity(this);
+            }
         }
     }
 };
@@ -49,7 +52,7 @@ Game.Mixins.Attacker = {
     group_name: 'Attacker',
     init: function(template) {
         this._attack_value = template['attack_value'] || 1;
-        this._verb = template['verb'] || {singular:['punch'], plural:['kick']};
+        this._verb = template['verb'] || {singular:['strike'], plural:['strikes']};
     },
     attack_value: function() { return this._attack_value; },
     refresh_verbs: function() {
@@ -101,6 +104,12 @@ Game.Mixins.PlayerActor = {
     name: 'PlayerActor',
     group_name: 'Actor',
     act: function() {
+        // Detect if game is over
+        if (this.hp() < 1) {
+            Game.Screen.play_screen.set_game_ended(true);
+            // Send a last message to the player
+            Game.send_message(this, 'You have died... Press [Enter] to continue.');
+        }
         // Re-render screen
         Game.refresh()
         // Lock engine, wait for input
@@ -203,6 +212,10 @@ Game.BatTemplate = {
     foreground: 'beige',
     max_hp: 5,
     attack_value: 4,
+    verb: {
+        singular: ['bite', 'scratch', 'claw'],
+        plural: ['bites', 'scratches', 'claws']
+    },
     mixins: [Game.Mixins.WanderActor, Game.Mixins.Attacker, Game.Mixins.Destructible]
 };
 Game.NewtTemplate = {
@@ -211,5 +224,9 @@ Game.NewtTemplate = {
     foreground: 'yellow',
     max_hp: 3,
     attack_value: 2,
+    verb: {
+        singular: ['scratch', 'nip'],
+        plural: ['scratches', 'nips']
+    },
     mixins: [Game.Mixins.WanderActor, Game.Mixins.Attacker, Game.Mixins.Destructible]
 };
