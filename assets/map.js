@@ -113,7 +113,7 @@ Game.Map.prototype.remove_entity = function(entity) {
 };
 Game.Map.prototype.update_entity_position = function(entity, old_x, old_y, old_z) {
     // Delete old key if it is the same entity and old positions are stored
-    if (old_x) {
+    if (typeof(old_x) !== "undefined") {
         var old_key = old_x + ',' + old_y + ',' + old_z;
         if (this._entities[old_key] == entity) {
             delete this._entities[old_key];
@@ -130,7 +130,7 @@ Game.Map.prototype.update_entity_position = function(entity, old_x, old_y, old_z
     // Sanity check
     var key = entity.x() + ',' + entity.y() + ',' + entity.z();
     if (this._entities[key]) {
-        throw new Error("Tried to add an entity at an occupied position.");
+        throw new Error("Tried to add an entity at an occupied position: " + key);
     }
     // Add the entity to the table.
     this._entities[key] = entity;
