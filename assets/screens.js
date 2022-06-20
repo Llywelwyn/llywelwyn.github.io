@@ -29,7 +29,7 @@ Game.Screen.play_screen = {
     _map: null,
     _player: null,
     _help: false,
-    _EXPLORED_COLOUR: 'navy',
+    _game_ended: false,
     enter: function() { 
         console.log("Entered play screen.");
         var width = 80;
@@ -144,6 +144,13 @@ Game.Screen.play_screen = {
         }
     },
     handle_input: function(input_type, input_data) {
+        // If the game is over, bring the user to the losing screen
+        if (this._game_ended) {
+            if (input_type === 'keydown' && input_data.key === 'Enter') {
+                Game.switch_screen(Game.Screen.lose_screen);
+            }
+            return;
+        }
         if (input_type === 'keydown') {
             // If unpaused
             if(!this._help) {
@@ -182,7 +189,10 @@ Game.Screen.play_screen = {
         var new_z = this._player.z() + d_z;
         this._player.try_move(new_x, new_y, new_z, this._map);
     },
-    wait: function() { this._player.wait(); }
+    wait: function() { this._player.wait(); },
+    set_game_ended: function(game_ended) {
+        this._game_ended = game_ended;
+    }
 }
 
 Game.Screen.win_screen = {
@@ -197,9 +207,7 @@ Game.Screen.win_screen = {
             display.drawText(2, i+1, "%b{" + background + "}You win!");
         }
     },
-    handle_input: function(input_type, input_data) {
-
-    }
+    handle_input: function(input_type, input_data) {}
 }
 
 Game.Screen.lose_screen = {
@@ -210,7 +218,5 @@ Game.Screen.lose_screen = {
             display.drawText(2, i+1, "%b{red}You lose.");
         }
     },
-    handle_input: function(input_type, input_data) {
-
-    }
+    handle_input: function(input_type, input_data) {}
 }

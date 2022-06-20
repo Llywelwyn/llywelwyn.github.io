@@ -82,9 +82,13 @@ Game.Entity.prototype.try_move = function(x, y, z, map) {
             Game.send_message(this, "You descend to level %d.", [z]);
         }
     }
-    // If entity is present at tile & this is an attacker, attack entity
+    // If entity is present at tile, try attack
     if(target && target != this) {
-        if(this.has_mixin('Attacker')) {
+        // this must be an Attacker, and either be the PlayerActor or be attacking the PlayerActor
+        if(
+            this.has_mixin('Attacker') &&
+            (this.has_mixin(Game.Mixins.PlayerActor) || target.has_mixin(Game.Mixins.PlayerActor))
+        ) {
             this.attack(target);
             return true;
         } else {
