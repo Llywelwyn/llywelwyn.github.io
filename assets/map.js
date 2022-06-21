@@ -11,12 +11,13 @@ Game.Map = function(tiles, player) {
     // Create a table to hold items
     this._items = {};
     // Create engine and scheduler
-    this._scheduler = new ROT.Scheduler.Simple();
+    this._scheduler = new ROT.Scheduler.Speed();
     console.log("Created scheduler.");
     this._engine = new ROT.Engine(this._scheduler);
     console.log("Created engine.");
     // Add the player
     this.add_entity_at_random_position(player, 0);
+    this._player = player;
     console.log("Added player to start position.");
     // Add random enemies to each floor.
     var entities_per_floor = 20;
@@ -31,6 +32,11 @@ Game.Map = function(tiles, player) {
         }
         console.log("Populated floor " + z + " with: " + entities_per_floor + " entities; " + items_per_floor + " items.");
     }
+    // Add weapons/armour to the map in random positions
+    var templates = ['dagger', 'sword', 'staff', 'tunic', 'chainmail', 'platemail'];
+    for (var i = 0; i < templates.length; i++) {
+        this.add_item_at_random_position(Game.ItemRepository.create(templates[i]), Math.floor(this._depth * Math.random()));
+    }
     // Setup explored tiles
     this._explored = new Array(this._depth);
     this._setup_explored_array();
@@ -41,6 +47,7 @@ Game.Map = function(tiles, player) {
 Game.Map.prototype.width = function() { return this._width; };
 Game.Map.prototype.height = function() { return this._height; };
 Game.Map.prototype.depth = function() { return this._depth; };
+Game.Map.prototype.player = function() { return this._player; };
 Game.Map.prototype.engine = function() { return this._engine; };
 Game.Map.prototype.entities = function() {
     return this._entities; 

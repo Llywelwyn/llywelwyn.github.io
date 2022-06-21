@@ -208,37 +208,25 @@ Game.Screen.play_screen = {
                 // SUBSCREENS
                 // OPEN THE INVENTORY
                 } else if (input_data.key === 'i') {
-                    if (Game.Screen.inventory_screen.setup(this._player, this._player.items())) {
-                        this.set_sub_screen(Game.Screen.inventory_screen);
-                    } else {
-                        Game.send_message(this._player, "%c{white}You aren't carrying anything.");
-                        Game.refresh()
-                    }
+                    this.show_item_sub_screen(Game.Screen.inventory_screen, this._player.items(), 'You aren\'t carrying anything.');
                     return;
-                // OPEN THE DROP SCREEN
                 } else if (input_data.key === 'd') {
-                    if (Game.Screen.drop_screen.setup(this._player, this._player.items())) {
-                        this.set_sub_screen(Game.Screen.drop_screen);
-                    } else {
-                        Game.send_message(this._player, "%c{white}You don't have anything to drop.");
-                        Game.refresh()
-                    }
+                    this.show_item_sub_screen(Game.Screen.drop_screen, this._player.items(), 'You have nothing to drop.');
                     return;
-                // OPEN THE EAT SCREEN
                 } else if (input_data.key === 'e' && this._player.has_mixin('HasHunger')) {
-                    if (Game.Screen.eat_screen.setup(this._player, this._player.items())) {
-                        this.set_sub_screen(Game.Screen.eat_screen);
-                    } else {
-                        Game.send_message(this._player, "%c{white}You don't have anything to eat.");
-                        Game.refresh();
-                    }
+                    this.show_item_sub_screen(Game.Screen.eat_screen, this._player.items(), 'You have nothing to eat.');
+                    return;
+                } else if (input_data.key === 'W') {
+                    this.show_item_sub_screen(Game.Screen.wear_screen, this._player.items(), 'You have nothing to wear.');
+                    return;
+                } else if (input_data.key === 'w') {
+                    this.show_item_sub_screen(Game.Screen.wield_screen, this._player.items(), 'You have nothing to wield.');
+                    return;
                 // PICK UP
                 } else if (input_data.key === 'g') {
                     var items = this._map.items_at(this._player.x(), this._player.y(), this._player.z());
                     // If no items, show a message
-                    if (!items) {
-                        Game.send_message(this._player, "%c{white}There's nothing to pick up.");
-                    } else if (items.length === 1) {
+                    if (items && items.length === 1) {
                         // If only one item, try to pick up
                         var item = items[0];
                         if (this._player.pickup_items([0])) {
@@ -248,8 +236,7 @@ Game.Screen.play_screen = {
                         }
                     } else {
                         // Show the pickup screen
-                        Game.Screen.pickup_screen.setup(this._player, items);
-                        this.set_sub_screen(Game.Screen.pickup_screen);
+                        this.show_item_sub_screen(Game.Screen.pickup_screen, items, 'There is nothing here to pick up.');
                         return;
                     }
                 } else {
@@ -269,6 +256,14 @@ Game.Screen.play_screen = {
         var new_y = this._player.y() + d_y;
         var new_z = this._player.z() + d_z;
         this._player.try_move(new_x, new_y, new_z, this._map);
+    },
+    show_item_sub_screen: function(sub_screen, items, empty_message) {
+        if (items && sub_screen.setup(this._player, items) > 0) {
+            this.set_sub_screen(sub_screen);
+        } else {
+            Game.send_message(this._player, '%c{white}' + empty_message);
+            Game.refresh()
+        }
     },
     set_sub_screen: function(sub_screen) {
         this._sub_screen = sub_screen;
@@ -317,6 +312,7 @@ Game.Screen.ItemListScreen = function(template) {
     // Whether the user can select items
     this._can_select = template['can_select'];
     this._can_select_multiple = template['can_select_multiple'];
+    this._has_no_item_option = template['has_no_item_option'];
 };
 Game.Screen.ItemListScreen.prototype.setup = function(player, items) {
     this._player = player;
@@ -340,18 +336,32 @@ Game.Screen.ItemListScreen.prototype.setup = function(player, items) {
 Game.Screen.ItemListScreen.prototype.render = function(display) {
     var letters = 'abcdefghijklmnopqrstuvwxyz';
     // Render caption in top row
-    display.drawText(0, 0, this._caption);
-    var row = 0;
+    var top_left_x = 1;
+    var top_left_y = 1;
+    display.drawText(top_left_x, top_left_y, '%c{white}' + this._caption);
+    top_left_y += 2;
+    // Render no item row if enabled
+    if (this._has_no_item_option) {
+        display.drawText(top_left_x, top_left_y, '%c{white}0 - no item');
+        top_left_y++;
+    }
     for (var i = 0; i < this._items.length; i++) {
         // If we have an item, we want to render it
         if (this._items[i]) {
             // Get letter matching index
             var letter = letters.substring(i, i + 1);
             // If selected, show a +, else show a dash
-            var selection_state = (this._can_select && this._can_select_multiple && this._selected_indices[i]) ? '+' : '-';
+            var selection_state = (this._can_select && this._can_select_multiple && this._selected_indices[i]) ? '%c{green}+%c{white}' : '-';
+            // Check for worn or wielded
+            var suffix = ' %c{white}';
+            if (this._items[i] === this._player.armour()) {
+                suffix += '(wearing)';
+            } else if (this._items[i] === this._player.weapon()) {
+                suffix += '(wielding)';
+            }
             // Render at correct row, offset by two
-            display.drawText(0, 2 + row, letter + ' ' + selection_state + ' ' + this._items[i].describe());
-            row++;
+            display.drawText(top_left_x, top_left_y, '%c{white}' + letter + ' ' + selection_state + ' %c{' + this._items[i].foreground() + '}' + this._items[i].describe() + suffix);
+            top_left_y++;
         }
     }
 };
@@ -364,6 +374,8 @@ Game.Screen.ItemListScreen.prototype.execute_ok_function = function() {
     // Switch back to play screen
     Game.Screen.play_screen.set_sub_screen(undefined);
     // Call OK function, end player's turn if returns true
+    console.log(selected_items);
+    console.log(Object.keys(selected_items));
     if (this._ok_function(selected_items)) {
         this._player.map().engine().unlock();
     }
@@ -379,6 +391,10 @@ Game.Screen.ItemListScreen.prototype.handle_input = function(input_type, input_d
             Game.Screen.play_screen.set_sub_screen(undefined);
         // Handle pressing return with items selected
         } else if (input_data.key === 'Enter') {
+            this.execute_ok_function();
+        // Handle pressing 0 when no item selection enabled
+        } else if (this._can_select && this._has_no_item_option && input_data.key === '0') {
+            this._selected_indices = {};
             this.execute_ok_function();
         // Handle pressing a letter if we can select
         } else if(
@@ -410,11 +426,11 @@ Game.Screen.ItemListScreen.prototype.handle_input = function(input_type, input_d
 };
 
 Game.Screen.inventory_screen = new Game.Screen.ItemListScreen({
-    caption: '%c{white}Inventory',
+    caption: 'Inventory',
     can_select: false
 });
 Game.Screen.pickup_screen = new Game.Screen.ItemListScreen({
-    caption: '%c{white}Choose the items you wish to pickup',
+    caption: 'Choose the items you wish to pickup',
     can_select: true,
     can_select_multiple: true,
     ok: function(selected_items) {
@@ -428,7 +444,7 @@ Game.Screen.pickup_screen = new Game.Screen.ItemListScreen({
     }
 });
 Game.Screen.drop_screen = new Game.Screen.ItemListScreen({
-    caption: '%c{white}Choose the item you wish to drop',
+    caption: 'Choose the item you wish to drop',
     can_select: true,
     can_select_multiple: false,
     ok: function(selected_items) {
@@ -438,7 +454,7 @@ Game.Screen.drop_screen = new Game.Screen.ItemListScreen({
     }
 });
 Game.Screen.eat_screen = new Game.Screen.ItemListScreen({
-    caption: '%c{white}What do you want to eat?',
+    caption: 'What do you want to eat?',
     can_select: true,
     is_acceptable: function(item) {
         return item && item.has_mixin('Edible');
@@ -455,6 +471,54 @@ Game.Screen.eat_screen = new Game.Screen.ItemListScreen({
         item.eat(this._player);
         if (!item.has_remaining_uses()) {
             this._player.remove_item(key);
+        }
+        return true;
+    }
+});
+Game.Screen.wield_screen = new Game.Screen.ItemListScreen({
+    caption: 'Choose the item you wish to wield',
+    can_select: true,
+    can_select_multiple: false,
+    has_no_item_option: true,
+    is_acceptable: function(item) {
+        return item && item.has_mixin('Equippable') && item.is_wieldable();
+    },
+    ok: function(selected_items) {
+        // Check if we selected 'no item'
+        var keys = Object.keys(selected_items);
+        if (keys.length === 1) {
+            this._player.unwield();
+            Game.send_message(this._player, "%c{white}You are empty-handed.")
+        } else {
+            // Unequip item first
+            var item = selected_items[keys[0]];
+            this._player.unequip(item);
+            this._player.wield(item);
+            Game.send_message(this._player, "%%c{white}You are wielding %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_a()]);
+        }
+        return true;
+    }
+});
+Game.Screen.wear_screen = new Game.Screen.ItemListScreen({
+    caption: 'Choose the item you wish to wear',
+    can_select: true,
+    can_select_multiple: false,
+    has_no_item_option: true,
+    is_acceptable: function(item) {
+        return item && item.has_mixin('Equippable') && item.is_wearable();
+    },
+    ok: function(selected_items) {
+        // Check if we selected 'no item'
+        var keys = Object.keys(selected_items);
+        if (keys.length === 1) {
+            this._player.doff();
+            Game.send_message(this._player, "%c{white}You aren't wearing anything.")
+        } else {
+            // Unequip item first
+            var item = selected_items[keys[0]];
+            this._player.unequip(item);
+            this._player.don(item);
+            Game.send_message(this._player, "%%c{white}You are wearing %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_a()]);
         }
         return true;
     }

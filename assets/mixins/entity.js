@@ -16,7 +16,32 @@ Game.EntityMixins.Sight = {
     init: function(template) {
         this._sight_radius = template['sight_radius'] || 5;
     },
-    sight_radius: function() { return this._sight_radius; }
+    sight_radius: function() { return this._sight_radius; },
+    can_see: function(entity) {
+        // If not on same map/floor, return false
+        if (
+            !entity ||
+            this._map !== entity.map() ||
+            this._z !== entity.z()
+        ) {
+            return false;
+        }
+        console.log("1st check: true");
+        var found = false;
+        this.map().fov(this.z()).compute(
+            this.x(),
+            this.y(),
+            this.sight_radius(),
+            function(x, y, radius, visibility) {
+                if (x === entity.x() && y === entity.y()) {
+                    found = true;
+                }
+            }
+        );
+        console.log("computing fov");
+        console.log('Found: ' + found);
+        return found;
+    }
 };
 Game.EntityMixins.Digger = {
     name: 'Digger',
@@ -34,13 +59,25 @@ Game.EntityMixins.Digger = {
 Game.EntityMixins.Destructible = {
     name: 'Destructible',
     init: function(template) {
-        this._max_hp = template['max_hp'] || 10;
-        this._hp = template['hp'] || this._max_hp;
-        this._defence_value = template['defence_value'] || 0;
+        this._stats = template['stats'] || {};
+        this._max_hp = this._stats['max_hp'] || 10;
+        this._hp = this._stats['hp'] || this._max_hp;
+        this._def_bonus = this._stats['defence_bonus'] || 0;
     },
     hp : function() { return this._hp; },
     max_hp : function() { return this._max_hp; },
-    defence_value : function() { return this._defence_value; },
+    defence_bonus: function() {
+        var modifier = 0;
+        if (this.has_mixin(Game.EntityMixins.Equipper)) {
+            if (this.weapon()) {
+                modifier += this.weapon().defence_bonus();
+            }
+            if (this.armour()) {
+                modifier += this.armour().defence_bonus();
+            }
+        }
+        return this._def_bonus + modifier;
+    },
     take_damage: function(attacker, damage) {
         this._hp -= damage;
         // If 0 or less hp, kill
@@ -57,11 +94,39 @@ Game.EntityMixins.Attacker = {
     name: 'Attacker',
     group_name: 'Attacker',
     init: function(template) {
-        this._attack_value = template['attack_value'] || 1;
+        this._stats = template['stats'] || {};
+        this._atk_bonus = this._stats['attack_bonus'] || 1;
+        this._str_bonus = this._stats['strength_bonus'] || 1;
         this._verb = template['verb'] || {singular:['strike'], plural:['strikes']};
     },
-    attack_value: function() { return this._attack_value; },
+    attack_bonus: function() {
+        var modifier = 0;
+        if (this.has_mixin(Game.EntityMixins.Equipper)) {
+            if (this.weapon()) {
+                modifier += this.weapon().attack_bonus();
+            }
+            if (this.armour()) {
+                modifier += this.armour().attack_bonus();
+            }
+        }
+        return this._atk_bonus + modifier;
+    },
+    strength_bonus: function() {
+        var modifier = 0;
+        if (this.has_mixin(Game.EntityMixins.Equipper)) {
+            if (this.weapon()) {
+                modifier += this.weapon().strength_bonus();
+            }
+            if (this.armour()) {
+                modifier += this.armour().strength_bonus();
+            }
+        }
+        return this._str_bonus + modifier;
+    },
     refresh_verbs: function() {
+        if (this.has_mixin(Game.EntityMixins.Equipper) && this.weapon()) {
+            this._verb = this.weapon().verbs();
+        };
         var random = Math.floor(Math.random() * this._verb['singular'].length);
         var selected_verbs = {
             'singular': this._verb['singular'][random],
@@ -70,18 +135,28 @@ Game.EntityMixins.Attacker = {
     },
     attack: function(target) {
         if (target.has_mixin('Destructible')) {
-            var attack = this.attack_value();
-            var defence = target.defence_value();
-            var max = Math.max(0, attack - defence);
-            var damage = 1 + Math.floor(Math.random() * max);
-            var verb = this.refresh_verbs();
-            // TODO: Should probably make a helper function for the formatting. Colours names in foreground colour of entity.
-            Game.send_message(this, '%%c{white}You %s %%c{%s}%s%%c{white} for %d damage!',
-                [verb['singular'], target.foreground(), target.describe_the(), damage]);
-            Game.send_message(target, '%%c{%s}%s%%c{white} %s you for %d damage!',
-                [this.foreground(), this.describe_the(1), verb['plural'], damage]);
-
-            target.take_damage(this, damage);
+            if (this.attack_bonus() >= target.defence_bonus()) { // 2 algorithms to determine hit chance.
+                var hit_chance = 1 - ((target.defence_bonus() + 2) / (2 * (this.attack_bonus() + 1)));
+            } else {
+                var hit_chance = 1 - (this.attack_bonus() / (2 * (target.defence_bonus() + 1)));
+            }
+            if (Math.random() <= hit_chance) { // On a hit, roll between 1 and max hit to determine damage.
+                var max_hit = Math.max(0, this.strength_bonus());
+                var damage = 1 + Math.floor(Math.random() * max_hit);
+                var verb = this.refresh_verbs(); // Get new verbs.
+                Game.send_message(this, '%%c{white}You %s %%c{%s}%s%%c{white} for %d damage!',
+                    [verb['singular'], target.foreground(), target.describe_the(), damage]);
+                Game.send_message(target, '%%c{%s}%s%%c{white} %s you for %d damage!',
+                    [this.foreground(), this.describe_the(1), verb['plural'], damage]);
+                target.take_damage(this, damage); // Damage target.
+                return true;
+            } else {
+                Game.send_message(this, '%%c{white}You miss %%c{%s}%s%%c{white}!',
+                    [target.foreground(), target.describe_the()]);
+                Game.send_message(target, '%%c{%s}%s%%c{white} misses you!',
+                    [this.foreground(), this.describe_the(1)]);
+                return false;
+            }
         }
     }
 };
@@ -123,7 +198,13 @@ Game.EntityMixins.HasInventory = {
         }
         return false;
     },
-    remove_item: function(i) { this._items[i] = null; },
+    remove_item: function(i) {
+        // If we can equip, make sure we unequip first
+        if (this._items[i] && this.has_mixin(Game.EntityMixins.Equipper)) {
+            this.unequip(this._items[i]);
+        }
+        this._items[i] = null; 
+    },
     can_add_item: function() {
         // Check for empty slot
         for (var i = 0; i < this._items.length; i++) {
@@ -244,6 +325,28 @@ Game.EntityMixins.CorpseDropper = {
         }
     }
 };
+Game.EntityMixins.Equipper = {
+    name: 'Equipper',
+    init: function(template) {
+        this._weapon = null;
+        this._armour = null;
+    },
+    weapon: function() { return this._weapon; },
+    armour: function() { return this._armour; },
+    wield: function(item) { this._weapon = item; },
+    unwield: function() { this._weapon = null; },
+    don: function(item) { this._armour = item; },
+    doff: function() { this._armour = null; },
+    unequip: function(item) {
+        // Helper function.
+        if (this._weapon === item) {
+            this.unwield();
+        }
+        if (this._armour === item) {
+            this.doff();
+        }
+    }
+};
 
 //   Actor Mixins - these determine which 'act' the Entity takes each turn.
 //
@@ -325,10 +428,64 @@ Game.EntityMixins.VinesActor = {
         }
     }
 };
-Game.EntityMixins.WanderActor = {
-    name: 'WanderActor',
+Game.EntityMixins.TaskActor = {
+    name: 'TaskActor',
     group_name: 'Actor',
+    init: function(template) {
+        this._tasks = template['tasks'] || ['wander'];
+    },
     act: function() {
+        // Iterate through tasks
+        for (var i = 0; i < this._tasks.length; i++) {
+            if (this.can_do_task(this._tasks[i])) {
+                // If we can do the task, execute the function for it
+                this[this._tasks[i]]();
+                return;
+            }
+        }
+    },
+    can_do_task: function(task) {
+        if (task === 'hunt') {
+            return this.has_mixin('Sight') && this.can_see(this.map().player());
+        } else if (task === 'wander') {
+            return true;
+        } else {
+            throw new Error('Tried to perform undefined task ' + task);
+        }
+    },
+    hunt: function() {
+        console.log("Hunting.");
+        var player = this.map().player();
+        // If adjacent, attack
+        var offsets = Math.abs(player.x() - this.x()) + Math.abs(player.y() - this.y());
+        if (offsets === 1) {
+            if (this.has_mixin('Attacker')) {
+                this.attack(player);
+                return;
+            }
+        }
+        // Generate path and move to first tile
+        var source = this;
+        var z = source.z();
+        var path = new ROT.Path.AStar(player.x(), player.y(), function(x, y) {
+            // If entity is present at tile, can't move
+            var entity = source.map().entity_at(x, y, z);
+            if (entity && entity !== player && entity !== source) {
+                return false;
+            }
+            return source.map().tile(x, y, z).is_walkable();
+        }, {topology: 4});
+        // Once we've gotten the path, move to the second cell passed in the
+        // callback (first is the entity's starting point)
+        var count = 0;
+        path.compute(source.x(), source.y(), function(x, y) {
+            if (count == 1) {
+                source.try_move(x, y, z);
+            }
+            count++;
+        });
+    },
+    wander: function() {
         // Determine positive or negative direction
         var offset = (Math.round(Math.random()) === 1) ? 1 : -1;
         // Determine x- or y-direction

@@ -32,3 +32,21 @@ Game.ItemMixins.Edible = {
         }
     }
 };
+Game.ItemMixins.Equippable = {
+    name: 'Equippable',
+    init: function(template) {
+        this._verbs = template['verb'];
+        this._stats = template['stats'] || {};
+        this._atk_bonus = this._stats['attack_bonus'] || 0;
+        this._str_bonus = this._stats['strength_bonus'] || 0;
+        this._def_bonus = this._stats['defence_bonus'] || 0;
+        this._wieldable = this._stats['wieldable'] || false;
+        this._wearable = this._stats['wearable'] || false;
+    },
+    attack_bonus: function() { return this._atk_bonus; },
+    strength_bonus: function() { return this._str_bonus; },
+    defence_bonus: function() { return this._def_bonus; },
+    is_wieldable: function() { return this._wieldable; },
+    is_wearable: function() { return this._wearable; },
+    verbs: function() { return this._verbs; }
+};
