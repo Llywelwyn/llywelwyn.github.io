@@ -221,7 +221,7 @@ Game.Screen.play_screen = {
                     }
                     return;
                 // OPEN THE EAT SCREEN
-                } else if (input_data.key === 'e') {
+                } else if (input_data.key === 'e' && this._player.has_mixin('HasHunger')) {
                     if (Game.Screen.eat_screen.setup(this._player, this._player.items())) {
                         this.set_sub_screen(Game.Screen.eat_screen);
                     } else {

@@ -77,7 +77,9 @@ Game.EntityRepository.define('bat', {
         singular: ['bite', 'scratch', 'claw'],
         plural: ['bites', 'scratches', 'claws']
     },
-    mixins: [Game.EntityMixins.WanderActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible]
+    corpse_drop_rate: 75,
+    mixins: [Game.EntityMixins.WanderActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
+            Game.EntityMixins.CorpseDropper]
 });
 Game.EntityRepository.define('newt', {
     name: 'newt',
@@ -89,5 +91,7 @@ Game.EntityRepository.define('newt', {
         singular: ['scratch', 'nip'],
         plural: ['scratches', 'nips']
     },
-    mixins: [Game.EntityMixins.WanderActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible]
+    corpse_drop_rate: 25,
+    mixins: [Game.EntityMixins.WanderActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
+            Game.EntityMixins.CorpseDropper]
 });
