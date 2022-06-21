@@ -9,7 +9,6 @@ Game.ItemRepository.define('apple', {
     foreground: 'red',
     edible: {
         value: 50,
-        max_uses: 1
     },
     mixins: [Game.ItemMixins.Edible]
 });
@@ -22,6 +21,16 @@ Game.ItemRepository.define('hardtack', {
         max_uses: 2
     },
     mixins: [Game.ItemMixins.Edible]
+});
+Game.ItemRepository.define('corpse', {
+    name: 'corpse',
+    character: '%',
+    edible: {
+        value: 120
+    },
+    mixins: [Game.ItemMixins.Edible]
+}, {
+    disable_random_creation: true
 });
 Game.ItemRepository.define('rock', {
     name: 'rock',

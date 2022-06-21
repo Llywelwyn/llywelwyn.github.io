@@ -46,6 +46,9 @@ Game.EntityMixins.Destructible = {
         // If 0 or less hp, kill
         if (this._hp <= 0) {
             Game.send_message(attacker, '%%c{white}You kill %%c{%s}%s%%c{white}!', [this.foreground(), this.describe_the()]);
+            if (this.has_mixin(Game.EntityMixins.CorpseDropper)) {
+                this.try_drop_corpse();
+            }
             this.kill();
         }
     }
@@ -212,6 +215,33 @@ Game.EntityMixins.HasHunger = {
         else if (fullness_percent <= NOT_HUNGRY) { return ['Satisfied', '%c{white}Satisfied']; }
         else if (fullness_percent <= FULL) { return ['Full', '%c{green}Full']; } 
         else { return ['Oversatiated', '{blue}Oversatiated']; };
+    }
+};
+Game.EntityMixins.CorpseDropper = {
+    name: 'CorpseDropper',
+    init: function(template) {
+        // Chance of creating a corpse
+        this._corpse_drop_rate = template['corpse_drop_rate'] || 100;
+    },
+    try_drop_corpse: function() {
+        if (Math.round(Math.random() * 100) < this._corpse_drop_rate) {
+            // Create new corpse item and drop it
+            var prefix = one_of([
+                ['corpse', false],
+                ['remains', true],
+                ['entrails', true]]);
+
+            this._map.add_item(
+                this.x(), this.y(), this.z(),
+                Game.ItemRepository.create('corpse', {
+                    name: this._name + ' ' + prefix[0],
+                    noun: {
+                        plural: prefix[1],
+                    },
+                    foreground: one_of(['red', 'crimson', 'firebrick'])
+                })
+            );
+        }
     }
 };
 

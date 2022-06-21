@@ -53,6 +53,13 @@ Game.DynamicGlyph.prototype.has_mixin = function(object) {
 
 Game.DynamicGlyph.prototype.describe = function() { return this._name; }; // For now, for use in describe_a().
 Game.DynamicGlyph.prototype.describe_a = function(capitalise) {
+    if (this._proper || this._plural) {
+        if (this._proper) {
+            return this.describe();
+        } else {
+            return 'some ' + this.describe();
+        }
+    }
     // Optional param to capitalise a/an.
     var prefixes = capitalise ? ['A', 'An'] : ['a', 'an'];
     var string = this.describe();
