@@ -8,6 +8,7 @@ Game.EntityMixins = {};
 // - Attacker:          allows an Entity to attack the player using singular/plural verbs given by 'verb'.
 // - MessageRecipient:  allows an Entity to use the message system.
 // - HasInventory:      grants an Entity inventory functionality of capacity 'inventory_slots'.
+// - HasHunger:         enforces hunger mechanics.
 
 Game.EntityMixins.Sight = {
     name: 'Sight',
@@ -163,6 +164,50 @@ Game.EntityMixins.HasInventory = {
         }
     }
 };
+Game.EntityMixins.HasHunger = {
+    name: 'HasHunger',
+    init: function(template) {
+        this._max_fullness = template['hunger']['max_fullness'] || 1000;
+        // Start at half if no default value
+        this._fullness = template['hunger']['fullness'] || (this._max_fullness /2 );
+        // Depletion rate
+        this._depletion_rate = template['hunger']['depletion_rate'] || 1;
+    },
+    add_turn_hunger: function() {
+        // Minus depletion rate
+        this.modify_fullness_by(-this._depletion_rate);
+    },
+    modify_fullness_by: function(points) {
+        this._fullness = this._fullness + points;
+        if (this._fullness <= 0) {
+            this.kill("You have died of %c{brown}starvation%c{white}!");
+        } else if (this._fullness > this._max_fullness) {
+            Game.send_message(this, "You struggle to force down any more!");
+            this._fullness = this._max_fullness;
+        }
+    },
+    hunger_state: function() {
+        // Fullness points per percent of max
+        var fullness_percent = this._fullness / (this._max_fullness / 100);
+
+        // We hate magic numbers. Less than or equal to this
+        // number gives the corresponding return message.
+        const STARVING = 5;
+        const VERY_HUNGRY = 15;
+        const HUNGRY = 30;
+        const PECKISH = 50;
+        const NOT_HUNGRY = 70;
+        const FULL = 90;
+
+        if (fullness_percent <= STARVING) { return 'Starving'; } 
+        else if (fullness_percent <= VERY_HUNGRY) { return 'Very Hungry'; } 
+        else if (fullness_percent <= HUNGRY) { return 'Hungry'; }
+        else if (fullness_percent <= PECKISH) { return 'Peckish'; }
+        else if (fullness_percent <= NOT_HUNGRY) { return 'Satisfied'; }
+        else if (fullness_percent <= FULL) { return 'Full'; } 
+        else { return 'Oversatiated'; };
+    }
+};
 
 //   Actor Mixins - these determine which 'act' the Entity takes each turn.
 //
@@ -174,6 +219,13 @@ Game.EntityMixins.PlayerActor = {
     name: 'PlayerActor',
     group_name: 'Actor',
     act: function() {
+        // If we're already taking an action (act was called by something during the hero's turn, don't act twice. Just return.)
+        if (this._acting) { return; }
+        this._acting = true;
+        // If we're using hunger, add a turn of hunger.
+        if (this.has_mixin(Game.EntityMixins.HasHunger)) {
+            this.add_turn_hunger();
+        }
         // Detect if game is over
         if (!this.is_alive()) {
             Game.Screen.play_screen.set_game_ended(true);
@@ -184,16 +236,15 @@ Game.EntityMixins.PlayerActor = {
         Game.refresh()
         // Lock engine, wait for input
         this.map().engine().lock();
-        // Clear message queue
-        //this.clear_messages();
+        this._acting = false;
     }
 };
 Game.EntityMixins.VinesActor = {
     name: 'VinesActor',
     group_name: 'Actor',
     init: function(template) {
-        this._growths_remaining = template['growths_remaining'] || 5;
-        this._spread_chance = template['spread_chance'] || 0.01;
+        this._growths_remaining = template['growth']['remaining'] || 5;
+        this._spread_chance = template['growth']['chance'] || 0.01;
     },
     act: function() {
         if (this._growths_remaining <= 0 || Math.random() > this._spread_chance) {
@@ -233,7 +284,7 @@ Game.EntityMixins.VinesActor = {
                 entity.x(),
                 entity.y(),
                 entity.z(),
-                'The %%c{%s}%s%%c{white} is spreading!', [this.foreground(), this.name()]
+                'The %%c{%s}%s%%c{white} %s spreading!', [this.foreground(), this.name(), this.is_are()]
             );
         }
     }

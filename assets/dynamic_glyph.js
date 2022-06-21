@@ -4,6 +4,7 @@ Game.DynamicGlyph = function(properties) {
     Game.Glyph.call(this, properties);
     // Instantiate properties from passed object
     this._name = properties['name'] || '';
+    this._plural = properties['plural'] || false;
     // Create obj to track mixins attached to this entity
     this._attached_mixins = {};
     this._attached_mixin_groups = {};
@@ -52,7 +53,7 @@ Game.DynamicGlyph.prototype.describe_a = function(capitalise) {
     // Optional param to capitalise a/an.
     var prefixes = capitalise ? ['A', 'An'] : ['a', 'an'];
     var string = this.describe();
-    var first_letter = string.charArt(0).toLowerCase();
+    var first_letter = string.charAt(0).toLowerCase();
     // If starts w/ vowel use 'an', else use 'a'. Not perfect.
     var prefix = 'aeiou'.indexOf(first_letter) >= 0 ? 1 : 0;
     return prefixes[prefix] + ' ' + string;
@@ -61,3 +62,10 @@ Game.DynamicGlyph.prototype.describe_the = function(capitalise) {
     var prefix = capitalise ? 'The' : 'the';
     return prefix + ' ' + this.describe();
 };
+Game.DynamicGlyph.prototype.is_are = function() {
+    if(this._plural) {
+        return 'are';
+    } else {
+        return 'is';
+    }
+}

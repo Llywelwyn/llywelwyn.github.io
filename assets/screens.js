@@ -136,18 +136,20 @@ Game.Screen.play_screen = {
                 '%c{white}%b{black}' + messages[i]
             )
         }
-        // Render player HP - TODO: Actual functions, make all this modular instead of hardcoded terribleness
+        // Render player stats - TODO: Actual functions, make all this modular instead of hardcoded terribleness
         var stats = '%c{white}%b{black}';
         var stats_x = 1;
         var stats_y = Game.height();
         stats += vsprintf('HP: %d/%d ', [this._player.hp(), this._player.max_hp()]);
-        stats += vsprintf('                         Floor: %d', [this._player.z() + 1]);
         display.drawText(stats_x, stats_y, stats);
-        var help_message = "%c{white}Press %c{seagreen}[?]%c{white} for help"
-        display.drawText(Game.width() - 19, Game.height(), help_message)
 
-        var help_x;
-        var help_y;
+        // Render hunger
+        var hunger_state = this._player.hunger_state();
+        display.drawText(Game.width() - hunger_state.length, Game.height(), hunger_state);
+
+        // Render all this other shit
+        //var help_message = "%c{white}Press %c{seagreen}[?]%c{white} for help"
+        //display.drawText(Game.width() - 19, Game.height(), help_message)
         if(this._help) { // TODO: Make a function for drawing boxes (w/ text)
             display.drawText(Game.width()/2 - 21, Game.height()/2 + 10, `
             %c{yellow}╔═ %c{white}CONTROLS%c{yellow} ══════════════════════════════╗
