@@ -25,12 +25,11 @@ Game.Map = function(tiles, player) {
         for (var i = 0; i < entities_per_floor; i++) {
             this.add_entity_at_random_position(Game.EntityRepository.create_random(), z);
         }
-        console.log("Added enemies to floors.");
         for (var i = 0; i < items_per_floor; i++) {
             // Add random entity from ItemRepo
             this.add_item_at_random_position(Game.ItemRepository.create_random(), z);
         }
-        console.log("Added items to floors.");
+        console.log("Populated floor " + z + " with: " + entities_per_floor + " entities; " + items_per_floor + " items.");
     }
     // Setup explored tiles
     this._explored = new Array(this._depth);
@@ -199,7 +198,7 @@ Game.Map.prototype.is_explored = function(x, y, z) {
 Game.Map.prototype.items_at = function(x, y, z) {
     return this._items[x + ',' + y + ',' + z];
 };
-Game.Map.prototype.set_items = function(x, y, z, items) {
+Game.Map.prototype.set_items_at = function(x, y, z, items) {
     // If array is empty, delete key from table
     var key = x + ',' + y + ',' + z;
     if (items.length === 0) {
