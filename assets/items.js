@@ -8,9 +8,13 @@ Game.ItemRepository.define('dagger', {
     name: 'dagger',
     character: ')',
     foreground: 'gray',
-    equip: {
+    stats: {
         wieldable: true,
         attack_bonus: 10
+    },
+    verb: {
+        singular: ['slash', 'stab', 'slice'],
+        plural: ['slashes', 'stabs', 'slices']
     },
     mixins: [Game.ItemMixins.Equippable]
 }, {
@@ -20,10 +24,14 @@ Game.ItemRepository.define('sword', {
     name: 'sword',
     character: ')',
     foreground: 'white',
-    equip: {
+    stats: {
         wieldable: true,
         attack_bonus: 5,
-        strength_bonus: 5
+        strength_bonus: 2
+    },
+    verb: {
+        singular: ['slash', 'cut', 'slice'],
+        plural: ['slashes', 'cuts', 'slices']
     },
     mixins: [Game.ItemMixins.Equippable]
 }, {
@@ -32,11 +40,53 @@ Game.ItemRepository.define('sword', {
 Game.ItemRepository.define('staff', {
     name: 'staff',
     character: ')',
-    foreground: 'gray',
-    equip: {
+    foreground: 'yellow',
+    stats: {
         wieldable: true,
-        attack_bonus: 3,
-        defence_bonus: 3
+        attack_bonus: 5,
+        defence_bonus: 5
+    },
+    verb: {
+        singular: ['smack', 'crack', 'bonk'],
+        plural: ['smacks', 'cracks', 'bonks']
+    },
+    mixins: [Game.ItemMixins.Equippable]
+}, {
+    disable_random_creation: true
+});
+
+// WEARABLES
+Game.ItemRepository.define('tunic', {
+    name: 'tunic',
+    character: '[',
+    foreground: 'green',
+    stats: {
+        wearable: true,
+        defence_bonus: 8
+    },
+    mixins: [Game.ItemMixins.Equippable]
+}, {
+    disable_random_creation: true
+});
+Game.ItemRepository.define('chainmail', {
+    name: 'chainmail',
+    character: '[',
+    foreground: 'white',
+    stats: {
+        wearable: true,
+        defence_bonus: 12
+    },
+    mixins: [Game.ItemMixins.Equippable]
+}, {
+    disable_random_creation: true
+});
+Game.ItemRepository.define('platemail', {
+    name: 'platemail',
+    character: '[',
+    foreground: 'aliceblue',
+    stats: {
+        wearable: true,
+        defence_bonus: 16
     },
     mixins: [Game.ItemMixins.Equippable]
 }, {

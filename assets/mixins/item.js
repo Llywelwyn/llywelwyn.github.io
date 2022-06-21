@@ -35,7 +35,8 @@ Game.ItemMixins.Edible = {
 Game.ItemMixins.Equippable = {
     name: 'Equippable',
     init: function(template) {
-        this._stats = template['equip'] || {};
+        this._verbs = template['verb'];
+        this._stats = template['stats'] || {};
         this._atk_bonus = this._stats['attack_bonus'] || 0;
         this._str_bonus = this._stats['strength_bonus'] || 0;
         this._def_bonus = this._stats['defence_bonus'] || 0;
@@ -46,5 +47,6 @@ Game.ItemMixins.Equippable = {
     strength_bonus: function() { return this._str_bonus; },
     defence_bonus: function() { return this._def_bonus; },
     is_wieldable: function() { return this._wieldable; },
-    is_wearable: function() { return this._wearable; }
+    is_wearable: function() { return this._wearable; },
+    verbs: function() { return this._verbs; }
 };

@@ -31,6 +31,11 @@ Game.Map = function(tiles, player) {
         }
         console.log("Populated floor " + z + " with: " + entities_per_floor + " entities; " + items_per_floor + " items.");
     }
+    // Add weapons/armour to the map in random positions
+    var templates = ['dagger', 'sword', 'staff', 'tunic', 'chainmail', 'platemail'];
+    for (var i = 0; i < templates.length; i++) {
+        this.add_item_at_random_position(Game.ItemRepository.create(templates[i]), Math.floor(this._depth * Math.random()));
+    }
     // Setup explored tiles
     this._explored = new Array(this._depth);
     this._setup_explored_array();

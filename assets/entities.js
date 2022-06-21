@@ -22,7 +22,7 @@ Game.PlayerTemplate = {
     },
     mixins: [Game.EntityMixins.PlayerActor, Game.EntityMixins.MessageRecipient, Game.EntityMixins.Sight, 
             Game.EntityMixins.Attacker, Game.EntityMixins.Destructible, Game.EntityMixins.Digger,
-            Game.EntityMixins.HasInventory, Game.EntityMixins.HasHunger]
+            Game.EntityMixins.HasInventory, Game.EntityMixins.HasHunger, Game.EntityMixins.Equipper]
 };
 
 // Entity Repository stuff -- grouping entities together

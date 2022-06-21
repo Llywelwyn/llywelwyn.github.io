@@ -41,7 +41,18 @@ Game.EntityMixins.Destructible = {
     },
     hp : function() { return this._hp; },
     max_hp : function() { return this._max_hp; },
-    defence_bonus : function() { return this._def_bonus; },
+    defence_bonus: function() {
+        var modifier = 0;
+        if (this.has_mixin(Game.EntityMixins.Equipper)) {
+            if (this.weapon()) {
+                modifier += this.weapon().defence_bonus();
+            }
+            if (this.armour()) {
+                modifier += this.weapon().defence_bonus();
+            }
+        }
+        return this._def_bonus + modifier;
+    },
     take_damage: function(attacker, damage) {
         this._hp -= damage;
         // If 0 or less hp, kill
@@ -63,9 +74,34 @@ Game.EntityMixins.Attacker = {
         this._str_bonus = this._stats['strength_bonus'] || 1;
         this._verb = template['verb'] || {singular:['strike'], plural:['strikes']};
     },
-    attack_bonus: function() { return this._atk_bonus; },
-    strength_bonus: function() { return this._str_bonus; },
+    attack_bonus: function() {
+        var modifier = 0;
+        if (this.has_mixin(Game.EntityMixins.Equipper)) {
+            if (this.weapon()) {
+                modifier += this.weapon().attack_bonus();
+            }
+            if (this.armour()) {
+                modifier += this.armour().attack_bonus();
+            }
+        }
+        return this._atk_bonus + modifier;
+    },
+    strength_bonus: function() {
+        var modifier = 0;
+        if (this.has_mixin(Game.EntityMixins.Equipper)) {
+            if (this.weapon()) {
+                modifier += this.weapon().strength_bonus();
+            }
+            if (this.armour()) {
+                modifier += this.armour().strength_bonus();
+            }
+        }
+        return this._str_bonus + modifier;
+    },
     refresh_verbs: function() {
+        if (this.has_mixin(Game.EntityMixins.Equipper) && this.weapon()) {
+            this._verb = this.weapon().verbs();
+        };
         var random = Math.floor(Math.random() * this._verb['singular'].length);
         var selected_verbs = {
             'singular': this._verb['singular'][random],
@@ -137,7 +173,13 @@ Game.EntityMixins.HasInventory = {
         }
         return false;
     },
-    remove_item: function(i) { this._items[i] = null; },
+    remove_item: function(i) {
+        // If we can equip, make sure we unequip first
+        if (this._items[i] && this.has_mixin(Game.EntityMixins.Equipper)) {
+            this.unequip(this._items[i]);
+        }
+        this._items[i] = null; 
+    },
     can_add_item: function() {
         // Check for empty slot
         for (var i = 0; i < this._items.length; i++) {
@@ -255,6 +297,28 @@ Game.EntityMixins.CorpseDropper = {
                     foreground: one_of(['red', 'crimson', 'firebrick'])
                 })
             );
+        }
+    }
+};
+Game.EntityMixins.Equipper = {
+    name: 'Equipper',
+    init: function(template) {
+        this._weapon = null;
+        this._armour = null;
+    },
+    weapon: function() { return this._weapon; },
+    armour: function() { return this._armour; },
+    wield: function(item) { this._weapon = item; },
+    unwield: function() { this._weapon = null; },
+    don: function(item) { this._armour = item; },
+    doff: function() { this._armour = null; },
+    unequip: function(item) {
+        // Helper function.
+        if (this._weapon === item) {
+            this.unwield();
+        }
+        if (this._armour === item) {
+            this.doff();
         }
     }
 };
