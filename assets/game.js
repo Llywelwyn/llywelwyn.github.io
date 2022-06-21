@@ -89,7 +89,7 @@ window.onload = function() {
 
 // Message sending functions
 Game.send_message = function(recipient, message, args) {
-    if (recipient.has_mixin(Game.Mixins.MessageRecipient)) {
+    if (recipient.has_mixin(Game.EntityMixins.MessageRecipient)) {
         if(args) {
             message = vsprintf(message, args);
         }
@@ -105,7 +105,7 @@ Game.send_message_nearby = function(map, centre_x, centre_y, centre_z, message, 
     entities = map.entities_within_radius(centre_x, centre_y, centre_z, 5);
     // Iterate through entities, send message if they can receive it
     for(var i = 0; i < entities.length; i++) {
-        if(entities[i].has_mixin(Game.Mixins.MessageRecipient)) {
+        if(entities[i].has_mixin(Game.EntityMixins.MessageRecipient)) {
             entities[i].receive_message(message);
         }
     }
