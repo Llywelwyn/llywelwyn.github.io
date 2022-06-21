@@ -81,7 +81,7 @@ Game.EntityMixins.Attacker = {
             Game.send_message(target, 'The %s %s you for %d damage!',
                 [this.name(), verb['plural'], damage]);
 
-            target.take_damage(this, 1 + Math.floor(Math.random() * max));
+            target.take_damage(this, damage);
         }
     }
 };
