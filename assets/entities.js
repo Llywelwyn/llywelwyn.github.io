@@ -13,6 +13,7 @@ Game.PlayerTemplate = {
         plural: ['punches', 'kicks']
     },
     hunger: {
+        max_fullness: 1000,
         depletion_rate: 1
     },
     mixins: [Game.EntityMixins.PlayerActor, Game.EntityMixins.MessageRecipient, Game.EntityMixins.Sight, 
@@ -54,7 +55,9 @@ Game.EntityRepository.define('generic', {
 
 Game.EntityRepository.define('vines', {
     name: 'vines',
-    plural: true,
+    noun: {
+        plural: true,
+    },
     character: 'v',
     foreground: 'green',
     max_hp: 10,

@@ -4,7 +4,10 @@ Game.DynamicGlyph = function(properties) {
     Game.Glyph.call(this, properties);
     // Instantiate properties from passed object
     this._name = properties['name'] || '';
-    this._plural = properties['plural'] || false;
+    this._noun = properties['noun'] || {plural: false, proper: false};
+    this._plural = this._noun['plural'] || false;
+    this._proper = this._noun['proper'] || false;
+
     // Create obj to track mixins attached to this entity
     this._attached_mixins = {};
     this._attached_mixin_groups = {};
@@ -58,9 +61,22 @@ Game.DynamicGlyph.prototype.describe_a = function(capitalise) {
     var prefix = 'aeiou'.indexOf(first_letter) >= 0 ? 1 : 0;
     return prefixes[prefix] + ' ' + string;
 };
+// Returns correct 'the' usage for proper/improper nouns w/ an option for capitalisation.
 Game.DynamicGlyph.prototype.describe_the = function(capitalise) {
-    var prefix = capitalise ? 'The' : 'the';
-    return prefix + ' ' + this.describe();
+    if(this._proper) {
+        if (capitalise) {
+            return this.describe()[0].toUpperCase() + this.describe().slice(1);
+        } else {
+            return this.describe();
+            
+        }
+    } else {
+        if (capitalise) {
+            return 'The ' + this.describe();
+        } else {
+            return 'the ' + this.describe();
+        }
+    }
 };
 Game.DynamicGlyph.prototype.is_are = function() {
     if(this._plural) {

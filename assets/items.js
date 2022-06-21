@@ -8,20 +8,20 @@ Game.ItemRepository.define('apple', {
     character: 'a',
     foreground: 'red',
     edible: {
-        value: 10,
+        value: 50,
         max_uses: 1
     },
-    mixins: []
+    mixins: [Game.ItemMixins.Edible]
 });
 Game.ItemRepository.define('hardtack', {
     name: 'piece of hardtack',
     character: 'h',
     foreground: 'rosybrown',
     edible: {
-        value: 8,
+        value: 80,
         max_uses: 2
     },
-    mixins: []
+    mixins: [Game.ItemMixins.Edible]
 });
 Game.ItemRepository.define('rock', {
     name: 'rock',
