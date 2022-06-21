@@ -137,7 +137,7 @@ Game.Mixins.HasInventory = {
             // Try to add item. If inventory is not full, then splice
             // the item out of the list of items. In order to fetch the
             // right item, offset the number of items already added.
-            if (this.add_item(map_items[indices[i] - added, 1])) {
+            if (this.add_item(map_items[indices[i] - added])) {
                 map_items.splice(indices[i] - added, 1);
                 added++;
             } else {
@@ -156,6 +156,7 @@ Game.Mixins.HasInventory = {
             if (this._map) {
                 this._map.add_item(this.x(), this.y(), this.z(), this._items[i]);
             }
+            Game.send_message(this, "You drop %s.", [this._items[i].describe_a()]);
             this.remove_item(i);
         }
     }

@@ -96,6 +96,15 @@ Game.Entity.prototype.try_move = function(x, y, z, map) {
         }
     } else if(tile.is_walkable()) { // If tile is walkable, move
         this.set_pos(x, y, z)
+        // Check for items on this position
+        var items = this.map().items_at(x, y, z);
+        if (items) {
+            if (items.length === 1) {
+                Game.send_message(this, "You see %s.", [items[0].describe_a()]);
+            } else {
+                Game.send_message(this, "There are several objects here.");
+            }
+        }
         return true;
     } else if(tile.is_diggable() && this.has_mixin(Game.Mixins.Digger)) { // If tile is diggable, dig
         return this.try_dig(x, y, z, tile, map);
