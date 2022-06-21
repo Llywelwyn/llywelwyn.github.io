@@ -4,8 +4,12 @@ Game.PlayerTemplate = {
     character: '@',
     foreground: 'white',
     background: 'black',
-    max_hp: 40,
-    attack_value: 10,
+    stats: {
+        max_hp: 40,
+        attack_bonus: 50,
+        defence_bonus: 50,
+        strength_bonus: 10
+    },
     sight_radius: 8,
     inventory_slots: 22,
     verb: {
@@ -69,7 +73,12 @@ Game.EntityRepository.define('vines', {
     },
     character: 'v',
     foreground: 'green',
-    max_hp: 10,
+    stats: {
+        max_hp: 10,
+        attack_bonus: 0,
+        defence_bonus: 0,
+        strength_bonus: 0
+    },
     growth: {
         remaining: 3,
         chance: 0.01
@@ -80,8 +89,12 @@ Game.EntityRepository.define('bat', {
     name: 'bat',
     character: 'b',
     foreground: 'beige',
-    max_hp: 5,
-    attack_value: 4,
+    stats: {
+        max_hp: 5,
+        attack_bonus: 40,
+        defence_bonus: 40,
+        strength_bonus: 5
+    },
     verb: {
         singular: ['bite', 'scratch', 'claw'],
         plural: ['bites', 'scratches', 'claws']
@@ -94,8 +107,12 @@ Game.EntityRepository.define('newt', {
     name: 'newt',
     character: 'n',
     foreground: 'yellow',
-    max_hp: 3,
-    attack_value: 2,
+    stats: {
+        max_hp: 3,
+        attack_bonus: 30,
+        defence_bonus: 30,
+        strength_bonus: 3
+    },
     verb: {
         singular: ['scratch', 'nip'],
         plural: ['scratches', 'nips']

@@ -34,13 +34,14 @@ Game.EntityMixins.Digger = {
 Game.EntityMixins.Destructible = {
     name: 'Destructible',
     init: function(template) {
-        this._max_hp = template['max_hp'] || 10;
-        this._hp = template['hp'] || this._max_hp;
-        this._defence_value = template['defence_value'] || 0;
+        this._stats = template['stats'] || {};
+        this._max_hp = this._stats['max_hp'] || 10;
+        this._hp = this._stats['hp'] || this._max_hp;
+        this._def_bonus = this._stats['defence_bonus'] || 0;
     },
     hp : function() { return this._hp; },
     max_hp : function() { return this._max_hp; },
-    defence_value : function() { return this._defence_value; },
+    defence_bonus : function() { return this._def_bonus; },
     take_damage: function(attacker, damage) {
         this._hp -= damage;
         // If 0 or less hp, kill
@@ -57,10 +58,13 @@ Game.EntityMixins.Attacker = {
     name: 'Attacker',
     group_name: 'Attacker',
     init: function(template) {
-        this._attack_value = template['attack_value'] || 1;
+        this._stats = template['stats'] || {};
+        this._atk_bonus = this._stats['attack_bonus'] || 1;
+        this._str_bonus = this._stats['strength_bonus'] || 1;
         this._verb = template['verb'] || {singular:['strike'], plural:['strikes']};
     },
-    attack_value: function() { return this._attack_value; },
+    attack_bonus: function() { return this._atk_bonus; },
+    strength_bonus: function() { return this._str_bonus; },
     refresh_verbs: function() {
         var random = Math.floor(Math.random() * this._verb['singular'].length);
         var selected_verbs = {
@@ -70,18 +74,28 @@ Game.EntityMixins.Attacker = {
     },
     attack: function(target) {
         if (target.has_mixin('Destructible')) {
-            var attack = this.attack_value();
-            var defence = target.defence_value();
-            var max = Math.max(0, attack - defence);
-            var damage = 1 + Math.floor(Math.random() * max);
-            var verb = this.refresh_verbs();
-            // TODO: Should probably make a helper function for the formatting. Colours names in foreground colour of entity.
-            Game.send_message(this, '%%c{white}You %s %%c{%s}%s%%c{white} for %d damage!',
-                [verb['singular'], target.foreground(), target.describe_the(), damage]);
-            Game.send_message(target, '%%c{%s}%s%%c{white} %s you for %d damage!',
-                [this.foreground(), this.describe_the(1), verb['plural'], damage]);
-
-            target.take_damage(this, damage);
+            if (this.attack_bonus() >= target.defence_bonus()) { // 2 algorithms to determine hit chance.
+                var hit_chance = 1 - ((target.defence_bonus() + 2) / (2 * (this.attack_bonus() + 1)));
+            } else {
+                var hit_chance = 1 - (this.attack_bonus() / (2 * (target.defence_bonus() + 1)));
+            }
+            if (Math.random() <= hit_chance) { // On a hit, roll between 1 and max hit to determine damage.
+                var max_hit = Math.max(0, this.strength_bonus());
+                var damage = 1 + Math.floor(Math.random() * max_hit);
+                var verb = this.refresh_verbs(); // Get new verbs.
+                Game.send_message(this, '%%c{white}You %s %%c{%s}%s%%c{white} for %d damage!',
+                    [verb['singular'], target.foreground(), target.describe_the(), damage]);
+                Game.send_message(target, '%%c{%s}%s%%c{white} %s you for %d damage!',
+                    [this.foreground(), this.describe_the(1), verb['plural'], damage]);
+                target.take_damage(this, damage); // Damage target.
+                return true;
+            } else {
+                Game.send_message(this, '%%c{white}You miss %%c{%s}%s%%c{white}!',
+                    [target.foreground(), target.describe_the()]);
+                Game.send_message(target, '%%c{%s}%s%%c{white} misses you!',
+                    [this.foreground(), this.describe_the(1)]);
+                return false;
+            }
         }
     }
 };
