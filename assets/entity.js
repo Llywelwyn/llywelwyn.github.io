@@ -8,6 +8,7 @@ Game.Entity = function(properties) {
     this._y = properties['y'] || 0;
     this._z = properties['z'] || 0;
     this._map = null;
+    this._alive = true;
 };
 
 // Inherit all functionality from dynamic glyphs
@@ -18,6 +19,7 @@ Game.Entity.prototype.x = function() { return this._x; };
 Game.Entity.prototype.y = function() { return this._y; };
 Game.Entity.prototype.z = function() { return this._z; };
 Game.Entity.prototype.map = function() { return this._map; };
+Game.Entity.prototype.is_alive = function() { return this._alive; };
 
 // Setters
 Game.Entity.prototype.set_x = function(x) { this._x = x; };
@@ -38,6 +40,29 @@ Game.Entity.prototype.set_pos = function(x, y, z) {
         this._map.update_entity_position(this, old_x, old_y, old_z);
     }
 }
+
+// kill()   -   call on death
+Game.Entity.prototype.kill = function(message) {
+    // Only kill once
+    if (!this.is_alive()) {
+        return;
+    }
+    this._alive = false;
+    if (message) {
+        Game.send_message(this, message);
+    } else {
+        Game.send_message(this, "You died!");
+    }
+
+    // Check if player died, if so call act method to prompt user
+    if (this.has_mixin(Game.EntityMixins.PlayerActor)) {
+        this.act();
+    } else {
+        this.map().remove_entity(this);
+    }
+};
+
+// try_move(x, y, z, map)   -   Attempt to move
 Game.Entity.prototype.try_move = function(x, y, z, map) {
     var map = this.map();
     var tile = map.tile(x, y, this.z());
@@ -76,7 +101,7 @@ Game.Entity.prototype.try_move = function(x, y, z, map) {
         var items = this.map().items_at(x, y, z);
         if (items) {
             if (items.length === 1) {
-                Game.send_message(this, "You see %s.", [items[0].describe_a()]);
+                Game.send_message(this, "You see %%c{%s}%s%%c{white}.", [items[0].foreground(), items[0].describe_a()]);
             } else {
                 Game.send_message(this, "There are several objects here.");
             }

@@ -229,7 +229,7 @@ Game.Screen.play_screen = {
                         // If only one item, try to pick up
                         var item = items[0];
                         if (this._player.pickup_items([0])) {
-                            Game.send_message(this._player, "You pick up %s.", [item.describe_a()]);
+                            Game.send_message(this._player, "You pick up %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_a()]);
                         } else {
                             Game.send_message(this._player, "Your inventory is full. Nothing was picked up.");
                         }
