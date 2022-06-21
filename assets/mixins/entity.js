@@ -1,6 +1,6 @@
 Game.EntityMixins = {};
 
-//   Mixins - 'words' indicate values given by a template. These default if not present.
+//   Entity Mixins - 'words' indicate values given by a template. These default if not present.
 //
 // - Sight:             allows an Entity to see at a range given by 'sight_radius'.
 // - Digger:            allows an Entity to dig through tiles with the is_diggable flag.
