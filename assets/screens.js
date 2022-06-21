@@ -7,17 +7,19 @@ Game.Screen.start_screen = {
     render: function(display) {
         // renders prompt to screen
         // TODO: FUNCTIONS, FUNCTIONS, FUNCTIONS. OR JSON.
-        display.drawText(Game.width()/2 - Game.title().length/2, Game.height()/2 - 3, "%c{yellow}" + Game.title());
-        display.drawText(Game.width()/2 - (Game.start_message().length-22)/2, Game.height()/2 + 8, "%c{white}" + Game.start_message());
-        display.drawText(Game.width()/2 - "╔═ CONTROLS ══════════════════════════╗".length/2, Game.height()/2 - 1,
-            `%c{white}Movement           -       %c{seagreen}[Arrow Keys]
-            %c{white}Ascend/Descend     -            %c{seagreen}[>]%c{white}/%c{seagreen}[<]
-            %c{white}Wait               -                %c{seagreen}[.]
-            %c{white}Inventory          -                %c{seagreen}[i]
-            %c{white}Pick Up            -                %c{seagreen}[g]
-            %c{white}Drop               -                %c{seagreen}[d]
-            %c{white}Eat                -                %c{seagreen}[e]
-            %c{white}Controls           -                %c{seagreen}[?]`
+        display.drawText(Game.width()/2 - Game.title().length/2, Game.height()/2 - 6, "%c{yellow}" + Game.title());
+        display.drawText(Game.width()/2 - (Game.start_message().length-22)/2, Game.height()/2 + 7, "%c{white}" + Game.start_message());
+        display.drawText(Game.width()/2 - "╔═ CONTROLS ════════════════╗".length/2, Game.height()/2 - 4,
+            `%c{white}Movement      -  %c{seagreen}[Arrow Keys]
+            %c{white}Ascend        -           %c{seagreen}[<]
+            %c{white}Descend       -           %c{seagreen}[>]
+            %c{white}Wait          -           %c{seagreen}[.]
+            %c{white}Inventory     -           %c{seagreen}[i]
+            %c{white}Pick Up       -           %c{seagreen}[g]
+            %c{white}Drop          -           %c{seagreen}[d]
+            %c{white}Eat           -           %c{seagreen}[e]
+            %c{white}Wield Weapon  -           %c{seagreen}[w]
+            %c{white}Wear Armour   -           %c{seagreen}[W]`
                 );
     },
     handle_input: function(input_type, input_data) {
