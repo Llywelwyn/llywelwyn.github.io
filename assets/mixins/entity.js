@@ -214,7 +214,7 @@ Game.EntityMixins.HasHunger = {
         else if (fullness_percent <= PECKISH) { return ['Peckish', '%c{plum}Peckish']; }
         else if (fullness_percent <= NOT_HUNGRY) { return ['Satisfied', '%c{white}Satisfied']; }
         else if (fullness_percent <= FULL) { return ['Full', '%c{green}Full']; } 
-        else { return ['Oversatiated', '{blue}Oversatiated']; };
+        else { return ['Oversatiated', '%c{blue}Oversatiated']; };
     }
 };
 Game.EntityMixins.CorpseDropper = {
