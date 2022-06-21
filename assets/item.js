@@ -12,4 +12,3 @@ Game.Item.extend(Game.DynamicGlyph);
 Game.Item.prototype.describe = function() {
     return this._name;
 };
-// Helper function a/an

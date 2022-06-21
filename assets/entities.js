@@ -30,10 +30,19 @@ Game.EntityRepository = new Game.Repository('entities', Game.Entity);
 /*
 Game.EntityRepository.define('generic', {
     name: <string>,              -       entity name
-    plural: <bool>,              -       whether name should be pluralised
+    noun: {
+        plural: <bool>,          -       whether name should be pluralised
+        proper: <bool>,          -       whether name is a proper noun
+    }
     character: <string>,         -       glyph representation of entity in-game
     foreground: <string>,        -       entity colour (https://www.w3.org/wiki/CSS/Properties/color/keywords)
     background: <string>,        -       tile colour behind the entity
+    weight: <int>,               -       weight in grams
+    height: {
+        full: <int>,             -       maximum height (standing, usually)
+        crouching: <int>,        -       height when crouching
+        crawling: <int>          -       height when crawling (minimum possible size)
+    }
     max_hp: <int>,               -       maximum hp of entity
     hp: <int>,                   -       current hp of entity. defaults to max
     attack_value: <int>,         -       max damage dealt per attack
