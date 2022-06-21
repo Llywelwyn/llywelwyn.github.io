@@ -360,7 +360,7 @@ Game.Screen.ItemListScreen.prototype.render = function(display) {
                 suffix += '(wielding)';
             }
             // Render at correct row, offset by two
-            display.drawText(top_left_x, top_left_y, '%c{white}' + letter + ' ' + selection_state + ' %c{' + this._items[i].foreground() + '}' + this._items[i].describe());
+            display.drawText(top_left_x, top_left_y, '%c{white}' + letter + ' ' + selection_state + ' %c{' + this._items[i].foreground() + '}' + this._items[i].describe() + suffix);
             top_left_y++;
         }
     }
@@ -374,6 +374,8 @@ Game.Screen.ItemListScreen.prototype.execute_ok_function = function() {
     // Switch back to play screen
     Game.Screen.play_screen.set_sub_screen(undefined);
     // Call OK function, end player's turn if returns true
+    console.log(selected_items);
+    console.log(Object.keys(selected_items));
     if (this._ok_function(selected_items)) {
         this._player.map().engine().unlock();
     }
@@ -484,7 +486,7 @@ Game.Screen.wield_screen = new Game.Screen.ItemListScreen({
     ok: function(selected_items) {
         // Check if we selected 'no item'
         var keys = Object.keys(selected_items);
-        if (keys.length === 0) {
+        if (keys.length === 1) {
             this._player.unwield();
             Game.send_message(this._player, "%c{white}You are empty-handed.")
         } else {
@@ -508,8 +510,8 @@ Game.Screen.wear_screen = new Game.Screen.ItemListScreen({
     ok: function(selected_items) {
         // Check if we selected 'no item'
         var keys = Object.keys(selected_items);
-        if (keys.length === 0) {
-            this._player.unwield();
+        if (keys.length === 1) {
+            this._player.doff();
             Game.send_message(this._player, "%c{white}You aren't wearing anything.")
         } else {
             // Unequip item first

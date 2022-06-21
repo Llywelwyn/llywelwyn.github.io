@@ -10,7 +10,7 @@ Game.PlayerTemplate = {
         defence_bonus: 50,
         strength_bonus: 10
     },
-    sight_radius: 8,
+    sight_radius: 7,
     inventory_slots: 22,
     verb: {
         singular: ['punch', 'kick'],
@@ -46,11 +46,15 @@ Game.EntityRepository.define('generic', {
         full: <int>,             -       maximum height (standing, usually)
         crouching: <int>,        -       height when crouching
         crawling: <int>          -       height when crawling (minimum possible size)
+    },
+    stats: {
+        max_hp: <int>,           -       maximum hp of entity
+        hp: <int>,               -       current hp of entity. defaults to max
+        speed: <int>,            -       how frequently this entity takes a turn. standard is 100
+        attack_bonus: <int>,     -       increases hit chance when attacking
+        defence_bonus: <int>,    -       reduces hit chance against entity
+        strength_bonus: <int>,   -       increases max hit when attacking (1:1)
     }
-    max_hp: <int>,               -       maximum hp of entity
-    hp: <int>,                   -       current hp of entity. defaults to max
-    attack_value: <int>,         -       max damage dealt per attack
-    defence_value: <int>,        -       raw damage reduction value
     sight_radius: <int>,         -       vision range if Sight mixin is present
     inventory_slots: <int>,      -       size of inventory if HasInventory mixin is present
     verb: {
@@ -62,6 +66,7 @@ Game.EntityRepository.define('generic', {
         fullness: [<int>]        -       current fullness, used to specify starting at a specific hunger state
         depletion_rate: [<int>]  -       amount to reduce fullness per turn of hunger  
     },
+    corpse_drop_rate: <int>      -       percent chance to drop an edible corpse
     mixins: [<object>]           -       array of mixins - full list is @ /assets/mixins/entity.js
 });
 */
@@ -75,6 +80,7 @@ Game.EntityRepository.define('vines', {
     foreground: 'green',
     stats: {
         max_hp: 10,
+        speed: 25,
         attack_bonus: 0,
         defence_bonus: 0,
         strength_bonus: 0
@@ -85,12 +91,15 @@ Game.EntityRepository.define('vines', {
     },
     mixins: [Game.EntityMixins.VinesActor, Game.EntityMixins.Destructible]
 });
+
+// Wandering
 Game.EntityRepository.define('bat', {
     name: 'bat',
     character: 'b',
     foreground: 'beige',
     stats: {
         max_hp: 5,
+        speed: 150,
         attack_bonus: 40,
         defence_bonus: 40,
         strength_bonus: 5
@@ -100,7 +109,7 @@ Game.EntityRepository.define('bat', {
         plural: ['bites', 'scratches', 'claws']
     },
     corpse_drop_rate: 75,
-    mixins: [Game.EntityMixins.WanderActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
+    mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
             Game.EntityMixins.CorpseDropper]
 });
 Game.EntityRepository.define('newt', {
@@ -118,6 +127,40 @@ Game.EntityRepository.define('newt', {
         plural: ['scratches', 'nips']
     },
     corpse_drop_rate: 25,
-    mixins: [Game.EntityMixins.WanderActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
+    mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
             Game.EntityMixins.CorpseDropper]
+});
+
+// Hunters
+Game.EntityRepository.define('kobold', {
+    name: 'kobold',
+    character: 'k',
+    foreground: 'white',
+    stats: {
+        max_hp: 12,
+        speed: 90,
+        attack_bonus: 50,
+        defence_bonus: 40,
+        strength_bonus: 5
+    },
+    sight_radius: 7,
+    tasks: ['hunt', 'wander'],
+    mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Sight, Game.EntityMixins.Attacker,
+            Game.EntityMixins.Destructible]
+});
+Game.EntityRepository.define('orc', {
+    name: 'orc',
+    character: 'o',
+    foreground: 'olive',
+    stats: {
+        max_hp: 20,
+        speed: 50,
+        attack_bonus: 50,
+        defence_bonus: 40,
+        strength_bonus: 7
+    },
+    sight_radius: 7,
+    tasks: ['hunt', 'wander'],
+    mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Sight, Game.EntityMixins.Attacker,
+            Game.EntityMixins.Destructible]
 });

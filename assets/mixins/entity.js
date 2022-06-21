@@ -16,7 +16,32 @@ Game.EntityMixins.Sight = {
     init: function(template) {
         this._sight_radius = template['sight_radius'] || 5;
     },
-    sight_radius: function() { return this._sight_radius; }
+    sight_radius: function() { return this._sight_radius; },
+    can_see: function(entity) {
+        // If not on same map/floor, return false
+        if (
+            !entity ||
+            this._map !== entity.map() ||
+            this._z !== entity.z()
+        ) {
+            return false;
+        }
+        console.log("1st check: true");
+        var found = false;
+        this.map().fov(this.z()).compute(
+            this.x(),
+            this.y(),
+            this.sight_radius(),
+            function(x, y, radius, visibility) {
+                if (x === entity.x() && y === entity.y()) {
+                    found = true;
+                }
+            }
+        );
+        console.log("computing fov");
+        console.log('Found: ' + found);
+        return found;
+    }
 };
 Game.EntityMixins.Digger = {
     name: 'Digger',
@@ -48,7 +73,7 @@ Game.EntityMixins.Destructible = {
                 modifier += this.weapon().defence_bonus();
             }
             if (this.armour()) {
-                modifier += this.weapon().defence_bonus();
+                modifier += this.armour().defence_bonus();
             }
         }
         return this._def_bonus + modifier;
@@ -403,10 +428,64 @@ Game.EntityMixins.VinesActor = {
         }
     }
 };
-Game.EntityMixins.WanderActor = {
-    name: 'WanderActor',
+Game.EntityMixins.TaskActor = {
+    name: 'TaskActor',
     group_name: 'Actor',
+    init: function(template) {
+        this._tasks = template['tasks'] || ['wander'];
+    },
     act: function() {
+        // Iterate through tasks
+        for (var i = 0; i < this._tasks.length; i++) {
+            if (this.can_do_task(this._tasks[i])) {
+                // If we can do the task, execute the function for it
+                this[this._tasks[i]]();
+                return;
+            }
+        }
+    },
+    can_do_task: function(task) {
+        if (task === 'hunt') {
+            return this.has_mixin('Sight') && this.can_see(this.map().player());
+        } else if (task === 'wander') {
+            return true;
+        } else {
+            throw new Error('Tried to perform undefined task ' + task);
+        }
+    },
+    hunt: function() {
+        console.log("Hunting.");
+        var player = this.map().player();
+        // If adjacent, attack
+        var offsets = Math.abs(player.x() - this.x()) + Math.abs(player.y() - this.y());
+        if (offsets === 1) {
+            if (this.has_mixin('Attacker')) {
+                this.attack(player);
+                return;
+            }
+        }
+        // Generate path and move to first tile
+        var source = this;
+        var z = source.z();
+        var path = new ROT.Path.AStar(player.x(), player.y(), function(x, y) {
+            // If entity is present at tile, can't move
+            var entity = source.map().entity_at(x, y, z);
+            if (entity && entity !== player && entity !== source) {
+                return false;
+            }
+            return source.map().tile(x, y, z).is_walkable();
+        }, {topology: 4});
+        // Once we've gotten the path, move to the second cell passed in the
+        // callback (first is the entity's starting point)
+        var count = 0;
+        path.compute(source.x(), source.y(), function(x, y) {
+            if (count == 1) {
+                source.try_move(x, y, z);
+            }
+            count++;
+        });
+    },
+    wander: function() {
         // Determine positive or negative direction
         var offset = (Math.round(Math.random()) === 1) ? 1 : -1;
         // Determine x- or y-direction

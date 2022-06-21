@@ -9,6 +9,8 @@ Game.Entity = function(properties) {
     this._z = properties['z'] || 0;
     this._map = null;
     this._alive = true;
+    // Acting speed
+    this._speed = properties['stats']['speed'] || 100;
 };
 
 // Inherit all functionality from dynamic glyphs
@@ -20,11 +22,13 @@ Game.Entity.prototype.y = function() { return this._y; };
 Game.Entity.prototype.z = function() { return this._z; };
 Game.Entity.prototype.map = function() { return this._map; };
 Game.Entity.prototype.is_alive = function() { return this._alive; };
+Game.Entity.prototype.getSpeed = function() { return this._speed; }; // Has to be camelcase because of Rot.js. Sad.
 
 // Setters
 Game.Entity.prototype.set_x = function(x) { this._x = x; };
 Game.Entity.prototype.set_y = function(y) { this._y = y; };
 Game.Entity.prototype.set_z = function(z) { this._z = z; };
+Game.Entity.prototype.set_speed = function(speed) { this._speed = speed; };
 Game.Entity.prototype.set_map = function(map) { this._map = map; };
 Game.Entity.prototype.set_pos = function(x, y, z) {
     // Save current position

@@ -11,12 +11,13 @@ Game.Map = function(tiles, player) {
     // Create a table to hold items
     this._items = {};
     // Create engine and scheduler
-    this._scheduler = new ROT.Scheduler.Simple();
+    this._scheduler = new ROT.Scheduler.Speed();
     console.log("Created scheduler.");
     this._engine = new ROT.Engine(this._scheduler);
     console.log("Created engine.");
     // Add the player
     this.add_entity_at_random_position(player, 0);
+    this._player = player;
     console.log("Added player to start position.");
     // Add random enemies to each floor.
     var entities_per_floor = 20;
@@ -46,6 +47,7 @@ Game.Map = function(tiles, player) {
 Game.Map.prototype.width = function() { return this._width; };
 Game.Map.prototype.height = function() { return this._height; };
 Game.Map.prototype.depth = function() { return this._depth; };
+Game.Map.prototype.player = function() { return this._player; };
 Game.Map.prototype.engine = function() { return this._engine; };
 Game.Map.prototype.entities = function() {
     return this._entities; 
