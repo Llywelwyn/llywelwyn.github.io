@@ -1,6 +1,6 @@
 Game.EntityMixins = {};
 
-//   Mixins - 'words' indicate values given by a template. These default if not present.
+//   Entity Mixins - 'words' indicate values given by a template. These default if not present.
 //
 // - Sight:             allows an Entity to see at a range given by 'sight_radius'.
 // - Digger:            allows an Entity to dig through tiles with the is_diggable flag.
@@ -42,14 +42,10 @@ Game.EntityMixins.Destructible = {
     defence_value : function() { return this._defence_value; },
     take_damage: function(attacker, damage) {
         this._hp -= damage;
-        // If hp <= 0, remove from map
+        // If 0 or less hp, kill
         if (this._hp <= 0) {
-            Game.send_message(attacker, 'You kill the %s.', [this.name()]);
-            if (this.has_mixin(Game.EntityMixins.PlayerActor)) {
-                this.act();
-            } else {
-                this.map().remove_entity(this);
-            }
+            Game.send_message(attacker, 'You kill the %%c{%s}%s%%c{white}!', [this.foreground(), this.name()]);
+            this.kill();
         }
     }
 };
@@ -75,11 +71,11 @@ Game.EntityMixins.Attacker = {
             var max = Math.max(0, attack - defence);
             var damage = 1 + Math.floor(Math.random() * max);
             var verb = this.refresh_verbs();
-
-            Game.send_message(this, 'You %s the %s for %d damage!',
-                [verb['singular'], target.name(), damage]);
-            Game.send_message(target, 'The %s %s you for %d damage!',
-                [this.name(), verb['plural'], damage]);
+            // TODO: Should probably make a helper function for the formatting. Colours names in foreground colour of entity.
+            Game.send_message(this, 'You %s the %%c{%s}%s%%c{white} for %d damage!',
+                [verb['singular'], target.foreground(), target.name(), damage]);
+            Game.send_message(target, 'The %%c{%s}%s%%c{white} %s you for %d damage!',
+                [this.foreground(), this.name(), verb['plural'], damage]);
 
             target.take_damage(this, damage);
         }
@@ -162,7 +158,7 @@ Game.EntityMixins.HasInventory = {
             if (this._map) {
                 this._map.add_item(this.x(), this.y(), this.z(), this._items[i]);
             }
-            Game.send_message(this, "You drop %s.", [this._items[i].describe_a()]);
+            Game.send_message(this, "You drop %%c{%s}%s%%c{white}.", [this._items[i].foreground(), this._items[i].describe_a()]);
             this.remove_item(i);
         }
     }
@@ -179,10 +175,10 @@ Game.EntityMixins.PlayerActor = {
     group_name: 'Actor',
     act: function() {
         // Detect if game is over
-        if (this.hp() < 1) {
+        if (!this.is_alive()) {
             Game.Screen.play_screen.set_game_ended(true);
             // Send a last message to the player
-            Game.send_message(this, 'You have died... Press [Enter] to continue.');
+            Game.send_message(this, 'Press %c{seagreen}[Enter]%c{} to continue.');
         }
         // Re-render screen
         Game.refresh()
@@ -237,7 +233,7 @@ Game.EntityMixins.VinesActor = {
                 entity.x(),
                 entity.y(),
                 entity.z(),
-                'The %s is spreading!', [this.name()]
+                'The %%c{%s}%s%%c{white} is spreading!', [this.foreground(), this.name()]
             );
         }
     }
