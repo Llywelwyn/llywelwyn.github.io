@@ -2,12 +2,13 @@ Game.Tile = function(properties) {
     properties = properties || {};
     Game.Glyph.call(this, properties);
 
+    this._name = properties['name'] || '<unnamed>';
     this._walkable = properties['walkable'] || false;
     this._diggable = properties['diggable'] || false;
     this._blocks_light = (properties['blocks_light'] !== undefined) ? properties['blocksLight'] : true;
 };
 
-Game.Tile.extend(Game.Glyph);
+Game.Tile.extend(Game.DynamicGlyph);
 
 // Getters
 Game.Tile.prototype.character = function() { return this._character; };
@@ -20,27 +21,32 @@ Game.Tile.prototype.is_blocking_light = function() {return this._blocks_light; }
 // Generic
 Game.Tile.null_tile = new Game.Tile({});
 Game.Tile.floor_tile = new Game.Tile({
+    name: 'floor',
     character: '.',
     foreground: ['grey', 'dimgray', 'slategrey'],
     walkable: true,
     blocks_light: false
 });
 Game.Tile.cave_wall_tile = new Game.Tile({
+    name: 'wall',
     character: '#',
     foreground: ['goldenrod', 'darkgoldenrod', 'brown'],
     diggable: true
 });
 Game.Tile.dungeon_wall_tile = new Game.Tile({
+    name: 'dungeon wall',
     character: '#',
     foreground: 'darkgrey',
 });
 Game.Tile.stairs_up_tile = new Game.Tile({
+    name: 'stairs',
     character: '<',
     foreground: 'white',
     walkable: true,
     blocks_light: false
 });
 Game.Tile.stairs_down_tile = new Game.Tile({
+    name: 'stairs',
     character: '>',
     foreground: 'white',
     walkable: true,

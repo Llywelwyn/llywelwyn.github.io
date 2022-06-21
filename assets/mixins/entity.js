@@ -8,6 +8,7 @@ Game.EntityMixins = {};
 // - Attacker:          allows an Entity to attack the player using singular/plural verbs given by 'verb'.
 // - MessageRecipient:  allows an Entity to use the message system.
 // - HasInventory:      grants an Entity inventory functionality of capacity 'inventory_slots'.
+// - HasHunger:         enforces hunger mechanics.
 
 Game.EntityMixins.Sight = {
     name: 'Sight',
@@ -26,7 +27,7 @@ Game.EntityMixins.Digger = {
         if(!tile.is_diggable()) { return false; };
         // If diggable and strong enough, dig the tile and give a message to this
         map.dig(x, y, z);
-        Game.send_message(this, "You dig through the dirt.");
+        Game.send_message(this, "%%c{white}You dig through %%c{%s}%s%%c{white}.", [tile.foreground(), tile.describe_the()]);
         return true;
     }
 }
@@ -44,7 +45,7 @@ Game.EntityMixins.Destructible = {
         this._hp -= damage;
         // If 0 or less hp, kill
         if (this._hp <= 0) {
-            Game.send_message(attacker, 'You kill the %%c{%s}%s%%c{white}!', [this.foreground(), this.name()]);
+            Game.send_message(attacker, '%%c{white}You kill %%c{%s}%s%%c{white}!', [this.foreground(), this.describe_the()]);
             this.kill();
         }
     }
@@ -72,10 +73,10 @@ Game.EntityMixins.Attacker = {
             var damage = 1 + Math.floor(Math.random() * max);
             var verb = this.refresh_verbs();
             // TODO: Should probably make a helper function for the formatting. Colours names in foreground colour of entity.
-            Game.send_message(this, 'You %s the %%c{%s}%s%%c{white} for %d damage!',
-                [verb['singular'], target.foreground(), target.name(), damage]);
-            Game.send_message(target, 'The %%c{%s}%s%%c{white} %s you for %d damage!',
-                [this.foreground(), this.name(), verb['plural'], damage]);
+            Game.send_message(this, '%%c{white}You %s %%c{%s}%s%%c{white} for %d damage!',
+                [verb['singular'], target.foreground(), target.describe_the(), damage]);
+            Game.send_message(target, '%%c{%s}%s%%c{white} %s you for %d damage!',
+                [this.foreground(), this.describe_the(1), verb['plural'], damage]);
 
             target.take_damage(this, damage);
         }
@@ -158,9 +159,59 @@ Game.EntityMixins.HasInventory = {
             if (this._map) {
                 this._map.add_item(this.x(), this.y(), this.z(), this._items[i]);
             }
-            Game.send_message(this, "You drop %%c{%s}%s%%c{white}.", [this._items[i].foreground(), this._items[i].describe_a()]);
+            Game.send_message(this, "%%c{white}You drop %%c{%s}%s%%c{white}.", [this._items[i].foreground(), this._items[i].describe_a()]);
             this.remove_item(i);
         }
+    }
+};
+Game.EntityMixins.HasHunger = {
+    name: 'HasHunger',
+    init: function(template) {
+        this._max_fullness = template['hunger']['max_fullness'] || 1000;
+        // Start at half if no default value
+        this._fullness = template['hunger']['fullness'] || (this._max_fullness /2 );
+        // Depletion rate
+        this._depletion_rate = template['hunger']['depletion_rate'] || 1;
+    },
+    add_turn_hunger: function() {
+        // Minus depletion rate
+        this.modify_fullness_by(-this._depletion_rate);
+        // If starving, give a message 5% of the time warning the player.
+        if (this.hunger_state()[0] === 'Starving') {
+            if (Math.random() < 0.05) {
+                Game.send_message(this, "%c{crimson}You really need to eat something...");
+            }
+        }
+    },
+    modify_fullness_by: function(points) {
+        this._fullness = this._fullness + points;
+        if (this._fullness <= 0) {
+            this.kill("You have died of %c{brown}starvation%c{white}!");
+        } else if (this._fullness > this._max_fullness) {
+            Game.send_message(this, "%c{white}You struggle to force down any more!");
+            this._fullness = this._max_fullness;
+        }
+    },
+    hunger_state: function() {
+        // Fullness points per percent of max
+        var fullness_percent = this._fullness / (this._max_fullness / 100);
+
+        // We hate magic numbers. Less than or equal to this
+        // number gives the corresponding return message.
+        const STARVING = 5;
+        const VERY_HUNGRY = 15;
+        const HUNGRY = 30;
+        const PECKISH = 50;
+        const NOT_HUNGRY = 70;
+        const FULL = 90;
+
+        if (fullness_percent <= STARVING) { return ['Starving', '%c{red}Starving']; } 
+        else if (fullness_percent <= VERY_HUNGRY) { return ['Very Hungry', '%c{brown}Very Hungry']; } 
+        else if (fullness_percent <= HUNGRY) { return ['Hungry', '%c{indianred}Hungry']; }
+        else if (fullness_percent <= PECKISH) { return ['Peckish', '%c{plum}Peckish']; }
+        else if (fullness_percent <= NOT_HUNGRY) { return ['Satisfied', '%c{white}Satisfied']; }
+        else if (fullness_percent <= FULL) { return ['Full', '%c{green}Full']; } 
+        else { return ['Oversatiated', '{blue}Oversatiated']; };
     }
 };
 
@@ -174,26 +225,32 @@ Game.EntityMixins.PlayerActor = {
     name: 'PlayerActor',
     group_name: 'Actor',
     act: function() {
+        // If we're already taking an action (act was called by something during the hero's turn, don't act twice. Just return.)
+        if (this._acting) { return; }
+        this._acting = true;
+        // If we're using hunger, add a turn of hunger.
+        if (this.has_mixin(Game.EntityMixins.HasHunger)) {
+            this.add_turn_hunger();
+        }
         // Detect if game is over
         if (!this.is_alive()) {
             Game.Screen.play_screen.set_game_ended(true);
             // Send a last message to the player
-            Game.send_message(this, 'Press %c{seagreen}[Enter]%c{} to continue.');
+            Game.send_message(this, '%c{white}Press %c{seagreen}[Enter]%c{white} to continue.');
         }
         // Re-render screen
         Game.refresh()
         // Lock engine, wait for input
         this.map().engine().lock();
-        // Clear message queue
-        //this.clear_messages();
+        this._acting = false;
     }
 };
 Game.EntityMixins.VinesActor = {
     name: 'VinesActor',
     group_name: 'Actor',
     init: function(template) {
-        this._growths_remaining = template['growths_remaining'] || 5;
-        this._spread_chance = template['spread_chance'] || 0.01;
+        this._growths_remaining = template['growth']['remaining'] || 5;
+        this._spread_chance = template['growth']['chance'] || 0.01;
     },
     act: function() {
         if (this._growths_remaining <= 0 || Math.random() > this._spread_chance) {
@@ -233,7 +290,7 @@ Game.EntityMixins.VinesActor = {
                 entity.x(),
                 entity.y(),
                 entity.z(),
-                'The %%c{%s}%s%%c{white} is spreading!', [this.foreground(), this.name()]
+                '%%c{%s}%s%%c{white} %s spreading!', [this.foreground(), this.describe_the(), this.is_are()]
             );
         }
     }

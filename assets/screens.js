@@ -136,18 +136,23 @@ Game.Screen.play_screen = {
                 '%c{white}%b{black}' + messages[i]
             )
         }
-        // Render player HP - TODO: Actual functions, make all this modular instead of hardcoded terribleness
+        // Render player stats - TODO: Actual functions, make all this modular instead of hardcoded terribleness
         var stats = '%c{white}%b{black}';
         var stats_x = 1;
         var stats_y = Game.height();
         stats += vsprintf('HP: %d/%d ', [this._player.hp(), this._player.max_hp()]);
-        stats += vsprintf('                         Floor: %d', [this._player.z() + 1]);
         display.drawText(stats_x, stats_y, stats);
-        var help_message = "%c{white}Press %c{seagreen}[?]%c{white} for help"
-        display.drawText(Game.width() - 19, Game.height(), help_message)
 
-        var help_x;
-        var help_y;
+        // Render hunger
+        if (this._player.has_mixin('HasHunger')) {
+            var hunger_state = this._player.hunger_state()[0];
+            var hunger_state_formatted = this._player.hunger_state()[1];
+            display.drawText(Game.width() - 1 - hunger_state.length, Game.height(), hunger_state_formatted);
+        }
+
+        // Render all this other shit
+        //var help_message = "%c{white}Press %c{seagreen}[?]%c{white} for help"
+        //display.drawText(Game.width() - 19, Game.height(), help_message)
         if(this._help) { // TODO: Make a function for drawing boxes (w/ text)
             display.drawText(Game.width()/2 - 21, Game.height()/2 + 10, `
             %c{yellow}╔═ %c{white}CONTROLS%c{yellow} ══════════════════════════════╗
@@ -186,7 +191,7 @@ Game.Screen.play_screen = {
                 } else if(input_data.key === 'ArrowDown') {
                     this.move(0, 1, 0);
                 } else if(input_data.key === '.') {
-                    Game.send_message(this._player, "You wait."); // Pass
+                    Game.send_message(this._player, "%c{white}You wait."); // Pass
                 } else if(input_data.key === '>') {
                     this.move(0, 0, 1);
                 } else if(input_data.key === '<') {
@@ -197,41 +202,45 @@ Game.Screen.play_screen = {
                     Game.refresh();
                     return;
                 // SUBSCREENS
+                // OPEN THE INVENTORY
                 } else if (input_data.key === 'i') {
-                    if (this._player.items().filter(function(x){return x;}).length === 0) {
-                        // If the player has no items, send a msg and don't take a turn
-                        Game.send_message(this._player, "You aren't carrying anything!");
-                        Game.refresh();
-                    } else {
-                        // Show inventory
-                        Game.Screen.inventory_screen.setup(this._player, this._player.items());
+                    if (Game.Screen.inventory_screen.setup(this._player, this._player.items())) {
                         this.set_sub_screen(Game.Screen.inventory_screen);
-                    }
-                    return;
-                } else if (input_data.key === 'd') {
-                    if (this._player.items().filter(function(x){return x;}).length === 0) {
-                        // If the player has no items, send a msg and don't take a turn
-                        Game.send_message(this._player, "You have nothing to drop!");
-                        Game.refresh();
                     } else {
-                        // Show drop screen
-                        Game.Screen.drop_screen.setup(this._player, this._player.items());
-                        this.set_sub_screen(Game.Screen.drop_screen);
-                        console.log("Set subscreen to drop screen.");
+                        Game.send_message(this._player, "%c{white}You aren't carrying anything.");
+                        Game.refresh()
                     }
                     return;
+                // OPEN THE DROP SCREEN
+                } else if (input_data.key === 'd') {
+                    if (Game.Screen.drop_screen.setup(this._player, this._player.items())) {
+                        this.set_sub_screen(Game.Screen.drop_screen);
+                    } else {
+                        Game.send_message(this._player, "%c{white}You don't have anything to drop.");
+                        Game.refresh()
+                    }
+                    return;
+                // OPEN THE EAT SCREEN
+                } else if (input_data.key === 'e') {
+                    if (Game.Screen.eat_screen.setup(this._player, this._player.items())) {
+                        this.set_sub_screen(Game.Screen.eat_screen);
+                    } else {
+                        Game.send_message(this._player, "%c{white}You don't have anything to eat.");
+                        Game.refresh();
+                    }
+                // PICK UP
                 } else if (input_data.key === 'g') {
                     var items = this._map.items_at(this._player.x(), this._player.y(), this._player.z());
                     // If no items, show a message
                     if (!items) {
-                        Game.send_message(this._player, "There's nothing to pick up.");
+                        Game.send_message(this._player, "%c{white}There's nothing to pick up.");
                     } else if (items.length === 1) {
                         // If only one item, try to pick up
                         var item = items[0];
                         if (this._player.pickup_items([0])) {
-                            Game.send_message(this._player, "You pick up %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_a()]);
+                            Game.send_message(this._player, "%%c{white}You pick up %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_a()]);
                         } else {
-                            Game.send_message(this._player, "Your inventory is full. Nothing was picked up.");
+                            Game.send_message(this._player, "%c{white}Your inventory is full. Nothing was picked up.");
                         }
                     } else {
                         // Show the pickup screen
@@ -299,6 +308,8 @@ Game.Screen.ItemListScreen = function(template) {
     // Setup based on template
     this._caption = template['caption'];
     this._ok_function = template['ok'];
+    // By default, use the identity function
+    this._is_acceptable_function = template['is_acceptable'] || function(x) { return x; };
     // Whether the user can select items
     this._can_select = template['can_select'];
     this._can_select_multiple = template['can_select_multiple'];
@@ -306,10 +317,21 @@ Game.Screen.ItemListScreen = function(template) {
 Game.Screen.ItemListScreen.prototype.setup = function(player, items) {
     this._player = player;
     // Call before switching screen
-    this._items = items;
-    // Clear selected indices
+    var count = 0;
+    // Iterate over each item, keep only acceptable
+    var that = this;
+    this._items = items.map(function(item) {
+        // Transform item into null if unacceptable
+        if (that._is_acceptable_function(item)) {
+            count++;
+            return item;
+        } else {
+            return null;
+        }
+    });
+    // Clean selected indices
     this._selected_indices = {};
-    console.log(this._items);
+    return count;
 };
 Game.Screen.ItemListScreen.prototype.render = function(display) {
     var letters = 'abcdefghijklmnopqrstuvwxyz';
@@ -384,32 +406,52 @@ Game.Screen.ItemListScreen.prototype.handle_input = function(input_type, input_d
 };
 
 Game.Screen.inventory_screen = new Game.Screen.ItemListScreen({
-    caption: 'Inventory',
+    caption: '%c{white}Inventory',
     can_select: false
 });
-
 Game.Screen.pickup_screen = new Game.Screen.ItemListScreen({
-    caption: 'Choose the items you wish to pickup',
+    caption: '%c{white}Choose the items you wish to pickup',
     can_select: true,
     can_select_multiple: true,
     ok: function(selected_items) {
         // Try to pick up all items
         if (this._player.pickup_items(Object.keys(selected_items))) { // TODO: Maybe list the items picked up?
-            Game.send_message(this._player, "You pick up multiple objects.");
+            Game.send_message(this._player, "%c{white}You pick up multiple objects.");
         } else {
-            Game.send_message(this._player, "Your inventory is full. Not all items were picked up.");
+            Game.send_message(this._player, "%c{white}Your inventory is full. Not all items were picked up.");
         }
         return true;
     }
 });
-
 Game.Screen.drop_screen = new Game.Screen.ItemListScreen({
-    caption: 'Choose the item you wish to drop',
+    caption: '%c{white}Choose the item you wish to drop',
     can_select: true,
     can_select_multiple: false,
     ok: function(selected_items) {
         // Drop selected item
         this._player.drop_item(Object.keys(selected_items)[0]);
+        return true;
+    }
+});
+Game.Screen.eat_screen = new Game.Screen.ItemListScreen({
+    caption: '%c{white}What do you want to eat?',
+    can_select: true,
+    is_acceptable: function(item) {
+        return item && item.has_mixin('Edible');
+    },
+    ok: function(selected_items) {
+        // Eat the item, remove if no uses remaining
+        var key = Object.keys(selected_items)[0];
+        var item = selected_items[key];
+        if (item.uses() > 1) {
+            Game.send_message(this._player, "%%c{white}You eat some of %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_the()]);
+        } else {
+            Game.send_message(this._player, "%%c{white}You eat %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_the()]);
+        }
+        item.eat(this._player);
+        if (!item.has_remaining_uses()) {
+            this._player.remove_item(key);
+        }
         return true;
     }
 });

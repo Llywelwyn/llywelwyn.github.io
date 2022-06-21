@@ -4,6 +4,10 @@ Game.DynamicGlyph = function(properties) {
     Game.Glyph.call(this, properties);
     // Instantiate properties from passed object
     this._name = properties['name'] || '';
+    this._noun = properties['noun'] || {plural: false, proper: false};
+    this._plural = this._noun['plural'] || false;
+    this._proper = this._noun['proper'] || false;
+
     // Create obj to track mixins attached to this entity
     this._attached_mixins = {};
     this._attached_mixin_groups = {};
@@ -52,12 +56,32 @@ Game.DynamicGlyph.prototype.describe_a = function(capitalise) {
     // Optional param to capitalise a/an.
     var prefixes = capitalise ? ['A', 'An'] : ['a', 'an'];
     var string = this.describe();
-    var first_letter = string.charArt(0).toLowerCase();
+    var first_letter = string.charAt(0).toLowerCase();
     // If starts w/ vowel use 'an', else use 'a'. Not perfect.
     var prefix = 'aeiou'.indexOf(first_letter) >= 0 ? 1 : 0;
     return prefixes[prefix] + ' ' + string;
 };
+// Returns correct 'the' usage for proper/improper nouns w/ an option for capitalisation.
 Game.DynamicGlyph.prototype.describe_the = function(capitalise) {
-    var prefix = capitalise ? 'The' : 'the';
-    return prefix + ' ' + this.describe();
+    if(this._proper) {
+        if (capitalise) {
+            return this.describe()[0].toUpperCase() + this.describe().slice(1);
+        } else {
+            return this.describe();
+            
+        }
+    } else {
+        if (capitalise) {
+            return 'The ' + this.describe();
+        } else {
+            return 'the ' + this.describe();
+        }
+    }
 };
+Game.DynamicGlyph.prototype.is_are = function() {
+    if(this._plural) {
+        return 'are';
+    } else {
+        return 'is';
+    }
+}
