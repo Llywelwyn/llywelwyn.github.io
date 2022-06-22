@@ -9,6 +9,9 @@ Game.EntityMixins = {};
 // - MessageRecipient:  allows an Entity to use the message system.
 // - HasInventory:      grants an Entity inventory functionality of capacity 'inventory_slots'.
 // - HasHunger:         enforces hunger mechanics.
+// - Equipper:          able to equip Game.ItemMixins.Equippable
+// - CorpseDropper:     drops an edible corpse on death
+// - ExperienceGainer:  level up mechanics, experience gain, etc.
 
 Game.EntityMixins.Sight = {
     name: 'Sight',
@@ -17,6 +20,16 @@ Game.EntityMixins.Sight = {
         this._sight_radius = template['sight_radius'] || 5;
     },
     sight_radius: function() { return this._sight_radius; },
+    modify_sight_radius: function(value) {
+        // If no value passed, default 0
+        value = value || 1;
+        if (value > 0) {
+            Game.send_message(this, "You're more aware of your surroundings!");
+        } else if (value < 0) {
+            Game.send_message(this, "You struggle to make out your surroundings...");
+        }
+        this._sight_radius += value;
+    },
     can_see: function(entity) {
         // If not on same map/floor, return false
         if (
@@ -26,7 +39,6 @@ Game.EntityMixins.Sight = {
         ) {
             return false;
         }
-        console.log("1st check: true");
         var found = false;
         this.map().fov(this.z()).compute(
             this.x(),
@@ -38,8 +50,6 @@ Game.EntityMixins.Sight = {
                 }
             }
         );
-        console.log("computing fov");
-        console.log('Found: ' + found);
         return found;
     }
 };
@@ -52,7 +62,7 @@ Game.EntityMixins.Digger = {
         if(!tile.is_diggable()) { return false; };
         // If diggable and strong enough, dig the tile and give a message to this
         map.dig(x, y, z);
-        Game.send_message(this, "%%c{white}You dig through %%c{%s}%s%%c{white}.", [tile.foreground(), tile.describe_the()]);
+        Game.send_message(this, "You dig through %%c{%s}%s%%c{white}.", [tile.foreground(), tile.describe_the()]);
         return true;
     }
 }
@@ -66,6 +76,7 @@ Game.EntityMixins.Destructible = {
     },
     hp : function() { return this._hp; },
     max_hp : function() { return this._max_hp; },
+    set_hp: function(hp) { this._hp = hp; },
     defence_bonus: function() {
         var modifier = 0;
         if (this.has_mixin(Game.EntityMixins.Equipper)) {
@@ -78,15 +89,55 @@ Game.EntityMixins.Destructible = {
         }
         return this._def_bonus + modifier;
     },
+    modify_defence_bonus: function(value) {
+        // If no value is passed, default 0
+        value = value || 3;
+        if (value > 0) {
+            Game.send_message(this, "You feel tougher.");
+        } else if (value < 0) {
+            Game.send_message(this, "You feel your toughness sapped...")
+        }
+        // Add to this' attack bonus
+        this._def_bonus += value;
+    },
+    modify_max_hp: function(value) {
+        // If no value is passed, default 0
+        value = value || 2;
+        if (value > 0) {
+            Game.send_message(this, "You feel more durable.");
+        } else if (value < 0) {
+            Game.send_message(this, "You feel your endurance sapped...")
+        }
+        // Add to this' attack bonus
+        this._max_hp += value;
+        this._hp += value;
+    },
     take_damage: function(attacker, damage) {
         this._hp -= damage;
         // If 0 or less hp, kill
         if (this._hp <= 0) {
-            Game.send_message(attacker, '%%c{white}You kill %%c{%s}%s%%c{white}!', [this.foreground(), this.describe_the()]);
+            Game.send_message(attacker, 'You kill %%c{%s}%s%%c{white}!', [this.foreground(), this.describe_the()]);
             if (this.has_mixin(Game.EntityMixins.CorpseDropper)) {
                 this.try_drop_corpse();
             }
             this.kill();
+            // Give attacker exp
+            if (attacker.has_mixin('ExperienceGainer')) {
+                var exp = this.max_hp() + this.defence_bonus();
+                if (this.has_mixin('Attacker')) {
+                    exp += this.attack_bonus();
+                }
+                exp = Math.floor(exp / 10);
+                // Account for level diff
+                if (this.has_mixin('ExperienceGainer')) {
+                    exp -= (attacker.level() - this.level()) * 3;
+                }
+                if (exp > 0) {
+                    // exp = (target's max hp + defence + attack)/10 - (level difference * 3)
+                    // TODO: Refine levelling + experience gain algorithms a lot
+                    attacker.give_experience(exp);
+                }
+            }
         }
     }
 };
@@ -123,6 +174,28 @@ Game.EntityMixins.Attacker = {
         }
         return this._str_bonus + modifier;
     },
+    modify_attack_bonus: function(value) {
+        // If no value is passed, default 0
+        value = value || 3;
+        if (value > 0) {
+            Game.send_message(this, "You feel more dexterous.");
+        } else if (value < 0) {
+            Game.send_message(this, "You feel your dexterity leave you.")
+        }
+        // Add to this' attack bonus
+        this._atk_bonus += value;
+    },
+    modify_strength_bonus: function(value) {
+        // If no value is passed, default 0
+        value = value || 1;
+        if (value > 0) {
+            Game.send_message(this, "You feel stronger.");
+        } else if (value < 0) {
+            Game.send_message(this, "You feel your strength sapped...")
+        }
+        // Add to this' attack bonus
+        this._str_bonus += value;
+    },
     refresh_verbs: function() {
         if (this.has_mixin(Game.EntityMixins.Equipper) && this.weapon()) {
             this._verb = this.weapon().verbs();
@@ -144,14 +217,14 @@ Game.EntityMixins.Attacker = {
                 var max_hit = Math.max(0, this.strength_bonus());
                 var damage = 1 + Math.floor(Math.random() * max_hit);
                 var verb = this.refresh_verbs(); // Get new verbs.
-                Game.send_message(this, '%%c{white}You %s %%c{%s}%s%%c{white} for %d damage!',
+                Game.send_message(this, 'You %s %%c{%s}%s%%c{white} for %d damage!',
                     [verb['singular'], target.foreground(), target.describe_the(), damage]);
                 Game.send_message(target, '%%c{%s}%s%%c{white} %s you for %d damage!',
                     [this.foreground(), this.describe_the(1), verb['plural'], damage]);
                 target.take_damage(this, damage); // Damage target.
                 return true;
             } else {
-                Game.send_message(this, '%%c{white}You miss %%c{%s}%s%%c{white}!',
+                Game.send_message(this, 'You miss %%c{%s}%s%%c{white}!',
                     [target.foreground(), target.describe_the()]);
                 Game.send_message(target, '%%c{%s}%s%%c{white} misses you!',
                     [this.foreground(), this.describe_the(1)]);
@@ -243,7 +316,7 @@ Game.EntityMixins.HasInventory = {
             if (this._map) {
                 this._map.add_item(this.x(), this.y(), this.z(), this._items[i]);
             }
-            Game.send_message(this, "%%c{white}You drop %%c{%s}%s%%c{white}.", [this._items[i].foreground(), this._items[i].describe_a()]);
+            Game.send_message(this, "You drop %%c{%s}%s%%c{white}.", [this._items[i].foreground(), this._items[i].describe_a()]);
             this.remove_item(i);
         }
     }
@@ -259,7 +332,7 @@ Game.EntityMixins.HasHunger = {
     },
     add_turn_hunger: function() {
         // Minus depletion rate
-        this.modify_fullness_by(-this._depletion_rate);
+        this.modify_fullness(-this._depletion_rate);
         // If starving, give a message 5% of the time warning the player.
         if (this.hunger_state()[0] === 'Starving') {
             if (Math.random() < 0.05) {
@@ -267,12 +340,12 @@ Game.EntityMixins.HasHunger = {
             }
         }
     },
-    modify_fullness_by: function(points) {
+    modify_fullness: function(points) {
         this._fullness = this._fullness + points;
         if (this._fullness <= 0) {
             this.kill("You have died of %c{brown}starvation%c{white}!");
         } else if (this._fullness > this._max_fullness) {
-            Game.send_message(this, "%c{white}You struggle to force down any more!");
+            Game.send_message(this, "You struggle to force down any more!");
             this._fullness = this._max_fullness;
         }
     },
@@ -347,6 +420,90 @@ Game.EntityMixins.Equipper = {
         }
     }
 };
+Game.EntityMixins.ExperienceGainer = {
+    name: 'ExperienceGainer',
+    init: function(template) {
+        this._stats = template['stats'] || {};
+        this._level = this._stats['level'] || 1;
+        this._experience = this._stats['experience'] || 0;
+        this._stat_points_per_level = this._stats['stat_gain_per_level'] || 1;
+        this._stat_points = 0;
+        // Determine what stats can be levelled up
+        this._stat_options = [];
+        if (this.has_mixin(Game.EntityMixins.Attacker)) {
+            this._stat_options.push(['dexterity', this.modify_attack_bonus]);
+            this._stat_options.push(['strength', this.modify_strength_bonus]);
+        }
+        if (this.has_mixin(Game.EntityMixins.Destructible)) {
+            this._stat_options.push(['toughess', this.modify_defence_bonus]);
+            this._stat_options.push(['constitution', this.modify_max_hp]);
+        }
+        if (this.has_mixin(Game.EntityMixins.Sight)) {
+            this._stat_options.push(['perception', this.modify_sight_radius]);
+        }
+    },
+    level: function() { return this._level; },
+    experience: function() { return this._experience; },
+    next_level_experience: function() { return (this.level() * this.level()) * 10; },
+    stat_points: function() { return this._stat_points; },
+    set_stat_points: function(stat_points) { this._stat_points = stat_points; },
+    stat_options: function() { return this._stat_options; },
+    give_experience: function(points) {
+        var stat_points_gained = 0;
+        var levels_gained = 0;
+        // Loop until all points allocated
+        while (points > 0) {
+            // If adding points will level this up
+            if (this._experience + points >= this.next_level_experience()) {
+                // Fill experience until next threshold
+                var used_points = this.next_level_experience() - this._experience;
+                points -= used_points;
+                // Levle up
+                this._level++;
+                levels_gained++;
+                this._stat_points += this._stat_points_per_level;
+                stat_points_gained += this._stat_points_per_level;
+            } else {
+                // No level up, just give exp
+                this._experience += points;
+                points = 0;
+            }
+        }
+        // Check if we gained at least 1 level
+        if (levels_gained > 0) {
+            Game.send_message(this, "You advance to level %d.", [this._level]);
+            // Heal entity if possible
+            if (this.has_mixin(Game.EntityMixins.Destructible)) {
+                this.set_hp(this.max_hp());
+            }
+            if (this.has_mixin('StatGainer')) {
+                this.on_gain_level();
+            }
+        }
+    }
+}
+Game.EntityMixins.RandomStatGainer = {
+    name: 'RandomStatGainer',
+    group_name: 'StatGainer',
+    on_gain_level: function() {
+        var stat_options = this.stat_options();
+        // Randomly select a stat option, callback for each point
+        while (this.stat_options() > 0) {
+            // Call increasing function w/ this as context
+            one_of(stat_options)[1].call(this);
+            this.set_stat_points(this.stat_points() - 1);
+        }
+    }
+};
+Game.EntityMixins.PlayerStatGainer = {
+    name: 'PlayerStatGainer',
+    group_name: 'StatGainer',
+    on_gain_level: function() {
+        // Setup stat screen and show it
+        Game.Screen.gain_stat_screen.setup(this);
+        Game.Screen.play_screen.set_sub_screen(Game.Screen.gain_stat_screen);
+    }
+};
 
 //   Actor Mixins - these determine which 'act' the Entity takes each turn.
 //
@@ -369,7 +526,7 @@ Game.EntityMixins.PlayerActor = {
         if (!this.is_alive()) {
             Game.Screen.play_screen.set_game_ended(true);
             // Send a last message to the player
-            Game.send_message(this, '%c{white}Press %c{seagreen}[Enter]%c{white} to continue.');
+            Game.send_message(this, 'Press %c{seagreen}[Enter]%c{white} to continue.');
         }
         // Re-render screen
         Game.refresh()

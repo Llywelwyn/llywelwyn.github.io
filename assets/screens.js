@@ -146,8 +146,10 @@ Game.Screen.play_screen = {
         var stats = '%c{white}%b{black}';
         var stats_x = 1;
         var stats_y = Game.height();
-        stats += vsprintf('HP: %d/%d ', [this._player.hp(), this._player.max_hp()]);
-        display.drawText(stats_x, stats_y, stats);
+        stats += vsprintf(
+            '%%c{crimson}HP%%c{white}%d/%d %%c{cornflowerblue}LVL%%c{white}%d (%d%%)',
+            [this._player.hp(), this._player.max_hp(), this._player.level(), Math.floor((this._player.experience()/this._player.next_level_experience())*100)]);
+        display.drawText(stats_x, stats_y, '%c{white}' + stats);
 
         // Render hunger
         if (this._player.has_mixin('HasHunger')) {
@@ -197,7 +199,7 @@ Game.Screen.play_screen = {
                 } else if(input_data.key === 'ArrowDown') {
                     this.move(0, 1, 0);
                 } else if(input_data.key === '.') {
-                    Game.send_message(this._player, "%c{white}You wait."); // Pass
+                    Game.send_message(this._player, "You wait."); // Pass
                 } else if(input_data.key === '>') {
                     this.move(0, 0, 1);
                 } else if(input_data.key === '<') {
@@ -232,9 +234,9 @@ Game.Screen.play_screen = {
                         // If only one item, try to pick up
                         var item = items[0];
                         if (this._player.pickup_items([0])) {
-                            Game.send_message(this._player, "%%c{white}You pick up %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_a()]);
+                            Game.send_message(this._player, "You pick up %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_a()]);
                         } else {
-                            Game.send_message(this._player, "%c{white}Your inventory is full. Nothing was picked up.");
+                            Game.send_message(this._player, "Your inventory is full. Nothing was picked up.");
                         }
                     } else {
                         // Show the pickup screen
@@ -263,7 +265,7 @@ Game.Screen.play_screen = {
         if (items && sub_screen.setup(this._player, items) > 0) {
             this.set_sub_screen(sub_screen);
         } else {
-            Game.send_message(this._player, '%c{white}' + empty_message);
+            Game.send_message(this._player, empty_message);
             Game.refresh()
         }
     },
@@ -438,9 +440,9 @@ Game.Screen.pickup_screen = new Game.Screen.ItemListScreen({
     ok: function(selected_items) {
         // Try to pick up all items
         if (this._player.pickup_items(Object.keys(selected_items))) { // TODO: Maybe list the items picked up?
-            Game.send_message(this._player, "%c{white}You pick up multiple objects.");
+            Game.send_message(this._player, "You pick up multiple objects.");
         } else {
-            Game.send_message(this._player, "%c{white}Your inventory is full. Not all items were picked up.");
+            Game.send_message(this._player, "Your inventory is full. Not all items were picked up.");
         }
         return true;
     }
@@ -466,9 +468,9 @@ Game.Screen.eat_screen = new Game.Screen.ItemListScreen({
         var key = Object.keys(selected_items)[0];
         var item = selected_items[key];
         if (item.uses() > 1) {
-            Game.send_message(this._player, "%%c{white}You eat some of %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_the()]);
+            Game.send_message(this._player, "You eat some of %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_the()]);
         } else {
-            Game.send_message(this._player, "%%c{white}You eat %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_the()]);
+            Game.send_message(this._player, "You eat %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_the()]);
         }
         item.eat(this._player);
         if (!item.has_remaining_uses()) {
@@ -490,13 +492,13 @@ Game.Screen.wield_screen = new Game.Screen.ItemListScreen({
         var keys = Object.keys(selected_items);
         if (keys.length === 1) {
             this._player.unwield();
-            Game.send_message(this._player, "%c{white}You are empty-handed.")
+            Game.send_message(this._player, "You are empty-handed.")
         } else {
             // Unequip item first
             var item = selected_items[keys[0]];
             this._player.unequip(item);
             this._player.wield(item);
-            Game.send_message(this._player, "%%c{white}You are wielding %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_a()]);
+            Game.send_message(this._player, "You are wielding %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_a()]);
         }
         return true;
     }
@@ -514,14 +516,62 @@ Game.Screen.wear_screen = new Game.Screen.ItemListScreen({
         var keys = Object.keys(selected_items);
         if (keys.length === 1) {
             this._player.doff();
-            Game.send_message(this._player, "%c{white}You aren't wearing anything.")
+            Game.send_message(this._player, "You aren't wearing anything.")
         } else {
             // Unequip item first
             var item = selected_items[keys[0]];
             this._player.unequip(item);
             this._player.don(item);
-            Game.send_message(this._player, "%%c{white}You are wearing %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_a()]);
+            Game.send_message(this._player, "You are wearing %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_a()]);
         }
         return true;
     }
 });
+Game.Screen.gain_stat_screen = {
+    setup: function(entity) {
+        // Call before rendering
+        this._entity = entity;
+        this._options = entity.stat_options();
+    },
+    render: function(display) {
+        var letters = 'abcdefghijklmnopqrstuvwxyz';
+        var top_left_x = 1;
+        var top_left_y = 1;
+        display.drawText(top_left_x, top_left_y, '%c{white}Choose an attribute to increase: ');
+        top_left_y += 2; // Offset between title and stat options
+
+        // Iterate through options
+        for (var i = 0; i < this._options.length; i++) {
+            display.drawText(top_left_x, top_left_y + i, "%c{white}" + letters.substring(i, i + 1) + ' - ' + this._options[i][0]);
+        }
+        top_left_y += 2; // Offset between stat options and remaining points
+
+        // Render remaining stat points
+        display.drawText(top_left_x, top_left_y + this._options.length, "Remaining opints: " + this._entity.stat_points());
+    },
+    handle_input: function(input_type, input_data) {
+        if (input_type === 'keydown') {
+            if(
+                input_data.key.charCodeAt() >= 'a'.charCodeAt() &&
+                input_data.key.charCodeAt() <= 'z'.charCodeAt()
+            ) {
+                // Check if it maps to a valid item by subtracting 'a' from
+                // the character to check what letter of alphabet was pressed
+                var index = input_data.key.charCodeAt() - 'a'.charCodeAt();
+                if (this._options[index]) {
+                    // Call stat increase function
+                    console.log(this._options[index]);
+                    this._options[index][1].call(this._entity);
+                    // Decrease stat points
+                    this._entity.set_stat_points(this._entity.stat_points() - 1);
+                    // If we have no points left, exit the screen, else refresh
+                    if (this._entity.stat_points() == 0) {
+                        Game.Screen.play_screen.set_sub_screen(undefined);
+                    } else {
+                        Game.refresh();
+                    }
+                }
+            }
+        }
+    }
+};

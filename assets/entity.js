@@ -55,7 +55,7 @@ Game.Entity.prototype.kill = function(message) {
     if (message) {
         Game.send_message(this, message);
     } else {
-        Game.send_message(this, "%c{white}You died!");
+        Game.send_message(this, "You died!");
     }
 
     // Check if player died, if so call act method to prompt user
@@ -74,17 +74,17 @@ Game.Entity.prototype.try_move = function(x, y, z, map) {
     // If z-level changed, check if we are on stairs
     if (z < this.z()) {
         if (tile != Game.Tile.stairs_up_tile) {
-            Game.send_message(this, "%c{white}You can't go up here!");
+            Game.send_message(this, "You can't go up here!");
             return false;
         } else {
-            Game.send_message(this, "%%c{white}You ascend up to level %d!", [z]); // TODO: ?? [z+1]?
+            Game.send_message(this, "You ascend up to level %d!", [z]); // TODO: ?? [z+1]?
         }
     } else if ( z > this.z()) {
         if (tile != Game.Tile.stairs_down_tile) {
-            Game.send_message(this, "%c{white}You can't go down here!");
+            Game.send_message(this, "You can't go down here!");
             return false;
         } else {
-            Game.send_message(this, "%%c{white}You descend to level %d.", [z]);
+            Game.send_message(this, "You descend to level %d.", [z]);
         }
     }
     // If entity is present at tile, try attack
@@ -105,9 +105,9 @@ Game.Entity.prototype.try_move = function(x, y, z, map) {
         var items = this.map().items_at(x, y, z);
         if (items) {
             if (items.length === 1) {
-                Game.send_message(this, "%%c{white}You see %%c{%s}%s%%c{white}.", [items[0].foreground(), items[0].describe_a()]);
+                Game.send_message(this, "You see %%c{%s}%s%%c{white}.", [items[0].foreground(), items[0].describe_a()]);
             } else {
-                Game.send_message(this, "%c{white}There are several objects here.");
+                Game.send_message(this, "There are several objects here.");
             }
         }
         return true;

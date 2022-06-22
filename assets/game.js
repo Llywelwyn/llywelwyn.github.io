@@ -93,7 +93,7 @@ Game.send_message = function(recipient, message, args) {
         if(args) {
             message = vsprintf(message, args);
         }
-        recipient.receive_message(message);
+        recipient.receive_message("%c{white}" + message);
     }
 };
 Game.send_message_nearby = function(map, centre_x, centre_y, centre_z, message, args) {

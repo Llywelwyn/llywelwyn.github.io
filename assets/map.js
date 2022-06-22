@@ -24,7 +24,15 @@ Game.Map = function(tiles, player) {
     var items_per_floor = 10;
     for (var z = 0; z < this._depth; z++) {
         for (var i = 0; i < entities_per_floor; i++) {
-            this.add_entity_at_random_position(Game.EntityRepository.create_random(), z);
+            var entity = Game.EntityRepository.create_random();
+            this.add_entity_at_random_position(entity, z);
+            // Level up based on floor
+            if (entity.has_mixin('ExperienceGainer')) {
+                for (var level = 0; level < z; level ++) {
+                    entity.give_experience(entity.next_level_experience() - entity.experience());
+                    console.log("Levelled up " + entity.name() + " on floor " + z + " to level " + level)
+                }
+            }
         }
         for (var i = 0; i < items_per_floor; i++) {
             // Add random entity from ItemRepo
