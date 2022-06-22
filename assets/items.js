@@ -83,7 +83,7 @@ Game.ItemRepository.define('chainmail', {
 Game.ItemRepository.define('platemail', {
     name: 'platemail',
     character: '[',
-    foreground: 'aliceblue',
+    foreground: 'darkorange',
     stats: {
         wearable: true,
         defence_bonus: 16

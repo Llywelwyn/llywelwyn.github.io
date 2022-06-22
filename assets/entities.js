@@ -22,7 +22,8 @@ Game.PlayerTemplate = {
     },
     mixins: [Game.EntityMixins.PlayerActor, Game.EntityMixins.MessageRecipient, Game.EntityMixins.Sight, 
             Game.EntityMixins.Attacker, Game.EntityMixins.Destructible, Game.EntityMixins.Digger,
-            Game.EntityMixins.HasInventory, Game.EntityMixins.HasHunger, Game.EntityMixins.Equipper]
+            Game.EntityMixins.HasInventory, Game.EntityMixins.HasHunger, Game.EntityMixins.Equipper,
+            Game.EntityMixins.ExperienceGainer, Game.EntityMixins.PlayerStatGainer]
 };
 
 // Entity Repository stuff -- grouping entities together
@@ -101,7 +102,7 @@ Game.EntityRepository.define('bat', {
         max_hp: 5,
         speed: 150,
         attack_bonus: 40,
-        defence_bonus: 40,
+        defence_bonus: 20,
         strength_bonus: 5
     },
     verb: {
@@ -110,7 +111,7 @@ Game.EntityRepository.define('bat', {
     },
     corpse_drop_rate: 75,
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
-            Game.EntityMixins.CorpseDropper]
+            Game.EntityMixins.CorpseDropper, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer]
 });
 Game.EntityRepository.define('newt', {
     name: 'newt',
@@ -119,7 +120,7 @@ Game.EntityRepository.define('newt', {
     stats: {
         max_hp: 3,
         attack_bonus: 30,
-        defence_bonus: 30,
+        defence_bonus: 20,
         strength_bonus: 3
     },
     verb: {
@@ -128,7 +129,7 @@ Game.EntityRepository.define('newt', {
     },
     corpse_drop_rate: 25,
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
-            Game.EntityMixins.CorpseDropper]
+            Game.EntityMixins.CorpseDropper, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer]
 });
 
 // Hunters
@@ -146,7 +147,7 @@ Game.EntityRepository.define('kobold', {
     sight_radius: 7,
     tasks: ['hunt', 'wander'],
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Sight, Game.EntityMixins.Attacker,
-            Game.EntityMixins.Destructible]
+            Game.EntityMixins.Destructible, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer]
 });
 Game.EntityRepository.define('orc', {
     name: 'orc',
@@ -155,12 +156,12 @@ Game.EntityRepository.define('orc', {
     stats: {
         max_hp: 20,
         speed: 50,
-        attack_bonus: 50,
-        defence_bonus: 40,
-        strength_bonus: 7
+        attack_bonus: 70,
+        defence_bonus: 20,
+        strength_bonus: 8
     },
-    sight_radius: 7,
+    sight_radius: 8,
     tasks: ['hunt', 'wander'],
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Sight, Game.EntityMixins.Attacker,
-            Game.EntityMixins.Destructible]
+            Game.EntityMixins.Destructible, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer]
 });

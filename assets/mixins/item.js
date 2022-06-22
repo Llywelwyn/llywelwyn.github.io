@@ -17,7 +17,7 @@ Game.ItemMixins.Edible = {
     eat: function(entity) {
         if (entity.has_mixin('HasHunger')) {
             if (this.has_remaining_uses()) {
-                entity.modify_fullness_by(this._value);
+                entity.modify_fullness(this._value);
                 this._uses--;
             }
         }
@@ -48,5 +48,5 @@ Game.ItemMixins.Equippable = {
     defence_bonus: function() { return this._def_bonus; },
     is_wieldable: function() { return this._wieldable; },
     is_wearable: function() { return this._wearable; },
-    verbs: function() { return this._verbs; }
+    verbs: function() { return this._verbs; },
 };
