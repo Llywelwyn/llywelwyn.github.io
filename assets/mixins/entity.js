@@ -444,7 +444,7 @@ Game.EntityMixins.ExperienceGainer = {
     },
     level: function() { return this._level; },
     experience: function() { return this._experience; },
-    next_level_experience: function() { return (this.level() * this.level()) * 10; },
+    next_level_experience: function() { return (this.level() * this.level()) * 10 + (this.level() * 7); },
     stat_points: function() { return this._stat_points; },
     set_stat_points: function(stat_points) { this._stat_points = stat_points; },
     stat_options: function() { return this._stat_options; },
