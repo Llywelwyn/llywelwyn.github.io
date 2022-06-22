@@ -115,6 +115,9 @@ Game.EntityMixins.Destructible = {
     take_damage: function(attacker, damage) {
         this._hp -= damage;
         // If 0 or less hp, kill
+        if (damage > 1 && this.has_mixin(Game.EntityMixins.Bleeder)) {
+            this.try_bleed();
+        }
         if (this._hp <= 0) {
             Game.send_message(attacker, 'You kill %%c{%s}%s%%c{white}!', [this.foreground(), this.describe_the()]);
             if (this.has_mixin(Game.EntityMixins.CorpseDropper)) {
@@ -431,15 +434,15 @@ Game.EntityMixins.ExperienceGainer = {
         // Determine what stats can be levelled up
         this._stat_options = [];
         if (this.has_mixin(Game.EntityMixins.Attacker)) {
-            this._stat_options.push(['dexterity', this.modify_attack_bonus]);
-            this._stat_options.push(['strength', this.modify_strength_bonus]);
+            this._stat_options.push(['%c{green}dexterity', this.modify_attack_bonus]);
+            this._stat_options.push(['%c{crimson}strength', this.modify_strength_bonus]);
         }
         if (this.has_mixin(Game.EntityMixins.Destructible)) {
-            this._stat_options.push(['toughess', this.modify_defence_bonus]);
-            this._stat_options.push(['constitution', this.modify_max_hp]);
+            this._stat_options.push(['%c{cyan}toughess', this.modify_defence_bonus]);
+            this._stat_options.push(['%c{red}constitution', this.modify_max_hp]);
         }
         if (this.has_mixin(Game.EntityMixins.Sight)) {
-            this._stat_options.push(['perception', this.modify_sight_radius]);
+            this._stat_options.push(['%c{plum}perception', this.modify_sight_radius]);
         }
     },
     level: function() { return this._level; },
@@ -650,6 +653,40 @@ Game.EntityMixins.TaskActor = {
             this.try_move(this.x() + offset, this.y(), this.z());
         } else {
             this.try_move(this.x(), this.y() + offset, this.z());
+        }
+    }
+};
+Game.EntityMixins.Bleeder = { // TODO: Should probably spawn an entity rather than change the tile? Blood sims would be cool.
+    name: 'Bleeder',
+    init: function(template) {
+        // Chance of creating a corpse
+        this._bleed_rate = template['bleed_rate'] || 100;
+    },
+    try_bleed: function() {
+        if (Math.round(Math.random() * 100) < this._bleed_rate) {
+            var x = this.x();
+            var y = this.y();
+            // If this tile isn't bloody, default to tile beneath entity
+            if(!this._map.is_bloody(x, y, this.z())) {
+                x = this.x(); y = this.y();
+            // Otherwise, randomly get an x- or y- offset
+            } else {
+                var offset = (Math.round(Math.random()) === 1) ? 1 : -1;
+                // Determine x- or y-direction
+                if (Math.round(Math.random()) === 1) {
+                    x = this.x() + offset;
+                    if (this._map.is_bloody(x, y, this.z())) {
+                        y += (Math.round(Math.random()) === 1) ? 1 : -1;
+                    }
+                } else {
+                    y = this.y() + offset;
+                    if (this._map.is_bloody(x, y, this.z())) {
+                        x += (Math.round(Math.random()) === 1) ? 1 : -1;
+                    }
+                }
+            }
+            console.log(x, y, this.z());
+            this._map.set_bloody(x, y, this.z(), true);
         }
     }
 };

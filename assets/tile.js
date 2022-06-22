@@ -6,6 +6,7 @@ Game.Tile = function(properties) {
     this._walkable = properties['walkable'] || false;
     this._diggable = properties['diggable'] || false;
     this._blocks_light = (properties['blocks_light'] !== undefined) ? properties['blocksLight'] : true;
+    this._bloody = properties['bloody'] || false;
 };
 
 Game.Tile.extend(Game.DynamicGlyph);
@@ -24,6 +25,14 @@ Game.Tile.floor_tile = new Game.Tile({
     name: 'floor',
     character: '.',
     foreground: ['grey', 'dimgray', 'slategrey'],
+    walkable: true,
+    blocks_light: false
+});
+Game.Tile.bloody_floor_tile = new Game.Tile({
+    name: 'bloody floor',
+    character: '.',
+    foreground: ['#a11717'],
+    background: ['#2d0606'], // Very dark red
     walkable: true,
     blocks_light: false
 });

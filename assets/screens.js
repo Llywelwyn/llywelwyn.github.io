@@ -79,6 +79,7 @@ Game.Screen.play_screen = {
                 if (map.is_explored(x, y, current_z)) {
                     // Fetch glyph for tile and render at offset position
                     var glyph = this._map.tile(x, y, this._player.z());
+                    var background = glyph.background();
                     // We are in a cell in FOV, check for items/entities
                     if (visible_cells[x + ',' + y]) {
                         var items = map.items_at(x, y, current_z);
@@ -92,6 +93,9 @@ Game.Screen.play_screen = {
                         }
                         // Update foreground in case of glyph change
                         foreground = glyph.foreground();
+                        if (map.is_bloody(x, y, current_z)) {
+                            background = '#2d0606';
+                        }
                     } else {
                         // If tile is explored but !visible, darken foreground
                         // with an amount inverse to its brightness - prevents tiles becoming entirely black. 
@@ -103,7 +107,7 @@ Game.Screen.play_screen = {
                         y - top_left_y,
                         glyph.character(),
                         foreground,
-                        glyph.background()
+                        background
                     );
                 }
             }
@@ -120,13 +124,19 @@ Game.Screen.play_screen = {
                 entity.y() >= top_left_y && entity.y() < top_left_y + Game.height() &&
                 entity.z() == this._player.z()
             ) {
+                var background_colour = entity.background();
+                if(background_colour === 'black') { 
+                    if (map.is_bloody(entity.x(), entity.y(), entity.z())) {
+                        background_colour = '#2d0606';
+                    }
+                };
                 if(visible_cells[entity.x() + ',' + entity.y()]) {
                     display.draw(
                         entity.x() - top_left_x,
                         entity.y() - top_left_y,
                         entity.character(),
                         entity.foreground(),
-                        entity.background()
+                        background_colour
                     );
                 }
             }
@@ -544,10 +554,10 @@ Game.Screen.gain_stat_screen = {
         for (var i = 0; i < this._options.length; i++) {
             display.drawText(top_left_x, top_left_y + i, "%c{white}" + letters.substring(i, i + 1) + ' - ' + this._options[i][0]);
         }
-        top_left_y += 2; // Offset between stat options and remaining points
+        top_left_y++; // Offset between stat options and remaining points
 
         // Render remaining stat points
-        display.drawText(top_left_x, top_left_y + this._options.length, "Remaining opints: " + this._entity.stat_points());
+        display.drawText(top_left_x, top_left_y + this._options.length, "%c{white}Remaining points: " + this._entity.stat_points());
     },
     handle_input: function(input_type, input_data) {
         if (input_type === 'keydown') {
