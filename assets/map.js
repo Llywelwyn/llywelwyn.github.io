@@ -49,6 +49,8 @@ Game.Map = function(tiles, player) {
     this._explored = new Array(this._depth);
     this._setup_explored_array();
     console.log("Setup explored tiles.");
+    this._bloody = new Array(this._depth);
+    this._setup_bloody_array();
 };
 
 // Getters
@@ -164,6 +166,9 @@ Game.Map.prototype.dig = function(x, y, z) {
         this._tiles[z][x][y] = Game.Tile.floor_tile;
     }
 };
+Game.Map.prototype.set_tile = function(x, y, z, tile) {
+    this._tiles[z][x][y] = tile;
+};
 
 // FOV and Fog of War
 Game.Map.prototype.setup_fov = function() {
@@ -208,6 +213,24 @@ Game.Map.prototype.is_explored = function(x, y, z) {
         return false;
     }
 };
+Game.Map.prototype._setup_bloody_array = function() {
+    for (var z= 0; z < this._depth; z++) {
+        this._bloody[z] = new Array(this._width);
+        for (var x = 0; x < this._width; x++) {
+            this._bloody[z][x] = new Array(this._height);
+            for (var y = 0; y < this._height; y++) {
+                this._bloody[z][x][y] = false;
+            }
+        }
+    }
+};
+Game.Map.prototype.set_bloody = function(x, y, z, state) {
+    this._bloody[z][x][y] = state;
+};
+Game.Map.prototype.is_bloody = function(x, y, z) {
+        return this._bloody[z][x][y];
+};
+
 
 // Item stuff
 Game.Map.prototype.items_at = function(x, y, z) {
