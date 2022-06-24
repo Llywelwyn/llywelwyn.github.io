@@ -141,47 +141,88 @@ Game.Screen.play_screen = {
                 }
             }
         }
+        // Render bottom box
+        var top_bar = '╔'
+        for (var i = 0; i < Game.width() - 4; i++) {
+            if (i === 27) {
+                top_bar += '╗╔'
+            }
+            top_bar += '═';
+        }
+        top_bar += '╗'
+        display.drawText(0, Game.height(), top_bar);
+        for (var i = 1; i < Game._bottom_bar_size; i++) {
+            display.drawText(0, Game.height() + i, '║');
+            display.drawText(28, Game.height() + i, '║║');
+            display.drawText(Game.width() - 1, Game.height() + i, '║');
+        }
+        var bottom_bar = '╚'
+        for (var i = 0; i < Game.width() - 4; i++) {
+            if (i === 27) {
+                bottom_bar += '╝╚'
+            }
+            bottom_bar += '═';
+        }
+        bottom_bar += '╝'
+        display.drawText(0, Game.height() + Game._bottom_bar_size - 1, bottom_bar);
+        /*
+        // Render side box
+        top_bar = '╔'
+        for (var i = Game.width(); i < Game.width() + Game._side_bar_size - 2; i++) {
+            top_bar += '═';
+        }
+        top_bar += '╗'
+        display.drawText(Game.width(), 0, top_bar);
+        for (var i = 1; i < Game.height(); i++) {
+            display.drawText(Game.width(), i, '║');
+            display.drawText(Game.width() + Game._side_bar_size - 1, i, '║');
+        }
+        bottom_bar = '╚'
+        for (var i = Game.width(); i < Game.width() + Game._side_bar_size - 2; i++) {
+            bottom_bar += '═';
+        }
+        bottom_bar += '╝'
+        display.drawText(Game.width(), Game.height(), bottom_bar);
+        */
         // Get messages in player queue and renders
         var messages = this._player.messages();
-        var message_x = 0;
-        var message_y = 0;
+        var message_x = 30;
+        var message_y = Game.height() + 1;
         for (var i = 0; i < messages.length; i++) {
             message_y += display.drawText(
                 message_x,
                 message_y,
-                '%c{white}%b{black}' + messages[i]
+                '%c{white}%b{black}' + messages[i],
+                Game.width() - message_x
             )
         }
         // Render player stats - TODO: Actual functions, make all this modular instead of hardcoded terribleness
         var stats = '%c{white}%b{black}';
         var stats_x = 1;
-        var stats_y = Game.height();
-        stats += vsprintf(
-            '%%c{crimson}HP%%c{white}%d/%d %%c{cornflowerblue}LVL%%c{white}%d (%d%%)',
-            [this._player.hp(), this._player.max_hp(), this._player.level(), Math.floor((this._player.experience()/this._player.next_level_experience())*100)]);
-        display.drawText(stats_x, stats_y, '%c{white}' + stats);
+        var stats_y = Game.height() + 1;
+        stats += vsprintf('%%c{crimson}HP%%c{white}%d/%d', [this._player.hp(), this._player.max_hp()]);
+        display.drawText(stats_x, stats_y++, this._player.hp_state()[1]);
+        stats = vsprintf('%%c{cornflowerblue}LVL%%c{white}%d (%d%%)', [this._player.level(), Math.floor((this._player.experience()/this._player.next_level_experience())*100)]);
+        display.drawText(stats_x, stats_y++, '%c{white}' + stats);
+        if(this._player.weapon()) {
+            var weapon = '%c{white}- %c'
+            weapon += vsprintf('{%s}%s', [this._player.weapon().foreground(), this._player.weapon().describe_a()]);
+            weapon += ' %c{white}(wielding)'
+            display.drawText(stats_x, stats_y++ + 1, weapon)
+        }
+        if(this._player.armour()) {
+            var armour = '%c{white}- %c'
+            armour += vsprintf('{%s}%s', [this._player.armour().foreground(), this._player.armour().describe_a()]);
+            armour += ' %c{white}(wearing)'
+            display.drawText(stats_x, stats_y++ + 1, armour)
+        }
 
         // Render hunger
         if (this._player.has_mixin('HasHunger')) {
             var hunger_state = this._player.hunger_state()[0];
             var hunger_state_formatted = this._player.hunger_state()[1];
-            display.drawText(Game.width() - 1 - hunger_state.length, Game.height(), hunger_state_formatted);
-        }
-
-        // Render all this other shit
-        //var help_message = "%c{white}Press %c{seagreen}[?]%c{white} for help"
-        //display.drawText(Game.width() - 19, Game.height(), help_message)
-        if(this._help) { // TODO: Make a function for drawing boxes (w/ text)
-            display.drawText(Game.width()/2 - 21, Game.height()/2 + 10, `
-            %c{yellow}╔═ %c{white}CONTROLS%c{yellow} ══════════════════════════════╗
-            ║                                         ║
-            ║ %c{white}Movement           -       %c{seagreen}[Arrow Keys]%c{yellow} ║
-            ║ %c{white}Ascend/Descend     -            %c{seagreen}[>]%c{white}/%c{seagreen}[<]%c{yellow} ║
-            ║ %c{white}Wait               -                %c{seagreen}[.]%c{yellow} ║
-            ║ %c{white}Controls           -                %c{seagreen}[?]%c{yellow} ║
-            ║                                         ║
-            ╚════════════════════ %c{white}Press %c{seagreen}[?]%c{white} to close%c{yellow} ═╝`
-                );
+            display.drawText(28 - hunger_state.length, Game.height() + 1, hunger_state_formatted);
+            display.drawText(28 - 8, Game.height() + 2, '%c{white}Quenched');
         }
     },
     handle_input: function(input_type, input_data) {

@@ -70,7 +70,7 @@ Game.Entity.prototype.kill = function(message) {
 Game.Entity.prototype.try_move = function(x, y, z, map) {
     var map = this.map();
     var tile = map.tile(x, y, this.z());
-    var target = map.entity_at(x, y, this.z());
+    var target = map.entity_at(x, y, z);
     // If z-level changed, check if we are on stairs
     if (z < this.z()) {
         if (tile != Game.Tile.stairs_up_tile) {
