@@ -128,5 +128,10 @@ Game.ItemRepository.define('corpse', {
 Game.ItemRepository.define('rock', {
     name: 'rock',
     character: '*',
-    foreground: 'white'
+    foreground: 'white',
+    stats: {
+        wieldable: true,
+        attack_bonus: 1
+    },
+    mixins: [Game.ItemMixins.Equippable]
 });

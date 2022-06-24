@@ -74,6 +74,12 @@ Game.EntityMixins.Destructible = {
         this._hp = this._stats['hp'] || this._max_hp;
         this._def_bonus = this._stats['defence_bonus'] || 0;
     },
+    listeners: {
+        on_gain_level: function() {
+            // Heal
+            this.set_hp((this.hp() + 5 < this.max_hp()) ? this.hp() + 5 : this.max_hp())
+        }
+    },
     hp : function() { return this._hp; },
     max_hp : function() { return this._max_hp; },
     set_hp: function(hp) { this._hp = hp; },
@@ -120,28 +126,32 @@ Game.EntityMixins.Destructible = {
         }
         if (this._hp <= 0) {
             Game.send_message(attacker, 'You kill %%c{%s}%s%%c{white}!', [this.foreground(), this.describe_the()]);
-            if (this.has_mixin(Game.EntityMixins.CorpseDropper)) {
-                this.try_drop_corpse();
-            }
+            
+            this.raise_event('on_death', attacker);
+            attacker.raise_event('on_kill', this);
             this.kill();
-            // Give attacker exp
-            if (attacker.has_mixin('ExperienceGainer')) {
-                var exp = this.max_hp() + this.defence_bonus();
-                if (this.has_mixin('Attacker')) {
-                    exp += this.attack_bonus();
-                }
-                exp = Math.floor(exp / 10);
-                // Account for level diff
-                if (this.has_mixin('ExperienceGainer')) {
-                    exp -= (attacker.level() - this.level()) * 3;
-                }
-                if (exp > 0) {
-                    // exp = (target's max hp + defence + attack)/10 - (level difference * 3)
-                    // TODO: Refine levelling + experience gain algorithms a lot
-                    attacker.give_experience(exp);
-                }
-            }
         }
+    },
+    hp_state: function() {
+        // Hp points per percent of max
+        var fullness_percent = this._hp / (this._max_hp / 100);
+
+        // We hate magic numbers. Less than or equal to this
+        // number gives the corresponding return message.
+        const STARVING = 5;
+        const VERY_HUNGRY = 15;
+        const HUNGRY = 30;
+        const PECKISH = 50;
+        const NOT_HUNGRY = 70;
+        const FULL = 90;
+
+        if (fullness_percent <= STARVING) { return ['Dying', '%c{red}Dying']; } 
+        else if (fullness_percent <= VERY_HUNGRY) { return ['Very Bloodied', '%c{brown}Very Bloodied']; } 
+        else if (fullness_percent <= HUNGRY) { return ['Bloodied', '%c{indianred}Bloodied']; }
+        else if (fullness_percent <= PECKISH) { return ['Very Injured', '%c{salmon}Very Injured']; }
+        else if (fullness_percent <= NOT_HUNGRY) { return ['Injured', '%c{plum}Injured']; }
+        else if (fullness_percent <= FULL) { return ['Bruised', '%c{green}Bruised']; } 
+        else { return ['Uninjured', '%c{white}Uninjured']; };
     }
 };
 Game.EntityMixins.Attacker = {
@@ -201,7 +211,7 @@ Game.EntityMixins.Attacker = {
     },
     refresh_verbs: function() {
         if (this.has_mixin(Game.EntityMixins.Equipper) && this.weapon()) {
-            this._verb = this.weapon().verbs();
+            this._verb = this.weapon().verbs() || {singular:['strike'], plural:['strikes']};
         };
         var random = Math.floor(Math.random() * this._verb['singular'].length);
         var selected_verbs = {
@@ -380,24 +390,26 @@ Game.EntityMixins.CorpseDropper = {
         // Chance of creating a corpse
         this._corpse_drop_rate = template['corpse_drop_rate'] || 100;
     },
-    try_drop_corpse: function() {
-        if (Math.round(Math.random() * 100) < this._corpse_drop_rate) {
-            // Create new corpse item and drop it
-            var prefix = one_of([
-                ['corpse', false],
-                ['remains', true],
-                ['entrails', true]]);
+    listeners: {
+        on_death: function() {
+            if (Math.round(Math.random() * 100) < this._corpse_drop_rate) {
+                // Create new corpse item and drop it
+                var prefix = one_of([
+                    ['corpse', false],
+                    ['remains', true],
+                    ['entrails', true]]);
 
-            this._map.add_item(
-                this.x(), this.y(), this.z(),
-                Game.ItemRepository.create('corpse', {
-                    name: this._name + ' ' + prefix[0],
-                    noun: {
-                        plural: prefix[1],
-                    },
-                    foreground: one_of(['red', 'crimson', 'firebrick'])
-                })
-            );
+                this._map.add_item(
+                    this.x(), this.y(), this.z(),
+                    Game.ItemRepository.create('corpse', {
+                        name: this._name + ' ' + prefix[0],
+                        noun: {
+                            plural: prefix[1],
+                        },
+                        foreground: one_of(['red', 'crimson', 'firebrick'])
+                    })
+                );
+            }
         }
     }
 };
@@ -475,36 +487,52 @@ Game.EntityMixins.ExperienceGainer = {
         // Check if we gained at least 1 level
         if (levels_gained > 0) {
             Game.send_message(this, "You advance to level %d.", [this._level]);
-            // Heal entity if possible
-            if (this.has_mixin(Game.EntityMixins.Destructible)) {
-                this.set_hp(this.max_hp());
+            this.raise_event('on_gain_level');
+        }
+    },
+    listeners: {
+        on_kill: function(victim) {
+            var exp = victim.max_hp() + victim.defence_bonus();
+            if (victim.has_mixin('Attacker')) {
+                exp += victim.attack_bonus();
             }
-            if (this.has_mixin('StatGainer')) {
-                this.on_gain_level();
+            exp = Math.floor(exp / 10);
+            // Account for level diff
+            if (victim.has_mixin('ExperienceGainer')) {
+                exp -= (this.level() - victim.level()) * 3;
+            }
+            if (exp > 0) {
+                // exp = (target's max hp + defence + attack)/10 - (level difference * 3)
+                // TODO: Refine levelling + experience gain algorithms a lot
+                this.give_experience(exp);
             }
         }
     }
-}
+};
 Game.EntityMixins.RandomStatGainer = {
     name: 'RandomStatGainer',
     group_name: 'StatGainer',
-    on_gain_level: function() {
-        var stat_options = this.stat_options();
-        // Randomly select a stat option, callback for each point
-        while (this.stat_options() > 0) {
-            // Call increasing function w/ this as context
-            one_of(stat_options)[1].call(this);
-            this.set_stat_points(this.stat_points() - 1);
+    listeners: {
+        on_gain_level: function() {
+            var stat_options = this.stat_options();
+            // Randomly select a stat option, callback for each point
+            while (this.stat_options() > 0) {
+                // Call increasing function w/ this as context
+                one_of(stat_options)[1].call(this);
+                this.set_stat_points(this.stat_points() - 1);
+            }
         }
     }
 };
 Game.EntityMixins.PlayerStatGainer = {
     name: 'PlayerStatGainer',
     group_name: 'StatGainer',
-    on_gain_level: function() {
-        // Setup stat screen and show it
-        Game.Screen.gain_stat_screen.setup(this);
-        Game.Screen.play_screen.set_sub_screen(Game.Screen.gain_stat_screen);
+    listeners: {
+        on_gain_level: function() {
+            // Setup stat screen and show it
+            Game.Screen.gain_stat_screen.setup(this);
+            Game.Screen.play_screen.set_sub_screen(Game.Screen.gain_stat_screen);
+        }
     }
 };
 

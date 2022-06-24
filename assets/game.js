@@ -28,6 +28,8 @@ var Game = {
     _start_message: "Press %c{seagreen}[Enter]%c{white} to start.",
     _width: 80,
     _height: 40,
+    _side_bar_size: 0,
+    _bottom_bar_size: 7,
 
     //Getters
     display: function() { return this._display; },
@@ -38,8 +40,8 @@ var Game = {
 
     init: function() {
         this._display = new ROT.Display({
-            width: this._width, 
-            height: this._height + 1
+            width: this._width + this._side_bar_size, 
+            height: this._height + this._bottom_bar_size
         });
 
         var game = this;

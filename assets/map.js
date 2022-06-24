@@ -95,9 +95,9 @@ Game.Map.prototype.entities_within_radius = function(centre_x, centre_y, centre_
     // Iterate through entities, add those in bounds
     for (var key in this._entities) {
         var entity = this._entities[key];
-        if(key === 'extend') {
             // TODO: Fix 'extend' prototype being added to entities.
-        } else if (
+        if (
+            key !== 'extend' &&
             entity.x() >= left_x &&
             entity.x() <= right_x &&
             entity.y() >= top_y &&
