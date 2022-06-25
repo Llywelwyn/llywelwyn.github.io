@@ -54,11 +54,26 @@ Game.Screen.play_screen = {
             this._sub_screen.render(display);
             return;
         }
+        this.render_tiles(display);
+        this.render_player_info(display);
+        this.render_messages(display);
+
+    },
+    screen_offsets: function() {
         // Make sure we still have enough space to fit the game screen
         var top_left_x = Math.max(0, this._player.x() - (Game.width() / 2));
         top_left_x = Math.min(top_left_x, this._player.map().width() - Game.width());
         var top_left_y = Math.max(0, this._player.y() - (Game.height() / 2));
         top_left_y = Math.min(top_left_y, this._player.map().height() - Game.height());
+        return {
+            x: top_left_x,
+            y: top_left_y
+        };
+    },
+    render_tiles: function(display) {
+        var offsets = this.screen_offsets();
+        top_left_x = offsets.x;
+        top_left_y = offsets.y;
         // Object to store visible map cells
         var visible_cells = {};
         // Store this._player.map() and player-z to prevent losing in callback
@@ -164,37 +179,8 @@ Game.Screen.play_screen = {
         }
         bottom_bar += '╝'
         display.drawText(0, Game.height() + Game._bottom_bar_size - 1, bottom_bar);
-        /*
-        // Render side box
-        top_bar = '╔'
-        for (var i = Game.width(); i < Game.width() + Game._side_bar_size - 2; i++) {
-            top_bar += '═';
-        }
-        top_bar += '╗'
-        display.drawText(Game.width(), 0, top_bar);
-        for (var i = 1; i < Game.height(); i++) {
-            display.drawText(Game.width(), i, '║');
-            display.drawText(Game.width() + Game._side_bar_size - 1, i, '║');
-        }
-        bottom_bar = '╚'
-        for (var i = Game.width(); i < Game.width() + Game._side_bar_size - 2; i++) {
-            bottom_bar += '═';
-        }
-        bottom_bar += '╝'
-        display.drawText(Game.width(), Game.height(), bottom_bar);
-        */
-        // Get messages in player queue and renders
-        var messages = this._player.messages();
-        var message_x = 30;
-        var message_y = Game.height() + 1;
-        for (var i = 0; i < messages.length; i++) {
-            message_y += display.drawText(
-                message_x,
-                message_y,
-                '%c{white}%b{black}' + messages[i],
-                Game.width() - message_x
-            )
-        }
+    },
+    render_player_info: function(display) {
         // Render player stats - TODO: Actual functions, make all this modular instead of hardcoded terribleness
         var stats = '%c{white}%b{black}';
         var stats_x = 1;
@@ -222,6 +208,19 @@ Game.Screen.play_screen = {
             var hunger_state_formatted = this._player.hunger_state()[1];
             display.drawText(28 - hunger_state.length, Game.height() + 1, hunger_state_formatted);
             display.drawText(28 - 8, Game.height() + 2, '%c{white}Quenched');
+        }
+    },
+    render_messages: function(display) {
+        var messages = this._player.messages();
+        var message_x = 30;
+        var message_y = Game.height() + 1;
+        for (var i = 0; i < messages.length; i++) {
+            message_y += display.drawText(
+                message_x,
+                message_y,
+                '%c{white}%b{black}' + messages[i],
+                Game.width() - message_x
+            )
         }
     },
     handle_input: function(input_type, input_data) {
@@ -254,6 +253,21 @@ Game.Screen.play_screen = {
                 this.move(0, 0, -1);
             // SUBSCREENS
             // OPEN THE INVENTORY
+            } else if (input_data.key === '?') {
+                this.set_sub_screen(Game.Screen.help_screen);
+                return;
+            } else if (input_data.key === 'k') {
+                // Setup look
+                var offsets = this.screen_offsets();
+                Game.Screen.look_screen.setup(
+                    this._player,
+                    this._player.x(),
+                    this._player.y(),
+                    offsets.x,
+                    offsets.y
+                );
+                this.set_sub_screen(Game.Screen.look_screen);
+                return;
             } else if (input_data.key === 'i') {
                 this.show_item_sub_screen(Game.Screen.inventory_screen, this._player.items(), 'You aren\'t carrying anything.');
                 return;
@@ -593,6 +607,7 @@ Game.Screen.examine_screen = new Game.Screen.ItemListScreen({
                     item.details()
                 ]);
         }
+        return true;
     }
 });
 Game.Screen.gain_stat_screen = {
@@ -643,3 +658,149 @@ Game.Screen.gain_stat_screen = {
         }
     }
 };
+
+// TARGET BASED SCREENS
+Game.Screen.TargetBasedScreen = function(template) {
+    template = template || {};
+    // by default do nothing and don't consume turn
+    this._is_acceptable_function = template['ok'] || function(x, y) { return false; };
+    this._caption_function = template['caption_function'] || function(x, y) { return ''; };
+};
+Game.Screen.TargetBasedScreen.prototype.setup = function(player, start_x, start_y, offset_x, offset_y) {
+    this._player = player;
+    // Store original pos, minus offset to make life easy
+    this._start_x = start_x - offset_x;
+    this._start_y = start_y - offset_y;
+    // Store current cursor pos
+    this._cursor_x = this._start_x;
+    this._cursor_y = this._start_y;
+    // Store offsets
+    this._offset_x = offset_x;
+    this._offset_y = offset_y;
+    // Cache fov
+    var visible_cells = {};
+    this._player.map().fov(this._player.z()).compute(
+        this._player.x(),
+        this._player.y(),
+        this._player.sight_radius(),
+        function(x, y, radius, visibility) {
+            visible_cells[x + ',' + y] = true;
+        });
+    this._visible_cells = visible_cells;
+};
+Game.Screen.TargetBasedScreen.prototype.render = function(display) {
+    Game.Screen.play_screen.render_tiles.call(Game.Screen.play_screen, display);
+    Game.Screen.play_screen.render_player_info.call(Game.Screen.play_screen, display);
+    // Draw line from start to cursor
+    var points = Game.Geometry.line(this._start_x, this._start_y, this._cursor_x, this._cursor_y);
+    // Render line
+    for (var i = 0, l = points.length; i < l; i++) {
+        display.drawText(points[i].x, points[i].y, '%c{magenta}*');
+    }
+    // Render caption at bottom
+    display.drawText(
+        30,
+        Game.height() + 1,
+        this._caption_function(this._cursor_x + this._offset_x, this._cursor_y + this._offset_y),
+        Game.width() - 30);
+};
+Game.Screen.TargetBasedScreen.prototype.handle_input = function(input_type, input_data) {
+    // Move cursor
+    if (input_type === 'keydown') {
+        if (input_data.key === 'ArrowLeft') {
+            this.move_cursor(-1, 0);
+        } else if (input_data.key === 'ArrowRight') {
+            this.move_cursor(1, 0);
+        } else if (input_data.key === 'ArrowUp') {
+            this.move_cursor(0, -1);
+        } else if (input_data.key === 'ArrowDown') {
+            this.move_cursor(0, 1);
+        } else if (input_data.key === 'Escape') {
+            Game.Screen.play_screen.set_sub_screen(undefined);
+        } else if (input_data.key === 'Enter') {
+            this.execute_ok_function();
+        }
+    }
+    Game.refresh();
+};
+Game.Screen.TargetBasedScreen.prototype.move_cursor = function(d_x, d_y) {
+    // Stay within bounds
+    this._cursor_x = Math.max(0, Math.min(this._cursor_x + d_x, Game.width()));
+    this._cursor_y = Math.max(0, Math.min(this._cursor_y + d_y, Game.height()));
+};
+Game.Screen.TargetBasedScreen.prototype.execute_ok_function = function() {
+    // Switch back to play screen
+    Game.Screen.play_screen.set_sub_screen(undefined);
+    // Call ok, end if true
+    if (this._ok_function(this._cursor_x + this._offset_x, this._cursor_y + this._offset_y)) { 
+        this._player.map().engine().unlock();
+    }
+};
+
+// TARGET BASED SCREENS
+Game.Screen.look_screen = new Game.Screen.TargetBasedScreen({
+    caption_function: function(x, y) {
+        var z = this._player.z();
+        var map = this._player.map();
+        // If explored, give caption
+        if (map.is_explored(x, y, z)) {
+            if (this._visible_cells[x + ',' + y]) {
+                var items = map.items_at(x, y, z);
+                // If items, render top most
+                if (items) {
+                    var item = items[items.length - 1];
+                    return vsprintf(
+                        '%s - %%c{%s}%s%%c{white}. %s',
+                        [item.representation(),
+                        item.foreground(),
+                        item.describe_a(1),
+                        item.details()]);
+                } else if (map.entity_at(x, y, z)) {
+                    var entity = map.entity_at(x, y, z);
+                    return vsprintf(
+                        '%s - %%c{%s}%s%%c{white}. %s',
+                        [entity.representation(),
+                        entity.foreground(),
+                        entity.describe_a(1),
+                        entity.details()]
+                    );
+                }
+            }
+            // If no entity/item or not visible
+            return vsprintf(
+                '%s - %%c{%s}%s%%c{white}.',
+                [map.tile(x, y, z).representation(),
+                map.tile(x, y, z).foreground(),
+                map.tile(x, y, z).describe_a(1)]
+            );
+        } else {
+            // If not explored, show null
+            return vsprintf(
+                '%s - %%c{%s}%s%%c{white}.',
+                [Game.Tile.null_tile.representation(),
+                Game.Tile.null_tile.foreground(),
+                Game.Tile.null_tile.describe_a(1)]
+            );
+        }
+    }
+ });
+ // Help screen
+ Game.Screen.help_screen = {
+    render: function(display) {
+        var text = 'Do stuff?';
+        var border = '-------------'
+        var x = 1;
+        var y = 1;
+        display.drawText(x, y++, '%c{white}' + text);
+        display.drawText(x, y++, '%c{white}' + border);
+        y += 2;
+        display.drawText(x, y++, '%c{white}' + '[%c{seagreen}g%c{white}] to get item')
+        y += 2;
+        display.drawText(x, y++, 'Press ? to close.')
+    },
+    handle_input: function(input_type, input_data) {
+        if (input_type === 'keypress' && input_data.key === '?') {
+            Game.Screen.play_screen.set_sub_screen(null);
+        }
+    }
+ };

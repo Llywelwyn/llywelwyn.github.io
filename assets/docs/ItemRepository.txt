@@ -1,0 +1,19 @@
+Game.ItemRepository.define('generic', {
+    name: <string>,              -      the name of the item     
+    character: <string>,         -      the glyph to represent the item as
+    foreground: <string>,        -      foreground colour
+    background: <string>,        -      background colour
+    odour: <string>,             -      'It smells like <odour>.'
+    stats: {            
+        wieldable: <bool>,       -      if it can be wielded in hands
+        wearable: <bool>,        -      if it can be worn on body
+        attack_bonus: <int>,     -      bonus to attack on equip
+        strength_bonus: <int>,   -      bonus to strength on equip
+        defence_bonus: <int>     -      bonus to defence on equip
+    },
+    verb: {
+        singular: [<string>],    -      singular verbs to use when attacking
+        plural: [<string>]       -      plural verbs to use when attacking
+    },
+    mixins: [<Object>]           -      attached components - full list is @ /assets/mixins/item.js
+})

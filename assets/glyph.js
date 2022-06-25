@@ -8,3 +8,4 @@ Game.Glyph = function(properties) {
 Game.Glyph.prototype.character = function() { return this._character; };
 Game.Glyph.prototype.foreground = function() { return this._foreground; };
 Game.Glyph.prototype.background = function() { return this._background; };
+Game.Glyph.prototype.representation = function() { return '%c{' + this._foreground + '}%b{' + this._background + '}' + this._character + '%c{white}%b{black}'; }

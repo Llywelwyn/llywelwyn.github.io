@@ -43,7 +43,9 @@ Game.DynamicGlyph = function(properties) {
                 }
             }
         }
-        // Call init if one exists
+    }
+    // Finally call init functions if they exist
+    for (var i = 0; i < mixins.length; i++) {
         if (mixins[i].init) {
             mixins[i].init.call(this, properties);
         }

@@ -54,6 +54,7 @@ Game.ItemMixins.Equippable = {
     },
     listeners: {
         details: function() {
+            /* TODO: Replace this stuff with description. For a large weapon: It's slow. A dagger: It's fast. etc.
             var results = [];
             if (this.attack_bonus() !== 0) {
                 results.push({key: 'attack', value: this.attack_bonus()});
@@ -64,6 +65,7 @@ Game.ItemMixins.Equippable = {
             if (this.defence_bonus() !== 0) {
                 results.push({key: 'defence', value: this.defence_bonus()});
             }
+            */
         }
     },
     attack_bonus: function() { return this._atk_bonus; },
@@ -86,7 +88,7 @@ Game.ItemMixins.HasSenses = {
             results = [];
 
             if (entity.has_mixin(Game.EntityMixins.Senses)) {
-                if (this._smell && entity.has_smell()) { // TODO: requirement for Entity to have correct sense
+                if (this._smell && entity.has_smell()) {
                     results.push({key: 'smell', value: 'It smells ' + this._smell + '.'});
                 }
                 if (this._touch && entity.has_touch()) {
