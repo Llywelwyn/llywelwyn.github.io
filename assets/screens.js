@@ -237,72 +237,64 @@ Game.Screen.play_screen = {
             return;
         }
         if (input_type === 'keydown') {
-            // If unpaused
-            if(!this._help) {
-                // MOVEMENT KEYS
-                if (input_data.key === 'ArrowLeft') {
-                    this.move(-1, 0, 0);
-                } else if (input_data.key === 'ArrowRight') {
-                    this.move(1, 0, 0);
-                } else if(input_data.key === 'ArrowUp') {
-                    this.move(0, -1, 0);
-                } else if(input_data.key === 'ArrowDown') {
-                    this.move(0, 1, 0);
-                } else if(input_data.key === '.') {
-                    Game.send_message(this._player, "You wait."); // Pass
-                } else if(input_data.key === '>') {
-                    this.move(0, 0, 1);
-                } else if(input_data.key === '<') {
-                    this.move(0, 0, -1);
-                // OPEN HELP SCREEN - REFACTOR THIS
-                } else if(input_data.key === '?') {
-                    this._help = true;
-                    Game.refresh();
-                    return;
-                // SUBSCREENS
-                // OPEN THE INVENTORY
-                } else if (input_data.key === 'i') {
-                    this.show_item_sub_screen(Game.Screen.inventory_screen, this._player.items(), 'You aren\'t carrying anything.');
-                    return;
-                } else if (input_data.key === 'd') {
-                    this.show_item_sub_screen(Game.Screen.drop_screen, this._player.items(), 'You have nothing to drop.');
-                    return;
-                } else if (input_data.key === 'e' && this._player.has_mixin('HasHunger')) {
-                    this.show_item_sub_screen(Game.Screen.eat_screen, this._player.items(), 'You have nothing to eat.');
-                    return;
-                } else if (input_data.key === 'W') {
-                    this.show_item_sub_screen(Game.Screen.wear_screen, this._player.items(), 'You have nothing to wear.');
-                    return;
-                } else if (input_data.key === 'w') {
-                    this.show_item_sub_screen(Game.Screen.wield_screen, this._player.items(), 'You have nothing to wield.');
-                    return;
-                // PICK UP
-                } else if (input_data.key === 'g') {
-                    var items = this._player.map().items_at(this._player.x(), this._player.y(), this._player.z());
-                    // If no items, show a message
-                    if (items && items.length === 1) {
-                        // If only one item, try to pick up
-                        var item = items[0];
-                        if (this._player.pickup_items([0])) {
-                            Game.send_message(this._player, "You pick up %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_a()]);
-                        } else {
-                            Game.send_message(this._player, "Your inventory is full. Nothing was picked up.");
-                        }
+            // MOVEMENT KEYS
+            if (input_data.key === 'ArrowLeft') {
+                this.move(-1, 0, 0);
+            } else if (input_data.key === 'ArrowRight') {
+                this.move(1, 0, 0);
+            } else if(input_data.key === 'ArrowUp') {
+                this.move(0, -1, 0);
+            } else if(input_data.key === 'ArrowDown') {
+                this.move(0, 1, 0);
+            } else if(input_data.key === '.') {
+                Game.send_message(this._player, "You wait."); // Pass
+            } else if(input_data.key === '>') {
+                this.move(0, 0, 1);
+            } else if(input_data.key === '<') {
+                this.move(0, 0, -1);
+            // SUBSCREENS
+            // OPEN THE INVENTORY
+            } else if (input_data.key === 'i') {
+                this.show_item_sub_screen(Game.Screen.inventory_screen, this._player.items(), 'You aren\'t carrying anything.');
+                return;
+            } else if (input_data.key === 'x') {
+                this.show_item_sub_screen(Game.Screen.examine_screen, this._player.items(), 'You have nothing to examine.');
+                return;
+            } else if (input_data.key === 'd') {
+                this.show_item_sub_screen(Game.Screen.drop_screen, this._player.items(), 'You have nothing to drop.');
+                return;
+            } else if (input_data.key === 'e' && this._player.has_mixin('HasHunger')) {
+                this.show_item_sub_screen(Game.Screen.eat_screen, this._player.items(), 'You have nothing to eat.');
+                return;
+            } else if (input_data.key === 'W') {
+                this.show_item_sub_screen(Game.Screen.wear_screen, this._player.items(), 'You have nothing to wear.');
+                return;
+            } else if (input_data.key === 'w') {
+                this.show_item_sub_screen(Game.Screen.wield_screen, this._player.items(), 'You have nothing to wield.');
+                return;
+            // PICK UP
+            } else if (input_data.key === 'g') {
+                var items = this._player.map().items_at(this._player.x(), this._player.y(), this._player.z());
+                // If no items, show a message
+                if (items && items.length === 1) {
+                    // If only one item, try to pick up
+                    var item = items[0];
+                    if (this._player.pickup_items([0])) {
+                        Game.send_message(this._player, "You pick up %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_a()]);
                     } else {
-                        // Show the pickup screen
-                        this.show_item_sub_screen(Game.Screen.pickup_screen, items, 'There is nothing here to pick up.');
-                        return;
+                        Game.send_message(this._player, "Your inventory is full. Nothing was picked up.");
                     }
                 } else {
-                    // Invalid key
+                    // Show the pickup screen
+                    this.show_item_sub_screen(Game.Screen.pickup_screen, items, 'There is nothing here to pick up.');
                     return;
                 }
-                // Unlock the engine
-                this._player.map().engine().unlock();
-            } else if (input_data.key === '?') {
-                this._help = false;
-                this._player.map().engine().unlock();
+            } else {
+                // Invalid key
+                return;
             }
+            // Unlock the engine
+            this._player.map().engine().unlock();
         }
     },
     move: function(d_x, d_y, d_z) {
@@ -484,7 +476,7 @@ Game.Screen.inventory_screen = new Game.Screen.ItemListScreen({
     can_select: false
 });
 Game.Screen.pickup_screen = new Game.Screen.ItemListScreen({
-    caption: 'Choose the items you wish to pickup',
+    caption: 'Get what?',
     can_select: true,
     can_select_multiple: true,
     ok: function(selected_items) {
@@ -498,7 +490,7 @@ Game.Screen.pickup_screen = new Game.Screen.ItemListScreen({
     }
 });
 Game.Screen.drop_screen = new Game.Screen.ItemListScreen({
-    caption: 'Choose the item you wish to drop',
+    caption: 'Drop what?',
     can_select: true,
     can_select_multiple: false,
     ok: function(selected_items) {
@@ -508,7 +500,7 @@ Game.Screen.drop_screen = new Game.Screen.ItemListScreen({
     }
 });
 Game.Screen.eat_screen = new Game.Screen.ItemListScreen({
-    caption: 'What do you want to eat?',
+    caption: 'Eat what?',
     can_select: true,
     is_acceptable: function(item) {
         return item && item.has_mixin('Edible');
@@ -518,10 +510,14 @@ Game.Screen.eat_screen = new Game.Screen.ItemListScreen({
         var key = Object.keys(selected_items)[0];
         var item = selected_items[key];
         if (item.uses() > 1) {
-            Game.send_message(this._player, "You eat some of %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_the()]);
+            var message = "You eat some of %%c{%s}%s%%c{white}.";
         } else {
-            Game.send_message(this._player, "You eat %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_the()]);
+            var message = "You eat %%c{%s}%s%%c{white}.";
         }
+        if (this._player.has_mixin('Senses') && this._player.has_taste() && item._desc) {
+            message += ' It tastes ' + item._desc + '.';
+        }
+        Game.send_message(this._player, message, [item.foreground(), item.describe_the()]);
         item.eat(this._player);
         if (!item.has_remaining_uses()) {
             this._player.remove_item(key);
@@ -530,7 +526,7 @@ Game.Screen.eat_screen = new Game.Screen.ItemListScreen({
     }
 });
 Game.Screen.wield_screen = new Game.Screen.ItemListScreen({
-    caption: 'Choose the item you wish to wield',
+    caption: 'Wield what?',
     can_select: true,
     can_select_multiple: false,
     has_no_item_option: true,
@@ -554,7 +550,7 @@ Game.Screen.wield_screen = new Game.Screen.ItemListScreen({
     }
 });
 Game.Screen.wear_screen = new Game.Screen.ItemListScreen({
-    caption: 'Choose the item you wish to wear',
+    caption: 'Wear what?',
     can_select: true,
     can_select_multiple: false,
     has_no_item_option: true,
@@ -575,6 +571,28 @@ Game.Screen.wear_screen = new Game.Screen.ItemListScreen({
             Game.send_message(this._player, "You are wearing %%c{%s}%s%%c{white}.", [item.foreground(), item.describe_a()]);
         }
         return true;
+    }
+});
+Game.Screen.examine_screen = new Game.Screen.ItemListScreen({
+    caption: 'Examine what?',
+    can_select: true,
+    can_select_multiple: false,
+    is_acceptable: function(item) {
+        return true;
+    },
+    ok: function(selected_items) {
+        var keys = Object.keys(selected_items);
+        if (keys.length > 0) {
+            var item = selected_items[keys[0]];
+            Game.send_message(
+                this._player,
+                "It's %%c{%s}%s%%c{white}. %s",
+                [
+                    item.foreground(),
+                    item.describe_a(),
+                    item.details()
+                ]);
+        }
     }
 });
 Game.Screen.gain_stat_screen = {

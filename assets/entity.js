@@ -78,7 +78,6 @@ Game.Entity.prototype.try_move = function(x, y, z, map) {
             return false;
         } else {
             Game.send_message(this, "You ascend up to level %d!", [z + 1]); // TODO: ?? [z+1]?
-            this.set_position(x, y, z);
         }
     } else if ( z > this.z()) {
         if (tile === Game.Tile.hole_down_tile && this.has_mixin(Game.EntityMixins.PlayerActor)) {
@@ -88,7 +87,6 @@ Game.Entity.prototype.try_move = function(x, y, z, map) {
             Game.send_message(this, "You can't go down here!");
             return false;
         } else {
-            this.set_position(x, y, z);
             Game.send_message(this, "You descend to level %d.", [z + 1]);
         }
     }
@@ -127,7 +125,7 @@ Game.Entity.prototype.switch_map = function(new_map) {
         return;
     }
     var found = false;
-    
+
     // Store this.map() in MapManager
     for (i = 0; i < Game.MapManager.length; i++) {
         if (this.map() === Game.MapManager[i]) {

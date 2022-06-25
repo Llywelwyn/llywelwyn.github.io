@@ -3,6 +3,28 @@ Game.ItemRepository = new Game.Repository('items', Game.Item);
 
 // Item templates - https://www.w3.org/wiki/CSS/Properties/color/keywords
 
+/*
+Game.ItemRepository.define('generic', {
+    name: <string>,              -      the name of the item     
+    character: <string>,         -      the glyph to represent the item as
+    foreground: <string>,        -      foreground colour
+    background: <string>,        -      background colour
+    odour: <string>,             -      'It smells like <odour>.'
+    stats: {            
+        wieldable: <bool>,       -      if it can be wielded in hands
+        wearable: <bool>,        -      if it can be worn on body
+        attack_bonus: <int>,     -      bonus to attack on equip
+        strength_bonus: <int>,   -      bonus to strength on equip
+        defence_bonus: <int>     -      bonus to defence on equip
+    },
+    verb: {
+        singular: [<string>],    -      singular verbs to use when attacking
+        plural: [<string>]       -      plural verbs to use when attacking
+    },
+    mixins: [<Object>]           -      attached components - full list is @ /assets/mixins/item.js
+})
+*/
+
 // WEAPONS
 Game.ItemRepository.define('dagger', {
     name: 'dagger',
@@ -99,6 +121,7 @@ Game.ItemRepository.define('apple', {
     character: 'a',
     foreground: 'red',
     edible: {
+        adjective: 'pitiful',
         value: 50,
     },
     mixins: [Game.ItemMixins.Edible]
@@ -107,19 +130,27 @@ Game.ItemRepository.define('hardtack', {
     name: 'piece of hardtack',
     character: 'h',
     foreground: 'rosybrown',
+    senses: {
+        smell: 'like yeast'
+    },
     edible: {
+        adjective: 'bland',
         value: 80,
         max_uses: 2
     },
-    mixins: [Game.ItemMixins.Edible]
+    mixins: [Game.ItemMixins.Edible, Game.ItemMixins.HasSenses]
 });
 Game.ItemRepository.define('corpse', {
     name: 'corpse',
     character: '%',
+    senses: {
+        smell: 'putrid'
+    },
     edible: {
+        adjective: 'depressing',
         value: 120
     },
-    mixins: [Game.ItemMixins.Edible]
+    mixins: [Game.ItemMixins.Edible, Game.ItemMixins.HasSenses]
 }, {
     disable_random_creation: true
 });

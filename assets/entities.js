@@ -4,6 +4,13 @@ Game.PlayerTemplate = {
     character: '@',
     foreground: 'white',
     background: 'black',
+    senses: {
+        sight: true,
+        hear: true,
+        smell: true,
+        taste: true,
+        touch: true
+    },
     stats: {
         max_hp: 40,
         attack_bonus: 50,
@@ -23,7 +30,8 @@ Game.PlayerTemplate = {
     mixins: [Game.EntityMixins.PlayerActor, Game.EntityMixins.MessageRecipient, Game.EntityMixins.Sight, 
             Game.EntityMixins.Attacker, Game.EntityMixins.Destructible, Game.EntityMixins.Digger,
             Game.EntityMixins.HasInventory, Game.EntityMixins.HasHunger, Game.EntityMixins.Equipper,
-            Game.EntityMixins.ExperienceGainer, Game.EntityMixins.PlayerStatGainer, Game.EntityMixins.Bleeder]
+            Game.EntityMixins.ExperienceGainer, Game.EntityMixins.PlayerStatGainer, Game.EntityMixins.Bleeder,
+            Game.EntityMixins.Senses]
 };
 
 // Entity Repository stuff -- grouping entities together
@@ -55,19 +63,26 @@ Game.EntityRepository.define('generic', {
         attack_bonus: <int>,     -       increases hit chance when attacking
         defence_bonus: <int>,    -       reduces hit chance against entity
         strength_bonus: <int>,   -       increases max hit when attacking (1:1)
+        level: <int>             -       entity current level
     }
     sight_radius: <int>,         -       vision range if Sight mixin is present
     inventory_slots: <int>,      -       size of inventory if HasInventory mixin is present
     verb: {
-        singular: [<string>]     -       array of verbs to be used on attack messages, singular form
+        singular: [<string>],    -       array of verbs to be used on attack messages, singular form
         plural: [<string>]       -       plural form array, should correspond to singular at same index
     },
     hunger: {
-        max_fullness: [<int>]    -       maximum fullness
-        fullness: [<int>]        -       current fullness, used to specify starting at a specific hunger state
+        max_fullness: [<int>],   -       maximum fullness
+        fullness: [<int>],       -       current fullness, used to specify starting at a specific hunger state
         depletion_rate: [<int>]  -       amount to reduce fullness per turn of hunger  
     },
-    corpse_drop_rate: <int>      -       percent chance to drop an edible corpse
+    growth: {
+        remaining: <int>,        -       remaining times this entity will replicate if GrowthActor
+        chance: <int>            -       percent chance to grow per turn
+    },
+    bleed_rate: <int>,           -       percent chance to bleed on receiving damage
+    corpse_drop_rate: <int>,     -       percent chance to drop an edible corpse
+    tasks: [<string>]            -       array of strings defining tasks to complete
     mixins: [<object>]           -       array of mixins - full list is @ /assets/mixins/entity.js
 });
 */
