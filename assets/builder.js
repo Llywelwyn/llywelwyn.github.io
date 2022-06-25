@@ -9,7 +9,7 @@ Game.Builder = function(width, height, depth) {
     // Instantiate arrays as multi-dimensional
     for (var z = 0; z < depth; z++) {
         // Create each level
-        if (Math.random() < 0.2) {
+        if (Math.random() < 0.6) {
             this._tiles[z] = this._generate_cave();
             this._floor_type.push('Cave');
             console.log(this._removes);
