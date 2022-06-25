@@ -56,7 +56,6 @@ Game.EntityMixins.Sight = {
 Game.EntityMixins.Digger = {
     name: 'Digger',
     init: function(template) {},
-    dig_strength: function() { return this._dig_strength; },
     try_dig: function(x, y, z, tile, map) {
         // If tile isn't diggable, fail
         if(!tile.is_diggable()) { return false; };
@@ -65,7 +64,17 @@ Game.EntityMixins.Digger = {
         Game.send_message(this, "You dig through %%c{%s}%s%%c{white}.", [tile.foreground(), tile.describe_the()]);
         return true;
     }
-}
+};
+Game.EntityMixins.CanOpen = {
+    name: 'CanOpen',
+    init: function(template) {},
+    try_open: function(x, y, z, tile, map) {
+        if(!tile.is_openable()) { return false; };
+        map.open(x, y, z);
+        Game.send_message(this, "You open %%c{%s}%s%%c{white}.", [tile.foreground(), tile.describe_the()]);
+        return true;
+    }
+};
 Game.EntityMixins.Destructible = {
     name: 'Destructible',
     init: function(template) {
@@ -601,7 +610,7 @@ Game.EntityMixins.Senses = {
         this._senses = template['senses'] || undefined;
         this._smell = this._senses['smell'] || false;
         this._touch = this._senses['touch'] || false;
-        this._hear = this._senses['hear'] || false;
+        this._hear = this._senses['hearing'] || false;
         this._taste = this._senses['taste'] || false;
         this._sight = this._senses['sight'] || false;
     },
@@ -617,6 +626,7 @@ Game.EntityMixins.HasDescription = {
         this._senses = template['description'];
         this._smell = this._senses['smell'] || undefined;
         this._sight = this._senses['sight'] || undefined;
+        this._taste = this._senses['taste'] || undefined;
         this._speed_desc = this._senses['speed'] || undefined;
     },
     listeners: {

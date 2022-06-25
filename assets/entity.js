@@ -116,6 +116,8 @@ Game.Entity.prototype.try_move = function(x, y, z, map) {
         return true;
     } else if(tile.is_diggable() && this.has_mixin(Game.EntityMixins.Digger)) { // If tile is diggable, dig
         return this.try_dig(x, y, z, tile, map);
+    } else if(tile.is_openable() && this.has_mixin(Game.EntityMixins.CanOpen)) { // If tile is openable, open
+        return this.try_open(x, y, z, tile, map);
     }
     return false;
 };

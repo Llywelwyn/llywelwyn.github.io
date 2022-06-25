@@ -143,6 +143,11 @@ Game.Map.prototype.dig = function(x, y, z) {
         this._tiles[z][x][y] = Game.Tile.floor_tile;
     }
 };
+Game.Map.prototype.open = function(x, y, z) {
+    if (this.tile(x, y, z).is_openable()) {
+        this._tiles[z][x][y] = Game.Tile.open_door_tile;
+    }
+};
 Game.Map.prototype.set_tile = function(x, y, z, tile) {
     this._tiles[z][x][y] = tile;
 };

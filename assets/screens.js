@@ -55,6 +55,7 @@ Game.Screen.play_screen = {
             return;
         }
         this.render_tiles(display);
+        this.render_bottom_box(display);
         this.render_player_info(display);
         this.render_messages(display);
 
@@ -155,6 +156,8 @@ Game.Screen.play_screen = {
                 }
             }
         }
+    },
+    render_bottom_box: function(display) {
         // Render bottom box
         var top_bar = '╔'
         for (var i = 0; i < Game.width() - 4; i++) {
@@ -194,12 +197,16 @@ Game.Screen.play_screen = {
             weapon += vsprintf('{%s}%s', [this._player.weapon().foreground(), this._player.weapon().describe_a()]);
             weapon += ' %c{white}(wielding)'
             display.drawText(stats_x, stats_y++ + 1, weapon)
+        } else {
+            display.drawText(stats_x, stats_y++ + 1, '%c{white}- unarmed')
         }
         if(this._player.armour()) {
             var armour = '%c{white}- %c'
             armour += vsprintf('{%s}%s', [this._player.armour().foreground(), this._player.armour().describe_a()]);
             armour += ' %c{white}(wearing)'
             display.drawText(stats_x, stats_y++ + 1, armour)
+        } else {
+            display.drawText(stats_x, stats_y++ + 1, '%c{white}- unarmoured')
         }
 
         // Render hunger
@@ -394,6 +401,10 @@ Game.Screen.ItemListScreen.prototype.setup = function(player, items) {
     return count;
 };
 Game.Screen.ItemListScreen.prototype.render = function(display) {
+    Game.Screen.play_screen.render_bottom_box.call(Game.Screen.play_screen, display);
+    Game.Screen.play_screen.render_player_info.call(Game.Screen.play_screen, display);
+    Game.Screen.play_screen.render_messages.call(Game.Screen.play_screen, display);
+
     var letters = 'abcdefghijklmnopqrstuvwxyz';
     // Render caption in top row
     var top_left_x = 1;
@@ -528,8 +539,8 @@ Game.Screen.eat_screen = new Game.Screen.ItemListScreen({
         } else {
             var message = "You eat %%c{%s}%s%%c{white}.";
         }
-        if (this._player.has_mixin('Senses') && this._player.has_taste() && item._desc) {
-            message += ' It tastes ' + item._desc + '.';
+        if (this._player.has_mixin('Senses') && this._player.has_taste() && item._taste) {
+            message += ' It tastes ' + item._taste + '.';
         }
         Game.send_message(this._player, message, [item.foreground(), item.describe_the()]);
         item.eat(this._player);
@@ -617,6 +628,10 @@ Game.Screen.gain_stat_screen = {
         this._options = entity.stat_options();
     },
     render: function(display) {
+        Game.Screen.play_screen.render_bottom_box.call(Game.Screen.play_screen, display);
+        Game.Screen.play_screen.render_player_info.call(Game.Screen.play_screen, display);
+        Game.Screen.play_screen.render_messages.call(Game.Screen.play_screen, display);
+
         var letters = 'abcdefghijklmnopqrstuvwxyz';
         var top_left_x = 1;
         var top_left_y = 1;
@@ -690,6 +705,7 @@ Game.Screen.TargetBasedScreen.prototype.setup = function(player, start_x, start_
 };
 Game.Screen.TargetBasedScreen.prototype.render = function(display) {
     Game.Screen.play_screen.render_tiles.call(Game.Screen.play_screen, display);
+    Game.Screen.play_screen.render_bottom_box.call(Game.Screen.play_screen, display);
     Game.Screen.play_screen.render_player_info.call(Game.Screen.play_screen, display);
     // Draw line from start to cursor
     var points = Game.Geometry.line(this._start_x, this._start_y, this._cursor_x, this._cursor_y);

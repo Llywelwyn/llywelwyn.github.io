@@ -6,7 +6,7 @@ Game.PlayerTemplate = {
     background: 'black',
     senses: {
         sight: true,
-        hear: true,
+        hearing: true,
         smell: true,
         taste: true,
         touch: true
@@ -31,7 +31,7 @@ Game.PlayerTemplate = {
             Game.EntityMixins.Attacker, Game.EntityMixins.Destructible, Game.EntityMixins.Digger,
             Game.EntityMixins.HasInventory, Game.EntityMixins.HasHunger, Game.EntityMixins.Equipper,
             Game.EntityMixins.ExperienceGainer, Game.EntityMixins.PlayerStatGainer, Game.EntityMixins.Bleeder,
-            Game.EntityMixins.Senses]
+            Game.EntityMixins.Senses, Game.EntityMixins.CanOpen]
 };
 
 // Entity Repository stuff -- grouping entities together

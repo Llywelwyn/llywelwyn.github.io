@@ -120,17 +120,19 @@ Game.ItemRepository.define('apple', {
     name: 'apple',
     character: 'a',
     foreground: 'red',
+    description: {
+        taste: 'overly ripe'
+    },
     edible: {
-        adjective: 'pitiful',
         value: 50,
     },
-    mixins: [Game.ItemMixins.Edible]
+    mixins: [Game.ItemMixins.Edible, Game.ItemMixins.HasDescription]
 });
 Game.ItemRepository.define('hardtack', {
     name: 'piece of hardtack',
     character: 'h',
     foreground: 'rosybrown',
-    senses: {
+    description: {
         smell: 'like yeast'
     },
     edible: {
@@ -138,19 +140,19 @@ Game.ItemRepository.define('hardtack', {
         value: 80,
         max_uses: 2
     },
-    mixins: [Game.ItemMixins.Edible, Game.ItemMixins.HasSenses]
+    mixins: [Game.ItemMixins.Edible, Game.ItemMixins.HasDescription]
 });
 Game.ItemRepository.define('corpse', {
     name: 'corpse',
     character: '%',
-    senses: {
-        smell: 'putrid'
+    description: {
+        smell: 'putrid',
+        taste: 'unpalatable'
     },
     edible: {
-        adjective: 'depressing',
         value: 120
     },
-    mixins: [Game.ItemMixins.Edible, Game.ItemMixins.HasSenses]
+    mixins: [Game.ItemMixins.Edible, Game.ItemMixins.HasDescription]
 }, {
     disable_random_creation: true
 });
