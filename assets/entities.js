@@ -1,9 +1,16 @@
 // Templates
 Game.PlayerTemplate = {
-    name: 'Hero',
+    name: 'hero (you)',
     character: '@',
     foreground: 'white',
     background: 'black',
+    senses: {
+        sight: true,
+        hear: true,
+        smell: true,
+        taste: true,
+        touch: true
+    },
     stats: {
         max_hp: 40,
         attack_bonus: 50,
@@ -23,7 +30,8 @@ Game.PlayerTemplate = {
     mixins: [Game.EntityMixins.PlayerActor, Game.EntityMixins.MessageRecipient, Game.EntityMixins.Sight, 
             Game.EntityMixins.Attacker, Game.EntityMixins.Destructible, Game.EntityMixins.Digger,
             Game.EntityMixins.HasInventory, Game.EntityMixins.HasHunger, Game.EntityMixins.Equipper,
-            Game.EntityMixins.ExperienceGainer, Game.EntityMixins.PlayerStatGainer, Game.EntityMixins.Bleeder]
+            Game.EntityMixins.ExperienceGainer, Game.EntityMixins.PlayerStatGainer, Game.EntityMixins.Bleeder,
+            Game.EntityMixins.Senses]
 };
 
 // Entity Repository stuff -- grouping entities together
@@ -55,19 +63,26 @@ Game.EntityRepository.define('generic', {
         attack_bonus: <int>,     -       increases hit chance when attacking
         defence_bonus: <int>,    -       reduces hit chance against entity
         strength_bonus: <int>,   -       increases max hit when attacking (1:1)
+        level: <int>             -       entity current level
     }
     sight_radius: <int>,         -       vision range if Sight mixin is present
     inventory_slots: <int>,      -       size of inventory if HasInventory mixin is present
     verb: {
-        singular: [<string>]     -       array of verbs to be used on attack messages, singular form
+        singular: [<string>],    -       array of verbs to be used on attack messages, singular form
         plural: [<string>]       -       plural form array, should correspond to singular at same index
     },
     hunger: {
-        max_fullness: [<int>]    -       maximum fullness
-        fullness: [<int>]        -       current fullness, used to specify starting at a specific hunger state
+        max_fullness: [<int>],   -       maximum fullness
+        fullness: [<int>],       -       current fullness, used to specify starting at a specific hunger state
         depletion_rate: [<int>]  -       amount to reduce fullness per turn of hunger  
     },
-    corpse_drop_rate: <int>      -       percent chance to drop an edible corpse
+    growth: {
+        remaining: <int>,        -       remaining times this entity will replicate if GrowthActor
+        chance: <int>            -       percent chance to grow per turn
+    },
+    bleed_rate: <int>,           -       percent chance to bleed on receiving damage
+    corpse_drop_rate: <int>,     -       percent chance to drop an edible corpse
+    tasks: [<string>]            -       array of strings defining tasks to complete
     mixins: [<object>]           -       array of mixins - full list is @ /assets/mixins/entity.js
 });
 */
@@ -98,6 +113,10 @@ Game.EntityRepository.define('bat', {
     name: 'bat',
     character: 'b',
     foreground: 'beige',
+    description: {
+        speed: 'quickly',
+        sight: 'unthreatening'
+    },
     stats: {
         max_hp: 5,
         speed: 150,
@@ -112,12 +131,15 @@ Game.EntityRepository.define('bat', {
     corpse_drop_rate: 75,
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
             Game.EntityMixins.CorpseDropper, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer,
-            Game.EntityMixins.Bleeder]
+            Game.EntityMixins.Bleeder, Game.EntityMixins.HasDescription]
 });
 Game.EntityRepository.define('newt', {
     name: 'newt',
     character: 'n',
     foreground: 'yellow',
+    description: {
+        sight: 'unthreatening'
+    },
     stats: {
         max_hp: 3,
         attack_bonus: 30,
@@ -131,7 +153,7 @@ Game.EntityRepository.define('newt', {
     corpse_drop_rate: 25,
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
             Game.EntityMixins.CorpseDropper, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer,
-            Game.EntityMixins.Bleeder]
+            Game.EntityMixins.Bleeder, Game.EntityMixins.HasDescription]
 });
 
 // Hunters
@@ -139,6 +161,9 @@ Game.EntityRepository.define('kobold', {
     name: 'kobold',
     character: 'k',
     foreground: 'white',
+    description: {
+        sight: 'clumsy'
+    },
     stats: {
         max_hp: 12,
         speed: 90,
@@ -150,12 +175,16 @@ Game.EntityRepository.define('kobold', {
     tasks: ['hunt', 'wander'],
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Sight, Game.EntityMixins.Attacker,
             Game.EntityMixins.Destructible, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer,
-            Game.EntityMixins.Bleeder]
+            Game.EntityMixins.Bleeder, Game.EntityMixins.HasDescription]
 });
 Game.EntityRepository.define('orc', {
     name: 'orc',
     character: 'o',
     foreground: 'olive',
+    description: {
+        speed: 'slowly',
+        sight: 'strong'
+    },
     stats: {
         max_hp: 20,
         speed: 50,
@@ -167,7 +196,7 @@ Game.EntityRepository.define('orc', {
     tasks: ['hunt', 'wander'],
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Sight, Game.EntityMixins.Attacker,
             Game.EntityMixins.Destructible, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer,
-            Game.EntityMixins.Bleeder]
+            Game.EntityMixins.Bleeder, Game.EntityMixins.HasDescription]
 });
 Game.EntityRepository.define('vampire', {
     name: 'vampire',

@@ -43,7 +43,9 @@ Game.DynamicGlyph = function(properties) {
                 }
             }
         }
-        // Call init if one exists
+    }
+    // Finally call init functions if they exist
+    for (var i = 0; i < mixins.length; i++) {
         if (mixins[i].init) {
             mixins[i].init.call(this, properties);
         }
@@ -62,18 +64,6 @@ Game.DynamicGlyph.prototype.has_mixin = function(object) {
         return this._attached_mixins[object.name];
     } else {
         return this._attached_mixins[object] || this._attached_mixin_groups[object];
-    }
-};
-Game.DynamicGlyph.prototype.raise_event = function(event) {
-    // Check if we have a listener
-    if (!this._listeners[event]) {
-        return;
-    }
-    // Extract arguments passed, remove event name
-    var args = Array.prototype.slice.call(arguments, 1);
-    // Invoke each listener, with this entity as context and args
-    for (var i = 0; i < this._listeners[event].length; i++) {
-        this._listeners[event][i].apply(this, args);
     }
 };
 Game.DynamicGlyph.prototype.describe = function() { return this._name; }; // For now, for use in describe_a().
@@ -116,4 +106,38 @@ Game.DynamicGlyph.prototype.is_are = function() {
     } else {
         return 'is';
     }
-}
+};
+Game.DynamicGlyph.prototype.raise_event = function(event) {
+    // Check if we have a listener
+    if (!this._listeners[event]) {
+        return;
+    }
+    // Extract arguments passed, remove event name
+    var args = Array.prototype.slice.call(arguments, 1);
+    // Invoke each listener, with this entity as context and args
+    for (var i = 0; i < this._listeners[event].length; i++) {
+        this._listeners[event][i].apply(this, args);
+    }
+
+    // Invoke each listener with entity as context and args
+    var results = [];
+    for (var i = 0; i < this._listeners[event].length; i++) {
+        results.push(this._listeners[event][i].apply(this, args));
+    }
+    return results;
+};
+Game.DynamicGlyph.prototype.details = function() {
+    var details = [];
+    var detail_groups = this.raise_event('details', Game.Screen.play_screen._player);
+    // Iterate through each return, grabbing details
+    if (detail_groups) {
+        for (var i = 0, l = detail_groups.length; i < l; i++) {
+            if (detail_groups[i]) {
+                for (var j = 0; j < detail_groups[i].length; j++) {
+                    details.push(detail_groups[i][j].value);
+                }
+            }
+        }
+    }
+    return details.join(' ');
+};

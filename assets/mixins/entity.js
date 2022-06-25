@@ -484,6 +484,24 @@ Game.EntityMixins.ExperienceGainer = {
             this._stat_options.push(['%c{plum}perception', this.modify_sight_radius]);
         }
     },
+    listeners: {
+        on_kill: function(victim) {
+            var exp = victim.max_hp() + victim.defence_bonus();
+            if (victim.has_mixin('Attacker')) {
+                exp += victim.attack_bonus();
+            }
+            exp = Math.floor(exp / 10);
+            // Account for level diff
+            if (victim.has_mixin('ExperienceGainer')) {
+                exp -= (this.level() - victim.level()) * 3;
+            }
+            if (exp > 0) {
+                // exp = (target's max hp + defence + attack)/10 - (level difference * 3)
+                // TODO: Refine levelling + experience gain algorithms a lot
+                this.give_experience(exp);
+            }
+        }
+    },
     level: function() { return this._level; },
     experience: function() { return this._experience; },
     next_level_experience: function() { return (this.level() * this.level()) * 10 + (this.level() * 7); },
@@ -517,24 +535,6 @@ Game.EntityMixins.ExperienceGainer = {
             this.raise_event('on_gain_level');
         }
     },
-    listeners: {
-        on_kill: function(victim) {
-            var exp = victim.max_hp() + victim.defence_bonus();
-            if (victim.has_mixin('Attacker')) {
-                exp += victim.attack_bonus();
-            }
-            exp = Math.floor(exp / 10);
-            // Account for level diff
-            if (victim.has_mixin('ExperienceGainer')) {
-                exp -= (this.level() - victim.level()) * 3;
-            }
-            if (exp > 0) {
-                // exp = (target's max hp + defence + attack)/10 - (level difference * 3)
-                // TODO: Refine levelling + experience gain algorithms a lot
-                this.give_experience(exp);
-            }
-        }
-    }
 };
 Game.EntityMixins.RandomStatGainer = {
     name: 'RandomStatGainer',
@@ -595,6 +595,49 @@ Game.EntityMixins.Bleeder = { // TODO: Should probably spawn an entity rather th
         }
     }
 };
+Game.EntityMixins.Senses = {
+    name: 'Senses',
+    init: function(template) {
+        this._senses = template['senses'] || undefined;
+        this._smell = this._senses['smell'] || false;
+        this._touch = this._senses['touch'] || false;
+        this._hear = this._senses['hear'] || false;
+        this._taste = this._senses['taste'] || false;
+        this._sight = this._senses['sight'] || false;
+    },
+    has_smell: function() { return this._smell; },
+    has_touch: function() { return this._touch; },
+    has_hearing: function() { return this._hear; },
+    has_taste: function() { return this._taste; },
+    has_sight: function() { return this._sight; }
+};
+Game.EntityMixins.HasDescription = {
+    name: 'HasDescription',
+    init: function(template) {
+        this._senses = template['description'];
+        this._smell = this._senses['smell'] || undefined;
+        this._sight = this._senses['sight'] || undefined;
+        this._speed_desc = this._senses['speed'] || undefined;
+    },
+    listeners: {
+        details: function(entity) {
+            results = [];
+
+            if (entity.has_mixin(Game.EntityMixins.Senses)) {
+                if (this._speed) {
+                    results.push({key: 'speed', value: 'It moves ' + this._speed_desc + '.'});
+                }
+                if (this._sight && entity.has_sight()) {
+                    results.push({key: 'sight', value: 'It looks ' + this._sight + '.'});
+                }
+                if (this._smell && entity.has_smell()) {
+                    results.push({key: 'smell', value: 'It smells ' + this._smell + '.'});
+                }
+            }
+            return results;
+        }
+    }
+}
 
 //   Actor Mixins - these determine which 'act' the Entity takes each turn.
 //

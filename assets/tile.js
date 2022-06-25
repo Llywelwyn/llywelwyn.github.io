@@ -2,7 +2,7 @@ Game.Tile = function(properties) {
     properties = properties || {};
     Game.Glyph.call(this, properties);
 
-    this._name = properties['name'] || '<unnamed>';
+    this._name = properties['name'] || 'unexplored area';
     this._walkable = properties['walkable'] || false;
     this._diggable = properties['diggable'] || false;
     this._blocks_light = (properties['blocks_light'] !== undefined) ? properties['blocksLight'] : true;
@@ -23,6 +23,7 @@ Game.Tile.prototype.is_blocking_light = function() {return this._blocks_light; }
 Game.Tile.null_tile = new Game.Tile({});
 Game.Tile.floor_tile = new Game.Tile({
     name: 'floor',
+    desc: 'A cave floor.',
     character: '.',
     foreground: ['grey', 'dimgray', 'slategrey'],
     walkable: true,
@@ -30,17 +31,20 @@ Game.Tile.floor_tile = new Game.Tile({
 });
 Game.Tile.cave_wall_tile = new Game.Tile({
     name: 'wall',
+    desc: 'A cave floor.',
     character: '#',
     foreground: ['goldenrod', 'darkgoldenrod', 'brown'],
     diggable: true
 });
 Game.Tile.dungeon_wall_tile = new Game.Tile({
-    name: 'dungeon wall',
+    name: 'wall',
+    desc: 'A cave floor.',
     character: '#',
     foreground: 'darkgrey',
 });
 Game.Tile.stairs_up_tile = new Game.Tile({
     name: 'stairs',
+    desc: 'A cave floor.',
     character: '<',
     foreground: 'white',
     walkable: true,
@@ -48,6 +52,7 @@ Game.Tile.stairs_up_tile = new Game.Tile({
 });
 Game.Tile.stairs_down_tile = new Game.Tile({
     name: 'stairs',
+    desc: 'A cave floor.',
     character: '>',
     foreground: 'white',
     walkable: true,
@@ -55,6 +60,7 @@ Game.Tile.stairs_down_tile = new Game.Tile({
 });
 Game.Tile.hole_down_tile = new Game.Tile({
     name: 'great dark hole',
+    desc: 'A cave floor.',
     character: 'O',
     foreground: 'white',
     walkable: true,
@@ -62,6 +68,7 @@ Game.Tile.hole_down_tile = new Game.Tile({
 });
 Game.Tile.water_tile = new Game.Tile({
     name: 'water',
+    desc: 'A cave floor.',
     character: '~',
     foreground: 'blue',
     background: '#060B44',
@@ -70,6 +77,7 @@ Game.Tile.water_tile = new Game.Tile({
 });
 Game.Tile.grass_tile = new Game.Tile({
     name: 'grass',
+    desc: 'A cave floor.',
     character: '"',
     foreground: 'darkgreen',
     walkable: true,
