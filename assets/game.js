@@ -104,11 +104,11 @@ Game.send_message_nearby = function(map, centre_x, centre_y, centre_z, message, 
         message = vsprintf(message, args);
     }
     // Get nearby entities
-    entities = map.entities_within_radius(centre_x, centre_y, centre_z, 5);
+    entities = map.entities_within_radius(centre_x, centre_y, centre_z, 7);
     // Iterate through entities, send message if they can receive it
     for(var i = 0; i < entities.length; i++) {
         if(entities[i].has_mixin(Game.EntityMixins.MessageRecipient)) {
-            entities[i].receive_message(message);
+            entities[i].receive_message('%c{white}' + message);
         }
     }
 }

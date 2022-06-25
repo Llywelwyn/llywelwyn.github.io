@@ -260,6 +260,33 @@ Game.EntityMixins.MessageRecipient = {
         if (this._messages.length >= this._max_onscreen) {
             this._messages.splice(0, this._messages.length - this._max_onscreen)
         };
+        // Check the total lines of all messages showing in the log
+        // While the total lines are over the _max_onscreen, check the
+        // first message in the array. If it's length is over one line,
+        // cut the first line. If it's length is only one line, just
+        // remove it from the array. Repeat until the lines are within
+        // the max amount allowed onscreen.
+        //
+        // The '30' magic number comes from the size of the message box.
+        // It's defined in screens. It should probably be made available
+        // here to avoid using magic.
+        do {
+            var total_lines = 0;
+            for (var i = 0; i < this._messages.length; i++) {
+                total_lines++; 
+                if (this._messages[i].replace(/%[^}]*}?/gm, '').length > Game.width() - 30) {
+                    console.log("Found a message over " + (Game.width() - 30) + ': ' + this._messages[i].substring(9));
+                    total_lines++;
+                }
+            }
+            if (total_lines > this._max_onscreen) {
+                if (this._messages[0].replace(/%[^}]*}?/gm, '').length > Game.width() - 30) {
+                    this._messages[0] = this._messages[0].substring(Game.width() - 30);
+                } else {
+                    this._messages.shift();
+                }
+            }
+        } while (total_lines > this._max_onscreen)
     },
     clear_messages: function() {
             this._messages = [];
@@ -535,6 +562,39 @@ Game.EntityMixins.PlayerStatGainer = {
         }
     }
 };
+Game.EntityMixins.Bleeder = { // TODO: Should probably spawn an entity rather than change the tile? Blood sims would be cool.
+    name: 'Bleeder',
+    init: function(template) {
+        // Chance of creating a corpse
+        this._bleed_rate = template['bleed_rate'] || 100;
+    },
+    try_bleed: function() {
+        if (Math.round(Math.random() * 100) < this._bleed_rate) {
+            var x = this.x();
+            var y = this.y();
+            // If this tile isn't bloody, default to tile beneath entity
+            if(!this._map.is_bloody(x, y, this.z())) {
+                x = this.x(); y = this.y();
+            // Otherwise, randomly get an x- or y- offset
+            } else {
+                var offset = (Math.round(Math.random()) === 1) ? 1 : -1;
+                // Determine x- or y-direction
+                if (Math.round(Math.random()) === 1) {
+                    x = this.x() + offset;
+                    if (this._map.is_bloody(x, y, this.z())) {
+                        y += (Math.round(Math.random()) === 1) ? 1 : -1;
+                    }
+                } else {
+                    y = this.y() + offset;
+                    if (this._map.is_bloody(x, y, this.z())) {
+                        x += (Math.round(Math.random()) === 1) ? 1 : -1;
+                    }
+                }
+            }
+            this._map.set_bloody(x, y, this.z(), true);
+        }
+    }
+};
 
 //   Actor Mixins - these determine which 'act' the Entity takes each turn.
 //
@@ -684,37 +744,53 @@ Game.EntityMixins.TaskActor = {
         }
     }
 };
-Game.EntityMixins.Bleeder = { // TODO: Should probably spawn an entity rather than change the tile? Blood sims would be cool.
-    name: 'Bleeder',
+Game.EntityMixins.VampireActor = Game.extend(Game.EntityMixins.TaskActor, {
     init: function(template) {
-        // Chance of creating a corpse
-        this._bleed_rate = template['bleed_rate'] || 100;
+        // Call task actor init with correct tasks
+        Game.EntityMixins.TaskActor.init.call(
+            this,
+            Game.extend(template, {'tasks': ['sharpen_teeth', 'spawn_bat', 'hunt', 'wander']})
+        );
+        this._has_sharp_teeth = false;
     },
-    try_bleed: function() {
-        if (Math.round(Math.random() * 100) < this._bleed_rate) {
-            var x = this.x();
-            var y = this.y();
-            // If this tile isn't bloody, default to tile beneath entity
-            if(!this._map.is_bloody(x, y, this.z())) {
-                x = this.x(); y = this.y();
-            // Otherwise, randomly get an x- or y- offset
-            } else {
-                var offset = (Math.round(Math.random()) === 1) ? 1 : -1;
-                // Determine x- or y-direction
-                if (Math.round(Math.random()) === 1) {
-                    x = this.x() + offset;
-                    if (this._map.is_bloody(x, y, this.z())) {
-                        y += (Math.round(Math.random()) === 1) ? 1 : -1;
-                    }
-                } else {
-                    y = this.y() + offset;
-                    if (this._map.is_bloody(x, y, this.z())) {
-                        x += (Math.round(Math.random()) === 1) ? 1 : -1;
-                    }
-                }
-            }
-            console.log(x, y, this.z());
-            this._map.set_bloody(x, y, this.z(), true);
+    can_do_task: function(task) {
+        // If haven't already sharpened teeth and HP <= half, sharpen
+        if (task === 'sharpen_teeth') {
+            return this.hp() <= this.max_hp()/2 && !this._has_sharp_teeth; 
+        } else if (task === 'spawn_bat') {
+            return Math.round(Math.random() * 100) <= 10 && this.can_see(this.map().player());
+        } else {
+            return Game.EntityMixins.TaskActor.can_do_task.call(this, task);
+        }
+    },
+    sharpen_teeth: function() {
+        this._has_sharp_teeth = true;
+        this.modify_strength_bonus(4);
+        this.modify_attack_bonus(30);
+        this.modify_defence_bonus(-30);
+        Game.send_message_nearby(
+            this.map(),
+            this.x(), this.y(), this.z(),
+            "%%c{%s}%s%%c{white} grows more ferocious; sharp fangs elongate now, poking out from it's maw.", [this.foreground(), this.describe_the(1)]
+        );
+    },
+    spawn_bat: function() {
+        // Generate random pos nearby
+        var x_offset = Math.floor(Math.random() * 3) - 1;
+        var y_offset = Math.floor(Math.random() * 3) - 1;
+        // Check if can spawn that pos
+        if (!this.map().is_empty_floor(this.x() + x_offset, this.y() + y_offset, this.z())) {
+            return;
+        }
+        var vampire_bat = Game.EntityRepository.create('vampire bat');
+        vampire_bat.set_x(this.x() + x_offset);
+        vampire_bat.set_y(this.y() + y_offset);
+        vampire_bat.set_z(this.z());
+        this.map().add_entity(vampire_bat);
+    },
+    listeners: {
+        on_death: function(attacker) {
+            // TODO: Win game
         }
     }
-};
+});
