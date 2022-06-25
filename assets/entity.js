@@ -77,14 +77,19 @@ Game.Entity.prototype.try_move = function(x, y, z, map) {
             Game.send_message(this, "You can't go up here!");
             return false;
         } else {
-            Game.send_message(this, "You ascend up to level %d!", [z]); // TODO: ?? [z+1]?
+            Game.send_message(this, "You ascend up to level %d!", [z + 1]); // TODO: ?? [z+1]?
+            this.set_position(x, y, z);
         }
     } else if ( z > this.z()) {
-        if (tile != Game.Tile.stairs_down_tile) {
+        if (tile === Game.Tile.hole_down_tile && this.has_mixin(Game.EntityMixins.PlayerActor)) {
+            this.switch_map(new Game.Map.BossCavern());
+            return; // FIXME: ?
+        } else if (tile != Game.Tile.stairs_down_tile) {
             Game.send_message(this, "You can't go down here!");
             return false;
         } else {
-            Game.send_message(this, "You descend to level %d.", [z]);
+            this.set_position(x, y, z);
+            Game.send_message(this, "You descend to level %d.", [z + 1]);
         }
     }
     // If entity is present at tile, try attack
@@ -115,4 +120,26 @@ Game.Entity.prototype.try_move = function(x, y, z, map) {
         return this.try_dig(x, y, z, tile, map);
     }
     return false;
+};
+Game.Entity.prototype.switch_map = function(new_map) {
+    // If same map, do nothing
+    if (new_map === this.map()) {
+        return;
+    }
+    var found = false;
+    
+    // Store this.map() in MapManager
+    for (i = 0; i < Game.MapManager.length; i++) {
+        if (this.map() === Game.MapManager[i]) {
+            found = true;
+        }
+    }
+    if (!found) {
+        Game.MapManager.push(this.map());
+    }
+    this.map().remove_entity(this);
+    // Clear pos
+    this._x = 0; this._y = 0; this._z = 0;
+    // Add to new
+    new_map.add_entity(this);
 };

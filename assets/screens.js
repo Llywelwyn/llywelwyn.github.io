@@ -32,7 +32,6 @@ Game.Screen.start_screen = {
 }
 
 Game.Screen.play_screen = {
-    _map: null,
     _player: null,
     _help: false,
     _game_ended: false,
@@ -43,10 +42,10 @@ Game.Screen.play_screen = {
         var height = 80;
         var depth = 6;
         // Create map from the tiles and player
-        var tiles = new Game.Builder(width, height, depth).tiles();
         this._player = new Game.Entity(Game.PlayerTemplate);
-        this._map = new Game.Map(tiles, this._player);
-        this._map.engine().start();
+        var tiles = new Game.Builder(width, height, depth).tiles();
+        var map = new Game.Map.Cave(tiles, this._player);
+        map.engine().start();
     },
     exit: function() { console.log("Exited play screen."); },
     render: function(display) {
@@ -57,13 +56,13 @@ Game.Screen.play_screen = {
         }
         // Make sure we still have enough space to fit the game screen
         var top_left_x = Math.max(0, this._player.x() - (Game.width() / 2));
-        top_left_x = Math.min(top_left_x, this._map.width() - Game.width());
+        top_left_x = Math.min(top_left_x, this._player.map().width() - Game.width());
         var top_left_y = Math.max(0, this._player.y() - (Game.height() / 2));
-        top_left_y = Math.min(top_left_y, this._map.height() - Game.height());
+        top_left_y = Math.min(top_left_y, this._player.map().height() - Game.height());
         // Object to store visible map cells
         var visible_cells = {};
-        // Store this._map and player-z to prevent losing in callback
-        var map = this._map;
+        // Store this._player.map() and player-z to prevent losing in callback
+        var map = this._player.map();
         var current_z = this._player.z();
         // Find all visible cells and update the object
         map.fov(current_z).compute(
@@ -78,7 +77,7 @@ Game.Screen.play_screen = {
             for(let y = top_left_y; y < top_left_y + Game.height(); y++) {
                 if (map.is_explored(x, y, current_z)) {
                     // Fetch glyph for tile and render at offset position
-                    var glyph = this._map.tile(x, y, this._player.z());
+                    var glyph = map.tile(x, y, current_z);
                     var background = glyph.background();
                     // We are in a cell in FOV, check for items/entities
                     if (visible_cells[x + ',' + y]) {
@@ -114,7 +113,7 @@ Game.Screen.play_screen = {
         }
         // Render entities
         // FIXME: Final entry of entities = [[Prototype]]: Object. Why?
-        var entities = this._map.entities();
+        var entities = this._player.map().entities();
         for (var key in entities) {
             var entity = entities[key];
             // Render if entity would show up on screen
@@ -279,7 +278,7 @@ Game.Screen.play_screen = {
                     return;
                 // PICK UP
                 } else if (input_data.key === 'g') {
-                    var items = this._map.items_at(this._player.x(), this._player.y(), this._player.z());
+                    var items = this._player.map().items_at(this._player.x(), this._player.y(), this._player.z());
                     // If no items, show a message
                     if (items && items.length === 1) {
                         // If only one item, try to pick up
@@ -299,10 +298,10 @@ Game.Screen.play_screen = {
                     return;
                 }
                 // Unlock the engine
-                this._map.engine().unlock();
+                this._player.map().engine().unlock();
             } else if (input_data.key === '?') {
                 this._help = false;
-                this._map.engine().unlock();
+                this._player.map().engine().unlock();
             }
         }
     },
@@ -310,7 +309,7 @@ Game.Screen.play_screen = {
         var new_x = this._player.x() + d_x;
         var new_y = this._player.y() + d_y;
         var new_z = this._player.z() + d_z;
-        this._player.try_move(new_x, new_y, new_z, this._map);
+        this._player.try_move(new_x, new_y, new_z, this._player.map());
     },
     show_item_sub_screen: function(sub_screen, items, empty_message) {
         if (items && sub_screen.setup(this._player, items) > 0) {

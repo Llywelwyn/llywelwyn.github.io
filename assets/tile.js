@@ -28,14 +28,6 @@ Game.Tile.floor_tile = new Game.Tile({
     walkable: true,
     blocks_light: false
 });
-Game.Tile.bloody_floor_tile = new Game.Tile({
-    name: 'bloody floor',
-    character: '.',
-    foreground: ['#a11717'],
-    background: ['#2d0606'], // Very dark red
-    walkable: true,
-    blocks_light: false
-});
 Game.Tile.cave_wall_tile = new Game.Tile({
     name: 'wall',
     character: '#',
@@ -61,3 +53,18 @@ Game.Tile.stairs_down_tile = new Game.Tile({
     walkable: true,
     blocks_light: false
 });
+Game.Tile.hole_down_tile = new Game.Tile({
+    name: 'great dark hole',
+    character: 'O',
+    foreground: 'white',
+    walkable: true,
+    blocks_light: false
+});
+Game.Tile.water_tile = new Game.Tile({
+    name: 'water',
+    character: '~',
+    foreground: 'blue',
+    background: '#060B44',
+    swimmable: true,
+    blocks_light: false
+})

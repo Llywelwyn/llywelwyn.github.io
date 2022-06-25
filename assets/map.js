@@ -1,4 +1,4 @@
-Game.Map = function(tiles, player) {
+Game.Map = function(tiles) {
     this._tiles = tiles;
     this._depth = tiles.length;
     this._width = tiles[0].length;
@@ -15,40 +15,8 @@ Game.Map = function(tiles, player) {
     console.log("Created scheduler.");
     this._engine = new ROT.Engine(this._scheduler);
     console.log("Created engine.");
-    // Add the player
-    this.add_entity_at_random_position(player, 0);
-    this._player = player;
-    console.log("Added player to start position.");
-    // Add random enemies to each floor.
-    var entities_per_floor = 20;
-    var items_per_floor = 10;
-    for (var z = 0; z < this._depth; z++) {
-        for (var i = 0; i < entities_per_floor; i++) {
-            var entity = Game.EntityRepository.create_random();
-            this.add_entity_at_random_position(entity, z);
-            // Level up based on floor
-            if (entity.has_mixin('ExperienceGainer')) {
-                for (var level = 0; level < z; level ++) {
-                    entity.give_experience(entity.next_level_experience() - entity.experience());
-                    console.log("Levelled up " + entity.name() + " on floor " + z + " to level " + level)
-                }
-            }
-        }
-        for (var i = 0; i < items_per_floor; i++) {
-            // Add random entity from ItemRepo
-            this.add_item_at_random_position(Game.ItemRepository.create_random(), z);
-        }
-        console.log("Populated floor " + z + " with: " + entities_per_floor + " entities; " + items_per_floor + " items.");
-    }
-    // Add weapons/armour to the map in random positions
-    var templates = ['dagger', 'sword', 'staff', 'tunic', 'chainmail', 'platemail'];
-    for (var i = 0; i < templates.length; i++) {
-        this.add_item_at_random_position(Game.ItemRepository.create(templates[i]), Math.floor(this._depth * Math.random()));
-    }
-    // Setup explored tiles
     this._explored = new Array(this._depth);
     this._setup_explored_array();
-    console.log("Setup explored tiles.");
     this._bloody = new Array(this._depth);
     this._setup_bloody_array();
 };
@@ -78,6 +46,7 @@ Game.Map.prototype.tile = function(x, y, z) {
 };
 Game.Map.prototype.random_floor_position = function(z) {
     var x, y;
+    console.log(this._width, this._height);
     do {
         // Generate a random position which is floor & not occupied by an entity
         x = Math.floor(Math.random() * this._height);
@@ -116,6 +85,9 @@ Game.Map.prototype.add_entity = function(entity) {
     if (entity.has_mixin('Actor')) {
         this._scheduler.add(entity, true);
     }
+    if (entity.has_mixin(Game.EntityMixins.PlayerActor)) {
+        this._player = entity;
+    }
 };
 Game.Map.prototype.add_entity_at_random_position = function(entity, z) {
     var position = this.random_floor_position(z);
@@ -133,10 +105,13 @@ Game.Map.prototype.remove_entity = function(entity) {
     if (entity.has_mixin('Actor')) {
         this._scheduler.remove(entity);
     }
+    if (entity.has_mixin(Game.EntityMixins.PlayerActor)) {
+        this._player = undefined;
+    }
 };
 Game.Map.prototype.update_entity_position = function(entity, old_x, old_y, old_z) {
     // Delete old key if it is the same entity and old positions are stored
-    if (typeof(old_x) !== "undefined") {
+    if (typeof(old_x) === 'number') {
         var old_key = old_x + ',' + old_y + ',' + old_z;
         if (this._entities[old_key] == entity) {
             delete this._entities[old_key];
@@ -148,6 +123,8 @@ Game.Map.prototype.update_entity_position = function(entity, old_x, old_y, old_z
         entity.y() < 0 || entity.y() >= this._height ||
         entity.z() < 0 || entity.z() >= this._depth
     ) {
+        console.log(entity.name(), entity.x(), entity.y(), entity.z());
+        console.log('map: ', this._width, this._height, this._depth);
         throw new Error("Entity's position is out of bounds.");
     }
     // Sanity check
