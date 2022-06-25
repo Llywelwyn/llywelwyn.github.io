@@ -1,6 +1,8 @@
 Game.Map.BossCavern = function() {
     // Call map constructor
     Game.Map.call(this, this._generate_tiles(60, 60));
+
+    this.add_entity_at_random_position(Game.EntityRepository.create('vampire'), 0);
 };
 
 Game.Map.BossCavern.extend(Game.Map);
@@ -43,38 +45,34 @@ Game.Map.BossCavern.prototype._generate_tiles = function(width, height) {
         }
     }
 
-    var generator = new ROT.Map.Cellular(width, height);
-    generator.randomize(0.5);
-    var iterations = 3;
-    for(var i = 0; i < iterations - 1; i++) {
-        generator.create();
-    }
+    var generator = new ROT.Map.Uniform(width, height, {timeLimit: 5000});
     generator.create(function(x,y,v) {
-        if(v === 1) {
+        if (v === 0) {
             tiles[x][y] = Game.Tile.floor_tile;
         } else {
-            tiles[x][y] = Game.Tile.cave_wall_tile;
+            tiles[x][y] = Game.Tile.dungeon_wall_tile;
         }
     });
 
-    width -= 20;
-    height -= 20;
     // Determine radius of cave to carve out
     var radius = (Math.min(width, height) - 2) / 2;
     this._fill_circle(tiles, width / 2, height / 2, radius, Game.Tile.floor_tile);
 
     // Randomly position water
     var lakes = Math.round(Math.random() * 3) + 5;
-    var max_radius = 6;
+    var max_radius = 7;
     for (var i = 0; i < lakes; i++) {
-        // Random opsition, taking into consideration radius to make sure we are within bounds
+        // Random position, taking into consideration radius to make sure we are within bounds
         var centre_x = Math.floor(Math.random() * (width - (max_radius * 2)));
         var centre_y = Math.floor(Math.random() * (height - (max_radius * 2)));
         centre_x += max_radius;
         centre_y += max_radius;
         // Random radius
         var radius = Math.floor(Math.random() * max_radius) + 1;
-        // Position lake
+        // Position lake, adding grass half the time
+        if (Math.random() < 0.5) {
+            this._fill_circle(tiles, centre_x, centre_y, radius--, Game.Tile.grass_tile);
+        }
         this._fill_circle(tiles, centre_x, centre_y, radius, Game.Tile.water_tile);
     }
     // Return tiles as array

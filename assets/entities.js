@@ -169,3 +169,48 @@ Game.EntityRepository.define('orc', {
             Game.EntityMixins.Destructible, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer,
             Game.EntityMixins.Bleeder]
 });
+Game.EntityRepository.define('vampire', {
+    name: 'vampire',
+    character: 'V',
+    foreground: 'purple',
+    stats: {
+        max_hp: 40,
+        speed: 100,
+        attack_value: 60,
+        defence_value: 60,
+        strength_bonus: 10,
+        level: 7
+    },
+    verb: {
+        singular: ['bite', 'claw', 'tear'],
+        plural: ['bites', 'claws', 'tears']
+    },
+    sight_radius: 8,
+    mixins: [Game.EntityMixins.VampireActor, Game.EntityMixins.Sight, Game.EntityMixins.Attacker,
+            Game.EntityMixins.Destructible, Game.EntityMixins.CorpseDropper, Game.EntityMixins.ExperienceGainer]
+}, {
+    disable_random_creation: true
+});
+Game.EntityRepository.define('vampire bat', {
+    name: 'vampire bat',
+    character: 'b',
+    foreground: 'purple',
+    stats: {
+        max_hp: 5,
+        speed: 150,
+        attack_bonus: 40,
+        defence_bonus: 20,
+        strength_bonus: 5
+    },
+    verb: {
+        singular: ['bite', 'scratch', 'claw'],
+        plural: ['bites', 'scratches', 'claws']
+    },
+    corpse_drop_rate: 75,
+    tasks: ['hunt', 'wander'],
+    mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
+            Game.EntityMixins.CorpseDropper, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer,
+            Game.EntityMixins.Bleeder, Game.EntityMixins.Sight]
+}, {
+    disable_random_creation: true    
+});

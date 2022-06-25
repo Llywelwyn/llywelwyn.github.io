@@ -67,4 +67,11 @@ Game.Tile.water_tile = new Game.Tile({
     background: '#060B44',
     swimmable: true,
     blocks_light: false
+});
+Game.Tile.grass_tile = new Game.Tile({
+    name: 'grass',
+    character: '"',
+    foreground: 'darkgreen',
+    walkable: true,
+    blocks_light: false
 })
