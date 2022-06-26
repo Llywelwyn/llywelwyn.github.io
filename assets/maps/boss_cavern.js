@@ -2,7 +2,7 @@ Game.Map.BossCavern = function() {
     // Call map constructor
     Game.Map.call(this, this._generate_tiles(60, 60));
 
-    this.add_entity_at_random_position(Game.EntityRepository.create('vampire'), 0);
+    this.add_entity_at_random_position(Game.EntityRepository.create('vampire', 'elite'), 0);
 };
 
 Game.Map.BossCavern.extend(Game.Map);

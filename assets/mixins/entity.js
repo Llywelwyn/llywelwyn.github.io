@@ -428,6 +428,7 @@ Game.EntityMixins.CorpseDropper = {
     },
     listeners: {
         on_death: function() {
+            console.log("'on_death' called for " + this._name);
             if (Math.round(Math.random() * 100) < this._corpse_drop_rate) {
                 // Create new corpse item and drop it
                 var prefix = one_of([
@@ -835,7 +836,7 @@ Game.EntityMixins.VampireActor = Game.extend(Game.EntityMixins.TaskActor, {
         if (!this.map().is_empty_floor(this.x() + x_offset, this.y() + y_offset, this.z())) {
             return;
         }
-        var vampire_bat = Game.EntityRepository.create('vampire bat');
+        var vampire_bat = Game.EntityRepository.create('vampire bat', 'vampire');
         vampire_bat.set_x(this.x() + x_offset);
         vampire_bat.set_y(this.y() + y_offset);
         vampire_bat.set_z(this.z());

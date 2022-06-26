@@ -122,24 +122,49 @@ Game.Entity.prototype.try_move = function(x, y, z, map) {
     return false;
 };
 Game.Entity.prototype.switch_map = function(new_map) {
+    current_map = this.map();
+    name = this.name();
+    x = this.x();
+    y = this.y();
+    z = this.z();
     // If same map, do nothing
-    if (new_map === this.map()) {
+    if (new_map === current_map) {
         return;
     }
     var found = false;
+    var locs = undefined;
 
-    // Store this.map() in MapManager
+    // Search for map in MapManager
     for (i = 0; i < Game.MapManager.length; i++) {
-        if (this.map() === Game.MapManager[i]) {
+        if (current_map === Game.MapManager[i]['map']) {
             found = true;
+            // Save location of this in locs
+            Game.MapManager[i]['locs'][name] = {x: x, y: y, z: z}
+        }
+        // If new map already exists, get saved x,y,z
+        if (new_map === Game.MapManager[i]['map']) {
+            locs = Game.MapManager[i]['locs'][name];
         }
     }
+    // If not present, add it 
     if (!found) {
-        Game.MapManager.push(this.map());
+        Game.MapManager.push(
+            {
+                map: current_map,
+                locs: {
+                    [name]: {x: x, y: y, z: z}
+                }
+            }
+        );
     }
+
     this.map().remove_entity(this);
     // Clear pos
-    this._x = 0; this._y = 0; this._z = 0;
+    if(locs) {
+        this._x = locs.x; this._y = locs.y; this._z = locs.z;
+    } else {
+        this._x = 0; this._y = 0; this._z = 0;
+    }
     // Add to new
     new_map.add_entity(this);
 };

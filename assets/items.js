@@ -26,7 +26,7 @@ Game.ItemRepository.define('name', 'group', {
 */
 
 // WEAPONS
-Game.ItemRepository.define('dagger', 'equipment', {
+Game.ItemRepository.define('dagger', {
     name: 'dagger',
     character: ')',
     foreground: 'gray',
@@ -40,8 +40,10 @@ Game.ItemRepository.define('dagger', 'equipment', {
         plural: ['slashes', 'stabs', 'slices']
     },
     mixins: [Game.ItemMixins.Equippable]
+}, {
+    groups: ['equipment']
 });
-Game.ItemRepository.define('shortsword', 'equipment', {
+Game.ItemRepository.define('shortsword', {
     name: 'shortsword',
     character: ')',
     foreground: 'white',
@@ -55,8 +57,10 @@ Game.ItemRepository.define('shortsword', 'equipment', {
         plural: ['slashes', 'cuts', 'slices']
     },
     mixins: [Game.ItemMixins.Equippable]
+}, {
+    groups: ['equipment']
 });
-Game.ItemRepository.define('longsword', 'equipment', {
+Game.ItemRepository.define('longsword', {
     name: 'longsword',
     character: ')',
     foreground: 'beige',
@@ -70,8 +74,10 @@ Game.ItemRepository.define('longsword', 'equipment', {
         plural: ['slashes', 'cuts', 'slices']
     },
     mixins: [Game.ItemMixins.Equippable]
+}, {
+    groups: ['equipment']
 });
-Game.ItemRepository.define('staff', 'equipment', {
+Game.ItemRepository.define('staff', {
     name: 'staff',
     character: ')',
     foreground: 'yellow',
@@ -86,10 +92,12 @@ Game.ItemRepository.define('staff', 'equipment', {
         plural: ['smacks', 'cracks', 'bonks']
     },
     mixins: [Game.ItemMixins.Equippable]
+}, {
+    groups: ['equipment']
 });
 
 // WEARABLES
-Game.ItemRepository.define('tunic', 'equipment', {
+Game.ItemRepository.define('tunic', {
     name: 'tunic',
     character: '[',
     foreground: 'green',
@@ -98,8 +106,10 @@ Game.ItemRepository.define('tunic', 'equipment', {
         defence_bonus: 8
     },
     mixins: [Game.ItemMixins.Equippable]
+}, {
+    groups: ['equipment']
 });
-Game.ItemRepository.define('chainmail', 'equipment', {
+Game.ItemRepository.define('chainmail', {
     name: 'chainmail',
     character: '[',
     foreground: 'white',
@@ -108,8 +118,10 @@ Game.ItemRepository.define('chainmail', 'equipment', {
         defence_bonus: 12
     },
     mixins: [Game.ItemMixins.Equippable]
+}, {
+    groups: ['equipment']
 });
-Game.ItemRepository.define('platemail', 'equipment', {
+Game.ItemRepository.define('platemail', {
     name: 'platemail',
     character: '[',
     foreground: 'darkorange',
@@ -118,10 +130,12 @@ Game.ItemRepository.define('platemail', 'equipment', {
         defence_bonus: 16
     },
     mixins: [Game.ItemMixins.Equippable]
+}, {
+    groups: ['equipment']
 });
 
 // FOOD
-Game.ItemRepository.define('apple', 'food', {
+Game.ItemRepository.define('apple', {
     name: 'apple',
     character: 'a',
     foreground: 'red',
@@ -132,8 +146,10 @@ Game.ItemRepository.define('apple', 'food', {
         value: 50,
     },
     mixins: [Game.ItemMixins.Edible, Game.ItemMixins.HasDescription]
+}, {
+    groups: ['food']
 });
-Game.ItemRepository.define('hardtack', 'food', {
+Game.ItemRepository.define('hardtack', {
     name: 'piece of hardtack',
     character: 'h',
     foreground: 'rosybrown',
@@ -146,8 +162,10 @@ Game.ItemRepository.define('hardtack', 'food', {
         max_uses: 2
     },
     mixins: [Game.ItemMixins.Edible, Game.ItemMixins.HasDescription]
+}, {
+    groups: ['food']
 });
-Game.ItemRepository.define('corpse', 'food', {
+Game.ItemRepository.define('corpse', {
     name: 'corpse',
     character: '%',
     description: {
@@ -159,11 +177,12 @@ Game.ItemRepository.define('corpse', 'food', {
     },
     mixins: [Game.ItemMixins.Edible, Game.ItemMixins.HasDescription]
 }, {
-    disable_random_creation: true
+    disable_random_creation: true,
+    groups: ['refuse']
 });
 
 // MISC
-Game.ItemRepository.define('rock', 'generic', {
+Game.ItemRepository.define('rock', {
     name: 'rock',
     character: '*',
     foreground: 'white',
@@ -172,4 +191,6 @@ Game.ItemRepository.define('rock', 'generic', {
         attack_bonus: 1
     },
     mixins: [Game.ItemMixins.Equippable]
+}, {
+    groups: ['refuse']
 });

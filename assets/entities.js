@@ -87,7 +87,7 @@ Game.EntityRepository.define('generic', 'generic', {
 });
 */
 
-Game.EntityRepository.define('vines', 'generic', {
+Game.EntityRepository.define('vines', {
     name: 'vines',
     noun: {
         plural: true,
@@ -109,7 +109,7 @@ Game.EntityRepository.define('vines', 'generic', {
 });
 
 // Wandering
-Game.EntityRepository.define('bat', 'wander', {
+Game.EntityRepository.define('bat', {
     name: 'bat',
     character: 'b',
     foreground: 'beige',
@@ -132,8 +132,10 @@ Game.EntityRepository.define('bat', 'wander', {
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
             Game.EntityMixins.CorpseDropper, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer,
             Game.EntityMixins.Bleeder, Game.EntityMixins.HasDescription]
+}, {
+    groups: ['wander']
 });
-Game.EntityRepository.define('newt', 'wander', {
+Game.EntityRepository.define('newt', {
     name: 'newt',
     character: 'n',
     foreground: 'yellow',
@@ -154,10 +156,12 @@ Game.EntityRepository.define('newt', 'wander', {
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
             Game.EntityMixins.CorpseDropper, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer,
             Game.EntityMixins.Bleeder, Game.EntityMixins.HasDescription]
+}, {
+    groups: ['wander']
 });
 
 // Hunters
-Game.EntityRepository.define('kobold', 'hunter', {
+Game.EntityRepository.define('kobold', {
     name: 'kobold',
     character: 'k',
     foreground: 'white',
@@ -176,8 +180,10 @@ Game.EntityRepository.define('kobold', 'hunter', {
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Sight, Game.EntityMixins.Attacker,
             Game.EntityMixins.Destructible, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer,
             Game.EntityMixins.Bleeder, Game.EntityMixins.HasDescription, Game.EntityMixins.CanOpen]
+}, {
+    groups: ['hunt']
 });
-Game.EntityRepository.define('orc', 'hunter', {
+Game.EntityRepository.define('orc', {
     name: 'orc',
     character: 'o',
     foreground: 'olive',
@@ -197,8 +203,10 @@ Game.EntityRepository.define('orc', 'hunter', {
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Sight, Game.EntityMixins.Attacker,
             Game.EntityMixins.Destructible, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer,
             Game.EntityMixins.Bleeder, Game.EntityMixins.HasDescription, Game.EntityMixins.CanOpen]
+}, {
+    groups: ['hunt']
 });
-Game.EntityRepository.define('vampire', 'vampire', {
+Game.EntityRepository.define('vampire', {
     name: 'vampire',
     character: 'V',
     foreground: 'purple',
@@ -219,9 +227,10 @@ Game.EntityRepository.define('vampire', 'vampire', {
             Game.EntityMixins.Destructible, Game.EntityMixins.CorpseDropper, Game.EntityMixins.ExperienceGainer,
             Game.EntityMixins.RandomStatGainer, Game.EntityMixins.CanOpen]
 }, {
-    disable_random_creation: true
+    disable_random_creation: true,
+    groups: ['vampire', 'elite']
 });
-Game.EntityRepository.define('vampire bat', 'vampire', {
+Game.EntityRepository.define('vampire bat', {
     name: 'vampire bat',
     character: 'b',
     foreground: 'purple',
@@ -242,5 +251,6 @@ Game.EntityRepository.define('vampire bat', 'vampire', {
             Game.EntityMixins.CorpseDropper, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer,
             Game.EntityMixins.Bleeder, Game.EntityMixins.Sight]
 }, {
-    disable_random_creation: true    
+    disable_random_creation: true,
+    groups: ['vampire']   
 });
