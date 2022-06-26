@@ -210,6 +210,10 @@ Game.EntityRepository.define('vampire', {
     name: 'vampire',
     character: 'V',
     foreground: 'purple',
+    description: {
+        speed: 'gracefully',
+        sight: 'powerful'
+    },
     stats: {
         max_hp: 40,
         speed: 100,
@@ -225,7 +229,7 @@ Game.EntityRepository.define('vampire', {
     sight_radius: 8,
     mixins: [Game.EntityMixins.VampireActor, Game.EntityMixins.Sight, Game.EntityMixins.Attacker,
             Game.EntityMixins.Destructible, Game.EntityMixins.CorpseDropper, Game.EntityMixins.ExperienceGainer,
-            Game.EntityMixins.RandomStatGainer, Game.EntityMixins.CanOpen]
+            Game.EntityMixins.RandomStatGainer, Game.EntityMixins.HasDescription, Game.EntityMixins.CanOpen]
 }, {
     disable_random_creation: true,
     groups: ['vampire', 'elite']
@@ -234,6 +238,9 @@ Game.EntityRepository.define('vampire bat', {
     name: 'vampire bat',
     character: 'b',
     foreground: 'purple',
+    description: {
+        speed: 'quickly',
+    },
     stats: {
         max_hp: 5,
         speed: 150,
@@ -249,7 +256,7 @@ Game.EntityRepository.define('vampire bat', {
     tasks: ['hunt', 'wander'],
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
             Game.EntityMixins.CorpseDropper, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer,
-            Game.EntityMixins.Bleeder, Game.EntityMixins.Sight]
+            Game.EntityMixins.Bleeder, Game.EntityMixins.Sight, Game.EntityMixins.HasDescription]
 }, {
     disable_random_creation: true,
     groups: ['vampire']   

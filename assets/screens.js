@@ -7,20 +7,30 @@ Game.Screen.start_screen = {
     render: function(display) {
         // renders prompt to screen
         // TODO: FUNCTIONS, FUNCTIONS, FUNCTIONS. OR JSON.
-        display.drawText(Game.width()/2 - Game.title().length/2, Game.height()/2 - 6, "%c{yellow}" + Game.title());
-        display.drawText(Game.width()/2 - (Game.start_message().length-22)/2, Game.height()/2 + 7, "%c{white}" + Game.start_message());
-        display.drawText(Game.width()/2 - "╔═ CONTROLS ════════════════╗".length/2, Game.height()/2 - 4,
-            `%c{white}Movement      -  %c{seagreen}[Arrow Keys]
-            %c{white}Ascend        -           %c{seagreen}[<]
-            %c{white}Descend       -           %c{seagreen}[>]
-            %c{white}Wait          -           %c{seagreen}[.]
-            %c{white}Inventory     -           %c{seagreen}[i]
-            %c{white}Pick Up       -           %c{seagreen}[g]
-            %c{white}Drop          -           %c{seagreen}[d]
-            %c{white}Eat           -           %c{seagreen}[e]
-            %c{white}Wield Weapon  -           %c{seagreen}[w]
-            %c{white}Wear Armour   -           %c{seagreen}[W]`
-                );
+        tip = one_of(Game._tips);
+        display.drawText(Game.width()/2 - Game.title().length/2, Game.height()/2 - 2, "%c{yellow}" + Game.title());
+        display.drawText(Game.width()/2 - (Game.start_message().length-22)/2, Game.height()/2, "%c{white}" + Game.start_message());
+
+        // Render bottom box
+        var top_bar = '╔'
+        for (var i = 0; i < 29; i++) {
+            top_bar += '═';
+        }
+        top_bar += '╗'
+        display.drawText(Game.width()/2 - 15, Game.height()/2 + 2, top_bar);
+        for (var i = 1; i < Game._bottom_bar_size; i++) {
+            display.drawText(Game.width()/2 - 15, Game.height()/2 + 2 + i, '║');
+            display.drawText(Game.width()/2 + 15, Game.height()/2 + 2 + i, '║');
+        }
+        var bottom_bar = '╚'
+        for (var i = 0; i < 29; i++) {
+            bottom_bar += '═';
+        }
+        bottom_bar += '╝'
+        display.drawText(Game.width()/2 - 15, Game.height()/2 + 2 + Game._bottom_bar_size, bottom_bar);
+
+        display.drawText(Game.width()/2 - 13, Game.height()/2 + 2, "%c{white}MOTD");
+        display.drawText(Game.width()/2 - 13, Game.height()/2 + 4, "%c{white}" + tip, 27);
     },
     handle_input: function(input_type, input_data) {
         if(input_type === 'keydown') {
@@ -45,6 +55,7 @@ Game.Screen.play_screen = {
         this._player = new Game.Entity(Game.PlayerTemplate);
         var tiles = new Game.Builder(width, height, depth).tiles();
         var map = new Game.Map.Cave(tiles, this._player);
+        Game.send_message(this._player, "Press [%c{seagreen}?%c{white}] at any time to view the controls.");
         map.engine().start();
     },
     exit: function() { console.log("Exited play screen."); },
