@@ -5,6 +5,7 @@ Game.Tile = function(properties) {
     this._name = properties['name'] || 'unexplored area';
     this._walkable = properties['walkable'] || false;
     this._diggable = properties['diggable'] || false;
+    this._openable = properties['openable'] || false;
     this._blocks_light = (properties['blocks_light'] !== undefined) ? properties['blocksLight'] : true;
     this._bloody = properties['bloody'] || false;
 };
@@ -15,6 +16,7 @@ Game.Tile.extend(Game.DynamicGlyph);
 Game.Tile.prototype.character = function() { return this._character; };
 Game.Tile.prototype.is_walkable = function() { return this._walkable; };
 Game.Tile.prototype.is_diggable = function() { return this._diggable; };
+Game.Tile.prototype.is_openable = function() { return this._openable; };
 Game.Tile.prototype.is_blocking_light = function() {return this._blocks_light; };
 
 // Tiles - https://www.w3.org/wiki/CSS/Properties/color/keywords
@@ -42,6 +44,21 @@ Game.Tile.dungeon_wall_tile = new Game.Tile({
     character: '#',
     foreground: 'darkgrey',
 });
+Game.Tile.door_tile = new Game.Tile({
+    name: 'door',
+    desc: 'A wooden door.',
+    character: '+',
+    foreground: 'brown',
+    openable: true,
+});
+Game.Tile.open_door_tile = new Game.Tile({
+    name: 'open door',
+    desc: 'An open door.',
+    character: '-',
+    foreground: 'brown',
+    walkable: true,
+    blocks_light: false
+})
 Game.Tile.stairs_up_tile = new Game.Tile({
     name: 'stairs',
     desc: 'A cave floor.',

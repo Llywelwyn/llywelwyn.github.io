@@ -1,4 +1,7 @@
 Game.Map.Cave = function(tiles, player) {
+    var random_items_per_floor = 15;
+    var random_entities_per_floor = 20;
+    var total_equipment = 5;
     // Call map constructor
     Game.Map.call(this, tiles);
     // Add player 
@@ -6,7 +9,7 @@ Game.Map.Cave = function(tiles, player) {
     // Add random entities and items to each floor
     for (var z = 0; z < this._depth; z++) {
         // 20 entities per floor
-        for (var i = 0; i < 20; i++) {
+        for (var i = 0; i < random_entities_per_floor; i++) {
             var entity = Game.EntityRepository.create_random();
             // Add random entity
             this.add_entity_at_random_position(entity, z);
@@ -18,15 +21,15 @@ Game.Map.Cave = function(tiles, player) {
             }
         }
         // 10 items per floor
-        for (var i = 0; i < 15; i++) {
+        for (var i = 0; i < random_items_per_floor; i++) {
             // Add a random item
             this.add_item_at_random_position(Game.ItemRepository.create_random(), z);
         }
     }
     // Add specific items
-    var templates = ['dagger', 'sword', 'staff', 'tunic', 'chainmail', 'platemail'];
-    for (var i = 0; i < templates.length; i++) {
-        this.add_item_at_random_position(Game.ItemRepository.create(templates[i]), Math.floor(this._depth * Math.random()));
+    for (var i = 0; i < total_equipment; i++) {
+        var random_z = Math.floor(this._depth * Math.random());
+        this.add_item_at_random_position(Game.ItemRepository.create_random('equipment'), random_z);
     }
     // Add hole to cavern on last level
     var hole_position = this.random_floor_position(this._depth - 1);

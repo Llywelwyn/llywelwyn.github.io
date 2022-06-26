@@ -56,7 +56,6 @@ Game.EntityMixins.Sight = {
 Game.EntityMixins.Digger = {
     name: 'Digger',
     init: function(template) {},
-    dig_strength: function() { return this._dig_strength; },
     try_dig: function(x, y, z, tile, map) {
         // If tile isn't diggable, fail
         if(!tile.is_diggable()) { return false; };
@@ -65,7 +64,17 @@ Game.EntityMixins.Digger = {
         Game.send_message(this, "You dig through %%c{%s}%s%%c{white}.", [tile.foreground(), tile.describe_the()]);
         return true;
     }
-}
+};
+Game.EntityMixins.CanOpen = {
+    name: 'CanOpen',
+    init: function(template) {},
+    try_open: function(x, y, z, tile, map) {
+        if(!tile.is_openable()) { return false; };
+        map.open(x, y, z);
+        Game.send_message(this, "You open %%c{%s}%s%%c{white}.", [tile.foreground(), tile.describe_the()]);
+        return true;
+    }
+};
 Game.EntityMixins.Destructible = {
     name: 'Destructible',
     init: function(template) {
@@ -419,6 +428,7 @@ Game.EntityMixins.CorpseDropper = {
     },
     listeners: {
         on_death: function() {
+            console.log("'on_death' called for " + this._name);
             if (Math.round(Math.random() * 100) < this._corpse_drop_rate) {
                 // Create new corpse item and drop it
                 var prefix = one_of([
@@ -428,7 +438,7 @@ Game.EntityMixins.CorpseDropper = {
 
                 this._map.add_item(
                     this.x(), this.y(), this.z(),
-                    Game.ItemRepository.create('corpse', {
+                    Game.ItemRepository.create('corpse', 'refuse', {
                         name: this._name + ' ' + prefix[0],
                         noun: {
                             plural: prefix[1],
@@ -601,7 +611,7 @@ Game.EntityMixins.Senses = {
         this._senses = template['senses'] || undefined;
         this._smell = this._senses['smell'] || false;
         this._touch = this._senses['touch'] || false;
-        this._hear = this._senses['hear'] || false;
+        this._hear = this._senses['hearing'] || false;
         this._taste = this._senses['taste'] || false;
         this._sight = this._senses['sight'] || false;
     },
@@ -617,6 +627,7 @@ Game.EntityMixins.HasDescription = {
         this._senses = template['description'];
         this._smell = this._senses['smell'] || undefined;
         this._sight = this._senses['sight'] || undefined;
+        this._taste = this._senses['taste'] || undefined;
         this._speed_desc = this._senses['speed'] || undefined;
     },
     listeners: {
@@ -825,7 +836,7 @@ Game.EntityMixins.VampireActor = Game.extend(Game.EntityMixins.TaskActor, {
         if (!this.map().is_empty_floor(this.x() + x_offset, this.y() + y_offset, this.z())) {
             return;
         }
-        var vampire_bat = Game.EntityRepository.create('vampire bat');
+        var vampire_bat = Game.EntityRepository.create('vampire bat', 'vampire');
         vampire_bat.set_x(this.x() + x_offset);
         vampire_bat.set_y(this.y() + y_offset);
         vampire_bat.set_z(this.z());

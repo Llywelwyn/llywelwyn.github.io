@@ -1,8 +1,8 @@
 Game.Map.BossCavern = function() {
     // Call map constructor
-    Game.Map.call(this, this._generate_tiles(60, 60));
+    Game.Map.call(this, this._generate_tiles(30, 30));
 
-    this.add_entity_at_random_position(Game.EntityRepository.create('vampire'), 0);
+    this.add_entity_at_random_position(Game.EntityRepository.create('vampire', 'elite'), 0);
 };
 
 Game.Map.BossCavern.extend(Game.Map);
@@ -60,7 +60,7 @@ Game.Map.BossCavern.prototype._generate_tiles = function(width, height) {
 
     // Randomly position water
     var lakes = Math.round(Math.random() * 3) + 5;
-    var max_radius = 7;
+    var max_radius = 5;
     for (var i = 0; i < lakes; i++) {
         // Random position, taking into consideration radius to make sure we are within bounds
         var centre_x = Math.floor(Math.random() * (width - (max_radius * 2)));

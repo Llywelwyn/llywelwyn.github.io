@@ -4,7 +4,7 @@ Game.ItemRepository = new Game.Repository('items', Game.Item);
 // Item templates - https://www.w3.org/wiki/CSS/Properties/color/keywords
 
 /*
-Game.ItemRepository.define('generic', {
+Game.ItemRepository.define('name', 'group', {
     name: <string>,              -      the name of the item     
     character: <string>,         -      the glyph to represent the item as
     foreground: <string>,        -      foreground colour
@@ -32,7 +32,8 @@ Game.ItemRepository.define('dagger', {
     foreground: 'gray',
     stats: {
         wieldable: true,
-        attack_bonus: 10
+        attack_bonus: 10,
+        strength_bonus: 4,
     },
     verb: {
         singular: ['slash', 'stab', 'slice'],
@@ -40,16 +41,16 @@ Game.ItemRepository.define('dagger', {
     },
     mixins: [Game.ItemMixins.Equippable]
 }, {
-    disable_random_creation: true
+    groups: ['equipment']
 });
-Game.ItemRepository.define('sword', {
-    name: 'sword',
+Game.ItemRepository.define('shortsword', {
+    name: 'shortsword',
     character: ')',
     foreground: 'white',
     stats: {
         wieldable: true,
         attack_bonus: 5,
-        strength_bonus: 2
+        strength_bonus: 6
     },
     verb: {
         singular: ['slash', 'cut', 'slice'],
@@ -57,7 +58,24 @@ Game.ItemRepository.define('sword', {
     },
     mixins: [Game.ItemMixins.Equippable]
 }, {
-    disable_random_creation: true
+    groups: ['equipment']
+});
+Game.ItemRepository.define('longsword', {
+    name: 'longsword',
+    character: ')',
+    foreground: 'beige',
+    stats: {
+        wieldable: true,
+        attack_bonus: 0,
+        strength_bonus: 8
+    },
+    verb: {
+        singular: ['slash', 'cut', 'slice'],
+        plural: ['slashes', 'cuts', 'slices']
+    },
+    mixins: [Game.ItemMixins.Equippable]
+}, {
+    groups: ['equipment']
 });
 Game.ItemRepository.define('staff', {
     name: 'staff',
@@ -66,6 +84,7 @@ Game.ItemRepository.define('staff', {
     stats: {
         wieldable: true,
         attack_bonus: 5,
+        strength_bonus: 4,
         defence_bonus: 5
     },
     verb: {
@@ -74,7 +93,7 @@ Game.ItemRepository.define('staff', {
     },
     mixins: [Game.ItemMixins.Equippable]
 }, {
-    disable_random_creation: true
+    groups: ['equipment']
 });
 
 // WEARABLES
@@ -88,7 +107,7 @@ Game.ItemRepository.define('tunic', {
     },
     mixins: [Game.ItemMixins.Equippable]
 }, {
-    disable_random_creation: true
+    groups: ['equipment']
 });
 Game.ItemRepository.define('chainmail', {
     name: 'chainmail',
@@ -100,7 +119,7 @@ Game.ItemRepository.define('chainmail', {
     },
     mixins: [Game.ItemMixins.Equippable]
 }, {
-    disable_random_creation: true
+    groups: ['equipment']
 });
 Game.ItemRepository.define('platemail', {
     name: 'platemail',
@@ -112,7 +131,7 @@ Game.ItemRepository.define('platemail', {
     },
     mixins: [Game.ItemMixins.Equippable]
 }, {
-    disable_random_creation: true
+    groups: ['equipment']
 });
 
 // FOOD
@@ -120,17 +139,21 @@ Game.ItemRepository.define('apple', {
     name: 'apple',
     character: 'a',
     foreground: 'red',
+    description: {
+        taste: 'overly ripe'
+    },
     edible: {
-        adjective: 'pitiful',
         value: 50,
     },
-    mixins: [Game.ItemMixins.Edible]
+    mixins: [Game.ItemMixins.Edible, Game.ItemMixins.HasDescription]
+}, {
+    groups: ['food']
 });
 Game.ItemRepository.define('hardtack', {
     name: 'piece of hardtack',
     character: 'h',
     foreground: 'rosybrown',
-    senses: {
+    description: {
         smell: 'like yeast'
     },
     edible: {
@@ -138,21 +161,24 @@ Game.ItemRepository.define('hardtack', {
         value: 80,
         max_uses: 2
     },
-    mixins: [Game.ItemMixins.Edible, Game.ItemMixins.HasSenses]
+    mixins: [Game.ItemMixins.Edible, Game.ItemMixins.HasDescription]
+}, {
+    groups: ['food']
 });
 Game.ItemRepository.define('corpse', {
     name: 'corpse',
     character: '%',
-    senses: {
-        smell: 'putrid'
+    description: {
+        smell: 'putrid',
+        taste: 'unpalatable'
     },
     edible: {
-        adjective: 'depressing',
         value: 120
     },
-    mixins: [Game.ItemMixins.Edible, Game.ItemMixins.HasSenses]
+    mixins: [Game.ItemMixins.Edible, Game.ItemMixins.HasDescription]
 }, {
-    disable_random_creation: true
+    disable_random_creation: true,
+    groups: ['refuse']
 });
 
 // MISC
@@ -165,4 +191,6 @@ Game.ItemRepository.define('rock', {
         attack_bonus: 1
     },
     mixins: [Game.ItemMixins.Equippable]
+}, {
+    groups: ['refuse']
 });

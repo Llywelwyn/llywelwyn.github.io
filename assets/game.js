@@ -30,6 +30,15 @@ var Game = {
     _height: 40,
     _side_bar_size: 0,
     _bottom_bar_size: 7,
+    _tips: [
+        "This is where a helpful tip shows up whenever you reload the game.",
+        "When in-game, press [%c{seagreen}?%c{white}] to view the controls.",
+        "When in-game, press [%c{seagreen}x%c{white}] to examine an item.",
+        "When in-game, press [%c{seagreen}k%c{white}] to look around.",
+        "Try [%c{seagreen}g%c{white}]etting and [%c{seagreen}e%c{white}]ating food to survive.",
+        "Try [%c{seagreen}w%c{white}]ielding weapons and [%c{seagreen}W%c{white}]earing armour.",
+        "I still don't have a name for this game."
+    ],
 
     //Getters
     display: function() { return this._display; },

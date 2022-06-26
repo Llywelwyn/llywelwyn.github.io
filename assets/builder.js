@@ -4,14 +4,18 @@ Game.Builder = function(width, height, depth) {
     this._depth = depth;
     this._tiles = new Array(depth);
     this._regions = new Array(depth);
+    this._floor_type = [];
 
     // Instantiate arrays as multi-dimensional
     for (var z = 0; z < depth; z++) {
         // Create each level
-        if (Math.random() < 0.8) {
+        if (Math.random() < 0.6) {
             this._tiles[z] = this._generate_cave();
+            this._floor_type.push('Cave');
+            console.log(this._removes);
         } else {
             this._tiles[z] = this._generate_uniform();
+            this._floor_type.push('Uniform')
         }
         // Setup regions array for each depth
         this._regions[z] = new Array(width);
@@ -24,7 +28,7 @@ Game.Builder = function(width, height, depth) {
         }
     }
     for (var z = 0; z < this._depth; z++) {
-        this._setup_regions(z);
+        this._setup_regions(z, this._floor_type[z]);
     }
     this._connect_all_regions();
 };
@@ -34,13 +38,16 @@ Game.Builder.prototype.tiles = function() { return this._tiles; };
 Game.Builder.prototype.depth = function() { return this._depth; };
 Game.Builder.prototype.width = function() { return this._width; };
 Game.Builder.prototype.height = function() { return this._height; };
-
+Game.Builder.prototype._generate_empty_floor = function() {
+        // Create empty map
+        var map = new Array(this._width);
+        for (var w = 0; w < this._width; w++) {
+            map[w] = new Array(this._height);
+        }
+        return map;
+}
 Game.Builder.prototype._generate_cave = function() {
-    // Create empty map
-    var map = new Array(this._width);
-    for (var w = 0; w < this._width; w++) {
-        map[w] = new Array(this._height);
-    }
+    var map = this._generate_empty_floor();
     // Cave generator
     var generator = new ROT.Map.Cellular(this._width, this._height);
     generator.randomize(0.5);
@@ -58,13 +65,10 @@ Game.Builder.prototype._generate_cave = function() {
     return map;
 };
 Game.Builder.prototype._generate_uniform = function() {
-    // Create empty map
-    var map = new Array(this._width);
-    for (var w = 0; w < this._width; w++) {
-        map[w] = new Array(this._height);
-    }
+    // Create empty map for floor
+    var map = this._generate_empty_floor();
     // Generate uniform
-    var generator = new ROT.Map.Uniform(this._width, this._height, {timeLimit: 5000});
+    var generator = new ROT.Map.Uniform(this._width, this._height, {roomDugPercentage: 0.2, timeLimit: 5000});
     generator.create(function(x,y,v) {
         if (v === 0) {
             map[x][y] = Game.Tile.floor_tile;
@@ -72,8 +76,35 @@ Game.Builder.prototype._generate_uniform = function() {
             map[x][y] = Game.Tile.dungeon_wall_tile;
         }
     });
+
+    var rooms = generator.getRooms();
+
+    for (var i = 0; i < rooms.length; i++) {
+        var room = rooms[i];
+        room.getDoors( // Should reuse this. It's pretty good.
+            function(x, y) {
+                if(x && y) {
+                    if (Math.random() < 0.7) {
+                        if (
+                            map[x+1][y] === Game.Tile.floor_tile && map[x-1][y] === Game.Tile.floor_tile &&
+                            map[x][y+1] === Game.Tile.dungeon_wall_tile && map[x][y-1] === Game.Tile.dungeon_wall_tile
+                        ) {
+                            map[x][y] = Game.Tile.door_tile;
+                        } else if (
+                            map[x][y+1] === Game.Tile.floor_tile && map[x][y-1] === Game.Tile.floor_tile &&
+                            map[x+1][y] === Game.Tile.dungeon_wall_tile && map[x-1][y] === Game.Tile.dungeon_wall_tile
+                        ) {
+                            map[x][y] = Game.Tile.door_tile;
+                        }
+                    }
+                }
+            }
+        );
+    }
+
     return map;
 };
+
 Game.Builder.prototype._can_fill_region = function(x, y, z) {
     // Check if tile is within bounds
     if (
@@ -125,9 +156,10 @@ Game.Builder.prototype._remove_region = function(region, z) {
         }
     }
 };
-Game.Builder.prototype._setup_regions = function(z, min_size = 20) {
+Game.Builder.prototype._setup_regions = function(z, floor_type, min_size = 20) {
     var region = 1;
     var tiles_filled;
+    console.log(z, floor_type)
     // Iterate through each tile, searching for starting point
     for (var x = 0; x < this._width; x++) {
         for (var y = 0; y < this._height; y++) {
@@ -135,7 +167,7 @@ Game.Builder.prototype._setup_regions = function(z, min_size = 20) {
                 // Try to fill
                 tiles_filled = this._fill_region(region, x, y, z);
                 // If too small, remove it
-                if (tiles_filled <= min_size) {
+                if (tiles_filled <= min_size && floor_type === 'Cave') {
                     this._remove_region(region, z);
                 } else {
                     region++;
@@ -183,20 +215,24 @@ Game.Builder.prototype._connect_all_regions = function() {
         // properties as strings for quick lookups.
         var connected = {};
         var key;
-        for (var x = 0; x < this._width; x++) {
-            for(var y = 0; y < this._height; y++) {
-                key = this._regions[z][x][y] + ',' + this._regions[z+1][x][y];
-                if (
-                    this._tiles[z][x][y] == Game.Tile.floor_tile &&
-                    this._tiles[z+1][x][y] == Game.Tile.floor_tile &&
-                    !connected[key]
-                ) {
-                    // Both tiles are floor, haven't already connected, try
-                    this._connect_regions(z, this._regions[z][x][y],
-                        this._regions[z+1][x][y]);
-                    connected[key] = true;
+        var connections = 0;
+        do {
+            for (var x = 0; x < this._width; x++) {
+                for(var y = 0; y < this._height; y++) {
+                    key = this._regions[z][x][y] + ',' + this._regions[z+1][x][y];
+                    if (
+                        this._tiles[z][x][y] == Game.Tile.floor_tile &&
+                        this._tiles[z+1][x][y] == Game.Tile.floor_tile &&
+                        !connected[key] && Math.random() < 0.05 // 5% chance
+                    ) {
+                        // Both tiles are floor, haven't already connected, try
+                        this._connect_regions(z, this._regions[z][x][y],
+                            this._regions[z+1][x][y]);
+                        connected[key] = true;
+                        connections++;
+                    }
                 }
             }
-        }
+        } while (connections === 0);
     }
 };

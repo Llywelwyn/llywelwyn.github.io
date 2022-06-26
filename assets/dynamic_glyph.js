@@ -39,7 +39,9 @@ Game.DynamicGlyph = function(properties) {
                         this._listeners[key] = [];
                     }
                     // Add the listener
-                    this._listeners[key].push(mixins[i].listeners[key]);
+                    if (this._listeners[key].indexOf(mixins[i].listeners[key]) === -1) {
+                        this._listeners[key].push(mixins[i].listeners[key]);
+                    }
                 }
             }
         }
@@ -114,11 +116,7 @@ Game.DynamicGlyph.prototype.raise_event = function(event) {
     }
     // Extract arguments passed, remove event name
     var args = Array.prototype.slice.call(arguments, 1);
-    // Invoke each listener, with this entity as context and args
-    for (var i = 0; i < this._listeners[event].length; i++) {
-        this._listeners[event][i].apply(this, args);
-    }
-
+    
     // Invoke each listener with entity as context and args
     var results = [];
     for (var i = 0; i < this._listeners[event].length; i++) {

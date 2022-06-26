@@ -9,7 +9,7 @@ Game.extend = function(src, dest) {
         result[key] = dest[key];
     }
     return result;
-}
+};
 
 Game.Geometry = {
     line: function(start_x, start_y, end_x, end_y) {
@@ -38,4 +38,4 @@ Game.Geometry = {
         }
         return points;
     }
-}
+};

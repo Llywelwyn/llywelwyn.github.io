@@ -13,15 +13,7 @@ Game.ItemMixins.Edible = {
         this._max_uses = template['edible']['max_uses'] || 1;
         // Uses, defaults to max
         this._uses = template['edible']['uses'] || this._max_uses;
-        this._desc = template['edible']['adjective'] || undefined;
         this._desc_colour = template['edible']['colour'] || undefined;
-    },
-    listeners: {
-        details: function() {
-            if (!this._desc) {
-                return [{key: 'food', value: result}];
-            }
-        }
     },
     eat: function(entity) {
         if (entity.has_mixin('HasHunger')) {
@@ -75,11 +67,12 @@ Game.ItemMixins.Equippable = {
     is_wearable: function() { return this._wearable; },
     verbs: function() { return this._verbs; },
 };
-Game.ItemMixins.HasSenses = {
-    name: 'HasSenses',
+Game.ItemMixins.HasDescription = {
+    name: 'HasDescription',
     init: function(template) {
-        this._senses = template['senses'];
+        this._senses = template['description'];
         this._smell = this._senses['smell'] || undefined;
+        this._taste = this._senses['taste'] || undefined;
         this._touch = this._senses['touch'] || undefined;
         this._sight = this._senses['sight'] || undefined;
     },
