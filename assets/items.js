@@ -4,7 +4,7 @@ Game.ItemRepository = new Game.Repository('items', Game.Item);
 // Item templates - https://www.w3.org/wiki/CSS/Properties/color/keywords
 
 /*
-Game.ItemRepository.define('generic', {
+Game.ItemRepository.define('name', 'group', {
     name: <string>,              -      the name of the item     
     character: <string>,         -      the glyph to represent the item as
     foreground: <string>,        -      foreground colour
@@ -26,46 +26,59 @@ Game.ItemRepository.define('generic', {
 */
 
 // WEAPONS
-Game.ItemRepository.define('dagger', {
+Game.ItemRepository.define('dagger', 'equipment', {
     name: 'dagger',
     character: ')',
     foreground: 'gray',
     stats: {
         wieldable: true,
-        attack_bonus: 10
+        attack_bonus: 10,
+        strength_bonus: 4,
     },
     verb: {
         singular: ['slash', 'stab', 'slice'],
         plural: ['slashes', 'stabs', 'slices']
     },
     mixins: [Game.ItemMixins.Equippable]
-}, {
-    disable_random_creation: true
 });
-Game.ItemRepository.define('sword', {
-    name: 'sword',
+Game.ItemRepository.define('shortsword', 'equipment', {
+    name: 'shortsword',
     character: ')',
     foreground: 'white',
     stats: {
         wieldable: true,
         attack_bonus: 5,
-        strength_bonus: 2
+        strength_bonus: 6
     },
     verb: {
         singular: ['slash', 'cut', 'slice'],
         plural: ['slashes', 'cuts', 'slices']
     },
     mixins: [Game.ItemMixins.Equippable]
-}, {
-    disable_random_creation: true
 });
-Game.ItemRepository.define('staff', {
+Game.ItemRepository.define('longsword', 'equipment', {
+    name: 'longsword',
+    character: ')',
+    foreground: 'beige',
+    stats: {
+        wieldable: true,
+        attack_bonus: 0,
+        strength_bonus: 8
+    },
+    verb: {
+        singular: ['slash', 'cut', 'slice'],
+        plural: ['slashes', 'cuts', 'slices']
+    },
+    mixins: [Game.ItemMixins.Equippable]
+});
+Game.ItemRepository.define('staff', 'equipment', {
     name: 'staff',
     character: ')',
     foreground: 'yellow',
     stats: {
         wieldable: true,
         attack_bonus: 5,
+        strength_bonus: 4,
         defence_bonus: 5
     },
     verb: {
@@ -73,12 +86,10 @@ Game.ItemRepository.define('staff', {
         plural: ['smacks', 'cracks', 'bonks']
     },
     mixins: [Game.ItemMixins.Equippable]
-}, {
-    disable_random_creation: true
 });
 
 // WEARABLES
-Game.ItemRepository.define('tunic', {
+Game.ItemRepository.define('tunic', 'equipment', {
     name: 'tunic',
     character: '[',
     foreground: 'green',
@@ -87,10 +98,8 @@ Game.ItemRepository.define('tunic', {
         defence_bonus: 8
     },
     mixins: [Game.ItemMixins.Equippable]
-}, {
-    disable_random_creation: true
 });
-Game.ItemRepository.define('chainmail', {
+Game.ItemRepository.define('chainmail', 'equipment', {
     name: 'chainmail',
     character: '[',
     foreground: 'white',
@@ -99,10 +108,8 @@ Game.ItemRepository.define('chainmail', {
         defence_bonus: 12
     },
     mixins: [Game.ItemMixins.Equippable]
-}, {
-    disable_random_creation: true
 });
-Game.ItemRepository.define('platemail', {
+Game.ItemRepository.define('platemail', 'equipment', {
     name: 'platemail',
     character: '[',
     foreground: 'darkorange',
@@ -111,12 +118,10 @@ Game.ItemRepository.define('platemail', {
         defence_bonus: 16
     },
     mixins: [Game.ItemMixins.Equippable]
-}, {
-    disable_random_creation: true
 });
 
 // FOOD
-Game.ItemRepository.define('apple', {
+Game.ItemRepository.define('apple', 'food', {
     name: 'apple',
     character: 'a',
     foreground: 'red',
@@ -128,7 +133,7 @@ Game.ItemRepository.define('apple', {
     },
     mixins: [Game.ItemMixins.Edible, Game.ItemMixins.HasDescription]
 });
-Game.ItemRepository.define('hardtack', {
+Game.ItemRepository.define('hardtack', 'food', {
     name: 'piece of hardtack',
     character: 'h',
     foreground: 'rosybrown',
@@ -142,7 +147,7 @@ Game.ItemRepository.define('hardtack', {
     },
     mixins: [Game.ItemMixins.Edible, Game.ItemMixins.HasDescription]
 });
-Game.ItemRepository.define('corpse', {
+Game.ItemRepository.define('corpse', 'food', {
     name: 'corpse',
     character: '%',
     description: {
@@ -158,7 +163,7 @@ Game.ItemRepository.define('corpse', {
 });
 
 // MISC
-Game.ItemRepository.define('rock', {
+Game.ItemRepository.define('rock', 'generic', {
     name: 'rock',
     character: '*',
     foreground: 'white',

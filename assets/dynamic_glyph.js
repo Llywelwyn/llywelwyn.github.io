@@ -39,7 +39,9 @@ Game.DynamicGlyph = function(properties) {
                         this._listeners[key] = [];
                     }
                     // Add the listener
-                    this._listeners[key].push(mixins[i].listeners[key]);
+                    if (this._listeners[key].indexOf(mixins[i].listeners[key]) === -1) {
+                        this._listeners[key].push(mixins[i].listeners[key]);
+                    }
                 }
             }
         }

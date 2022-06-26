@@ -15,7 +15,7 @@ Game.PlayerTemplate = {
         max_hp: 40,
         attack_bonus: 50,
         defence_bonus: 50,
-        strength_bonus: 10
+        strength_bonus: 3
     },
     sight_radius: 7,
     inventory_slots: 22,
@@ -41,7 +41,7 @@ Game.EntityRepository = new Game.Repository('entities', Game.Entity);
 // Entity templates
 
 /*
-Game.EntityRepository.define('generic', {
+Game.EntityRepository.define('generic', 'generic', {
     name: <string>,              -       entity name
     noun: {
         plural: <bool>,          -       whether name should be pluralised
@@ -87,7 +87,7 @@ Game.EntityRepository.define('generic', {
 });
 */
 
-Game.EntityRepository.define('vines', {
+Game.EntityRepository.define('vines', 'generic', {
     name: 'vines',
     noun: {
         plural: true,
@@ -109,7 +109,7 @@ Game.EntityRepository.define('vines', {
 });
 
 // Wandering
-Game.EntityRepository.define('bat', {
+Game.EntityRepository.define('bat', 'wander', {
     name: 'bat',
     character: 'b',
     foreground: 'beige',
@@ -133,7 +133,7 @@ Game.EntityRepository.define('bat', {
             Game.EntityMixins.CorpseDropper, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer,
             Game.EntityMixins.Bleeder, Game.EntityMixins.HasDescription]
 });
-Game.EntityRepository.define('newt', {
+Game.EntityRepository.define('newt', 'wander', {
     name: 'newt',
     character: 'n',
     foreground: 'yellow',
@@ -157,7 +157,7 @@ Game.EntityRepository.define('newt', {
 });
 
 // Hunters
-Game.EntityRepository.define('kobold', {
+Game.EntityRepository.define('kobold', 'hunter', {
     name: 'kobold',
     character: 'k',
     foreground: 'white',
@@ -175,9 +175,9 @@ Game.EntityRepository.define('kobold', {
     tasks: ['hunt', 'wander'],
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Sight, Game.EntityMixins.Attacker,
             Game.EntityMixins.Destructible, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer,
-            Game.EntityMixins.Bleeder, Game.EntityMixins.HasDescription]
+            Game.EntityMixins.Bleeder, Game.EntityMixins.HasDescription, Game.EntityMixins.CanOpen]
 });
-Game.EntityRepository.define('orc', {
+Game.EntityRepository.define('orc', 'hunter', {
     name: 'orc',
     character: 'o',
     foreground: 'olive',
@@ -196,9 +196,9 @@ Game.EntityRepository.define('orc', {
     tasks: ['hunt', 'wander'],
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Sight, Game.EntityMixins.Attacker,
             Game.EntityMixins.Destructible, Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer,
-            Game.EntityMixins.Bleeder, Game.EntityMixins.HasDescription]
+            Game.EntityMixins.Bleeder, Game.EntityMixins.HasDescription, Game.EntityMixins.CanOpen]
 });
-Game.EntityRepository.define('vampire', {
+Game.EntityRepository.define('vampire', 'vampire', {
     name: 'vampire',
     character: 'V',
     foreground: 'purple',
@@ -216,11 +216,12 @@ Game.EntityRepository.define('vampire', {
     },
     sight_radius: 8,
     mixins: [Game.EntityMixins.VampireActor, Game.EntityMixins.Sight, Game.EntityMixins.Attacker,
-            Game.EntityMixins.Destructible, Game.EntityMixins.CorpseDropper, Game.EntityMixins.ExperienceGainer]
+            Game.EntityMixins.Destructible, Game.EntityMixins.CorpseDropper, Game.EntityMixins.ExperienceGainer,
+            Game.EntityMixins.RandomStatGainer, Game.EntityMixins.CanOpen]
 }, {
     disable_random_creation: true
 });
-Game.EntityRepository.define('vampire bat', {
+Game.EntityRepository.define('vampire bat', 'vampire', {
     name: 'vampire bat',
     character: 'b',
     foreground: 'purple',

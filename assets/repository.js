@@ -7,21 +7,31 @@ Game.Repository = function(name, ctor) {
 };
 
 // Define a new named template
-Game.Repository.prototype.define = function(name, template, options) {
-    this._templates[name] = template;
+Game.Repository.prototype.define = function(name, group_name, template, options) {
+    console.log("Defining", name, "in", group_name)
+    if (!this._templates[group_name]) {
+        this._templates[group_name] = {};
+    }
+    this._templates[group_name][name] = template;
     // Apply any options
     var disable_random_creation = options && options['disable_random_creation'];
     if (!disable_random_creation) {
-        this._random_templates[name] = template;
+        if (!this._random_templates[group_name]) {
+            this._random_templates[group_name] = {};
+        }
+        this._random_templates[group_name][name] = template;
     }
 };
 // Create object based on template
-Game.Repository.prototype.create = function(name, extra_properties) {
-    if (!this._templates[name]) {
-        throw new Error("No template '" + name + "' in repository '" + this._name + "'");
+Game.Repository.prototype.create = function(name, group_name = 'generic', extra_properties) {
+    if (!this._templates[group_name]) {
+        throw new Error("No template group '" + group_name + "' in repository '" + this._name + "'");
+    }
+    if (!this._templates[group_name][name]) {
+        throw new Error("No template '" + name + "' in '" + group_name + "' in '" + this._name + "'");
     }
     // Copy the template
-    var template = Object.create(this._templates[name]);
+    var template = Object.create(this._templates[group_name][name]);
     // Apply any extra properties
     if (extra_properties) {
         for (var key in extra_properties) {
@@ -32,7 +42,14 @@ Game.Repository.prototype.create = function(name, extra_properties) {
     return new this._ctor(template);
 };
 //Create object based on random template
-Game.Repository.prototype.create_random = function() {
+Game.Repository.prototype.create_random = function(group_name) {
     // Pick a random key and create an object based off of it
-    return this.create(one_of(Object.keys(this._random_templates)));
+    if (!group_name) {
+        group_name = one_of(Object.keys(this._random_templates))
+    }
+    if (!this._random_templates[group_name]) {
+        console.log(this._random_templates);
+        throw new Error("No template group '" + group_name + "' in '" + this._name + '._random_templates');
+    }
+    return this.create(one_of(Object.keys(this._random_templates[group_name])), group_name);
 };

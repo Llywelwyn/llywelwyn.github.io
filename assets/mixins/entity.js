@@ -437,7 +437,7 @@ Game.EntityMixins.CorpseDropper = {
 
                 this._map.add_item(
                     this.x(), this.y(), this.z(),
-                    Game.ItemRepository.create('corpse', {
+                    Game.ItemRepository.create('corpse', 'refuse', {
                         name: this._name + ' ' + prefix[0],
                         noun: {
                             plural: prefix[1],

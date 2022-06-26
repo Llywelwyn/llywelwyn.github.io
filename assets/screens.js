@@ -678,7 +678,7 @@ Game.Screen.gain_stat_screen = {
 Game.Screen.TargetBasedScreen = function(template) {
     template = template || {};
     // by default do nothing and don't consume turn
-    this._is_acceptable_function = template['ok'] || function(x, y) { return false; };
+    this._ok_function = template['ok'] || function(x, y) { return false; };
     this._caption_function = template['caption_function'] || function(x, y) { return ''; };
 };
 Game.Screen.TargetBasedScreen.prototype.setup = function(player, start_x, start_y, offset_x, offset_y) {
@@ -803,20 +803,40 @@ Game.Screen.look_screen = new Game.Screen.TargetBasedScreen({
  // Help screen
  Game.Screen.help_screen = {
     render: function(display) {
-        var text = 'Do stuff?';
-        var border = '-------------'
+        Game.Screen.play_screen.render_bottom_box.call(Game.Screen.play_screen, display);
+        Game.Screen.play_screen.render_player_info.call(Game.Screen.play_screen, display);
+        Game.Screen.play_screen.render_messages.call(Game.Screen.play_screen, display);
+
+        var text = 'How do stuff?';
         var x = 1;
         var y = 1;
         display.drawText(x, y++, '%c{white}' + text);
-        display.drawText(x, y++, '%c{white}' + border);
-        y += 2;
+        y++;
+        display.drawText(x, y++, '%c{white}' + 'MOVEMENT');
+        display.drawText(x, y++, '%c{white}' + '[%c{seagreen}Arrow Keys%c{white}] to move')
+        display.drawText(x, y++, '%c{white}' + '[%c{seagreen}<%c{white}] to ascend')
+        display.drawText(x, y++, '%c{white}' + '[%c{seagreen}>%c{white}] to descend')
+        y++;
+        display.drawText(x, y++, '%c{white}' + 'ITEM INTERACTION');
+        display.drawText(x, y++, '%c{white}' + '[%c{seagreen}i%c{white}] to view inventory')
+        display.drawText(x, y++, '%c{white}' + '[%c{seagreen}x%c{white}] to examine item')
         display.drawText(x, y++, '%c{white}' + '[%c{seagreen}g%c{white}] to get item')
-        y += 2;
-        display.drawText(x, y++, 'Press ? to close.')
+        display.drawText(x, y++, '%c{white}' + '[%c{seagreen}d%c{white}] to drop item')
+        display.drawText(x, y++, '%c{white}' + '[%c{seagreen}e%c{white}] to eat item')
+        display.drawText(x, y++, '%c{white}' + '[%c{seagreen}w%c{white}] to wield item')
+        display.drawText(x, y++, '%c{white}' + '[%c{seagreen}W%c{white}] to wear item')
+        y++
+        display.drawText(x, y++, '%c{white}' + 'MISCELLANEOUS');
+        display.drawText(x, y++, '%c{white}' + '[%c{seagreen}k%c{white}] to look around')
+        display.drawText(x, y++, '%c{white}' + '[%c{seagreen}?%c{white}] to open this page')
+        y++;
     },
     handle_input: function(input_type, input_data) {
-        if (input_type === 'keypress' && input_data.key === '?') {
-            Game.Screen.play_screen.set_sub_screen(null);
+        if(
+            input_type === 'keydown' &&
+            (input_data.key === 'Escape' || input_data.key === 'Enter' || input_data.key === '?')
+        ) {
+            Game.Screen.play_screen.set_sub_screen(undefined);
         }
     }
  };
