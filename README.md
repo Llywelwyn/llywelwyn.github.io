@@ -1,4 +1,4 @@
 Static blog
 
 Content copyright (C) Risto Saarelma
-CC BY-SA 4.0 license
+CC BY-NC-SA 4.0 license
