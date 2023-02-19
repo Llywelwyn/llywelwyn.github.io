@@ -1,12 +1,11 @@
----
-layout: post
-author: Risto Saarelma
-title: Roguelike game architecture in Rust 2 - The game application
-tags:
-    - gamedev
----
++++
+title = "Roguelike game architecture in Rust 2 - The game application"
+[taxonomies]
+cat = ["gamedev"]
+tags = ["rust", "deprecated"]
++++
 
-Continued from [part 1](../Roguelike-architecture-in-Rust-1).
+Continued from [part 1](../roguelike-architecture-in-rust-1).
 
 The [game project][magog] is split into the toplevel application
 crate and a `world` library crate in a subdirectory. The world crate

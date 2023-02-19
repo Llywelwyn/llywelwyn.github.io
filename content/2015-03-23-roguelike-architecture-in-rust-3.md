@@ -1,12 +1,11 @@
----
-layout: post
-author: Risto Saarelma
-title: Roguelike game architecture in Rust 3 - The entity component system
-tags:
-    - gamedev
----
++++
+title = "Roguelike game architecture in Rust 3 - The entity component system"
+[taxonomies]
+cat = ["gamedev"]
+tags = ["rust", "deprecated"]
++++
 
-Continued from [part 2](../Roguelike-architecture-in-Rust-2).
+Continued from [part 2](../roguelike-architecture-in-rust-2).
 
 Everybody trying to make any sort of more complex game in Rust seems
 to gravitate towards [entity component systems][gamedev-ecs]. I'm

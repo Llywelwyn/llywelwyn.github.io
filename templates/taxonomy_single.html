@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %} {{ term.name }} {% endblock title %}
+
+{% block content %}
+<div id='header'>
+    <a href="/">posts</a> / <a href="/{{ taxonomy.name }}">{{ taxonomy.name }}</a>
+    |
+    <a class="feedbutton" type="application/atom+xml" rel="alternate" href="./feed.xml">Atom feed</a>
+</div>
+
+<h1 class="title">
+  {{ term.name }}
+</h1>
+<ul>
+  {% for page in term.pages | reverse %}
+  <li><a href="{{ page.permalink | safe }}">{{ page.title }}</a> | {{ page.date }} </li>
+  {% endfor %}
+</ul>
+{% endblock content %}

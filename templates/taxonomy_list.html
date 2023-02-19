@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %} {{ taxonomy.name }} {% endblock title %}
+
+{% block content %}
+
+<div id='header'>
+    <a href="/">posts</a>
+</div>
+
+<h1 class="title">
+  {{ taxonomy.name }}
+</h1>
+{% if terms %}
+<ul>
+  {% for term in terms %}
+  <li><a href="{{ term.permalink | safe }}">{{ term.name }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock content %}

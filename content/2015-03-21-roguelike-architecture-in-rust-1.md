@@ -1,10 +1,9 @@
----
-layout: post
-author: Risto Saarelma
-title: Roguelike game architecture in Rust 1 - The utility layer
-tags:
-    - gamedev
----
++++
+title = "Roguelike game architecture in Rust 1 - The utility layer"
+[taxonomies]
+cat = ["gamedev"]
+tags = ["rust", "deprecated"]
++++
 
 I started looking into Mozilla's [Rust][rust] programming language
 around Summer 2013 and had gotten comfortable enough with it by the
