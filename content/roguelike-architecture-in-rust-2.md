@@ -1,5 +1,6 @@
 +++
 title = "Roguelike game architecture in Rust 2 - The game application"
+date = 2015-03-22
 [taxonomies]
 cat = ["gamedev"]
 tags = ["rust", "deprecated"]

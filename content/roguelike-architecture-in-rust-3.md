@@ -1,5 +1,6 @@
 +++
 title = "Roguelike game architecture in Rust 3 - The entity component system"
+date = 2015-03-23
 [taxonomies]
 cat = ["gamedev"]
 tags = ["rust", "deprecated"]
