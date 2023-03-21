@@ -31,7 +31,7 @@
             {%- elif config.author -%}
               {{ config.author }}
             {%- else -%}
-              Unknown
+              Risto Saarelma
             {%- endif -%}
           </name>
         </author>
