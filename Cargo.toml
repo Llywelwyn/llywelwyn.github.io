@@ -1,0 +1,10 @@
+[package]
+edition = "2021"
+name = "example-check"
+version = "0.1.0"
+authors = ["Risto Saarelma <risto.saarelma@iki.fi>"]
+description = "Automated code example tester"
+license = "CC-BY-NC-SA-4.0"
+resolver = "2"
+
+[dependencies]
