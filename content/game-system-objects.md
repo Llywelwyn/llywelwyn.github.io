@@ -23,9 +23,9 @@ Threading a context parameter turns out to work pretty well for game code.
 The context object is very important for the design, and needs strong conventions around it.
 So far a good rule of thumb has been "the object that stores everything you need to save in a save game file".
 I'm calling this object `Core` and use the variable `c` for it in the function signatures.
-So I get code like
+So I get code like this:
 
-```
+```rust
 impl Entity {
     /// Look up other entities near this entity.
     fn get_neighbor(&self, c: &Core, offset: Vector) -> Option<Entity> {
@@ -57,7 +57,7 @@ If the core data was stored in a global variable, it would be much trickier to d
 
 It is also straightforward to return iterators to contents of the core by just making the iterator object share the lifetime with the core reference.
 
-```
+```rust
 impl Core {
     fn live_entities(&self) -> impl Iterator<Item = Entity> + '_ { ... }
     ...
@@ -70,7 +70,7 @@ A full program can consist of multiple systems that are contained in a tree-like
 The game toplevel could consist of the engine core (only manages the runtime game logic) and the rendering state (draws things on screen, manages cached textures).
 The toplevel object is used as a context parameter for high-level main game loop functions, and method calls drop down to using the subsystem members when control moves to a subsystem.
 
-```
+```rust
 /// Toplevel game system.
 struct GameLoop {
     /// Game core subsystem.
