@@ -13,8 +13,10 @@ A language without Rust's borrow checking could do a design where the game world
 This can get messy, like Joe Armstrong's quip about object-oriented programming, "You wanted a banana but what you got was a gorilla holding the banana and the entire jungle."
 
 With Rust, the starting point is that everything should be tree-shaped.
-The whole tree is rooted on the trunk, while branches don't know about the trunk below them and leaves don't know about the branches.
-If you need to do operations with leaves that involve the rest of the tree, a straightforward approach is to provide the tree as a context to the operation.
+You don't want an object to link back to where it was linked from, that would be a cyclic graph instead of a tree.
+You don't even want multiple branches linking to the same leaf object, an acyclic graph, because now it's unclear which of the branches owns the object.
+The whole tree is rooted on the trunk, while branches don't know about the trunk below them and leaves on the branches don't know about the branches.
+If you need to do operations with the leaves that involve the rest of the tree, a straightforward approach is to reference the whole tree as a context to the operation.
 A future Rust [might provide context-specification as a language feature](https://tmandry.gitlab.io/blog/posts/2021-12-21-context-capabilities/) but now we're stuck with passing it around as a threaded parameter.
 
 ## The core object
