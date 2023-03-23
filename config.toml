@@ -19,7 +19,7 @@ taxonomies = [
 [markdown]
 # Whether to do syntax highlighting
 # Theme can be customized by setting the `highlight_theme` variable to a theme supported by Zola
-highlight_code = true
+highlight_code = false
 
 [extra]
 # Put all your custom variables here

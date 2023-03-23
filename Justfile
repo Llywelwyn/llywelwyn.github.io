@@ -5,3 +5,6 @@ serve:
 # One-time operation to activate versioned githooks.
 activate-githooks:
     git config core.hooksPath githooks
+
+test-examples:
+    cargo test
