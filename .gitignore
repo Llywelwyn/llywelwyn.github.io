@@ -1,4 +1,7 @@
 .direnv/
 _site/
 target/
+public/
 Cargo.lock
+
+linkstamp/
