@@ -5,12 +5,35 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     steps:
-      - name: checkout
+      - name: Checkout blog
         uses: actions/checkout@v3.0.0
-      - name: build_and_deploy
-        uses: shalzz/zola-deploy-action@v0.16.1-1
+      - name: Build linkstamp
+        run: |
+          git clone --depth=1 https://github.com/rsaarelm/linkstamp
+          cd linkstamp
+          cargo build
+      - name: Install Zola
+        run: |
+          wget -q -O - "https://github.com/getzola/zola/releases/download/v0.17.2/zola-v0.17.2-x86_64-unknown-linux-gnu.tar.gz" \
+            | tar xzf - -C /usr/local/bin
+      - name: Build static zola site HTML pages to public/
+        run: zola build
+      - name: Build links to public/ with linkstamp
+        run: |
+          mkdir -p public/links/
+          cd linkstamp
+          cargo run < ../links.idm > ../public/links/index.html
+          cargo run -- --feed < ../links.idm > ../public/links/feed.xml
+      - name: Publish static website
         env:
-          # Target branch
-          PAGES_BRANCH: gh-pages
-          # Automatic token
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          cd public/
+          git init --initial-branch=master
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions-bot@users.noreply.github.com"
+          git add .
+
+          git commit -m "Deploy ${GITHUB_REPOSITORY} to ${GITHUB_REPOSITORY}:gh-pages"
+          git push --force "https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" master:gh-pages
+          echo "Deploy complete"
