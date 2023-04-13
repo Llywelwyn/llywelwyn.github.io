@@ -17,5 +17,8 @@ build-local:
     cd linkstamp; cargo run < ../content/links.idm > ../public/links/index.html
     cd linkstamp; cargo run -- --feed < ../content/links.idm > ../public/links/feed.xml
 
+check-links:
+    linkchecker --check-extern https://rsaarelm.github.io/links/
+
 test-examples:
     cargo test
