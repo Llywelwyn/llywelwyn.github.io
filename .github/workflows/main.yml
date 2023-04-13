@@ -22,8 +22,8 @@ jobs:
         run: |
           mkdir -p public/links/
           cd linkstamp
-          cargo run < ../links.idm > ../public/links/index.html
-          cargo run -- --feed --title="rsaarelm's links" --site-url=https://rsaarelm.github.io/links/ < ../links.idm > ../public/links/feed.xml
+          cargo run < ../content/links.idm > ../public/links/index.html
+          cargo run -- --feed --title="rsaarelm's links" --site-url=https://rsaarelm.github.io/links/ < ../content/links.idm > ../public/links/feed.xml
       - name: Publish static website
         env:
           GITHUB_TOKEN: ${{ github.token }}
