@@ -43,6 +43,9 @@ Get up from the dream bed and see where you've ended up.
 You might be able to chain multiple lucid dreams by just repeating the technique whenever the previous lucid dream ends.
 Just remember to keep doing a reality check whenever you think you've woken up.
 
+Take a day or a few off after doing the technique.
+WBTB seems to stop working if you try to do it on too many consecutive days.
+
 ## Further reading
 
 * [Personal Experiences in Lucid Dreaming](https://doi.org/10.1007/978-1-4757-0423-5_13); Alan Worsley; 1988.
