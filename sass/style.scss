@@ -6,7 +6,11 @@ h1 { font-size: 24px; }
 h2 { font-size: 20px; }
 h3 { font-size: 18px; }
 body {
-    max-width: 640px; margin: 0 auto; float: none;
+    max-width: 40rem;
+    margin: 0 auto;
+    float: none;
+    padding: 1rem;
+    line-height: 1.4;
 }
 .date { color: gray; font-size: smaller; }
 .tag { color: brown; font-size: smaller; }

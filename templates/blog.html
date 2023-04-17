@@ -15,7 +15,7 @@
   {{ section.title }}
 </h1>
 <ul>
-  {% for page in section.pages | reverse %}
+  {% for page in section.pages %}
   <li><a href="{{ page.permalink | safe }}">{{ page.title }}</a> | {{ page.date }} </li>
   {% endfor %}
 </ul>
