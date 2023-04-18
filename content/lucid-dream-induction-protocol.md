@@ -27,6 +27,10 @@ If you can't wake up with just the intention, set an alarm clock to wake you up 
 Now you need to wake up properly. Read something for an hour or two.
 Getting your mind alert after the early night's period of deep sleep will make lucidity easier.
 
+Do sitting meditation before getting back to bed, this helps you gauge how sleepy you are.
+If you start nodding off after half an hour or less, you'll probably fall asleep quickly when you go back to bed.
+If you remain alert longer than 30 minutes through the meditation, you might not be able to easily fall asleep anymore and can skip going back to bed today, go about the day normally and try again the next night.
+
 **05:00:** Get back to bed.
 Set the intention to notice micro-awakenings after you've fallen asleep again.
 You will use these to remember you wanted to go lucid, and to re-enter the dream.
