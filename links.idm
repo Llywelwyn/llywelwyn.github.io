@@ -10,6 +10,10 @@ http://i.imgur.com/4F7Af.jpg
 	:title North Sea Drainage Project to Increase Area of Europe
 	:date 1930-09
 	:tags geoengineering
+https://www.orwell.ru/library/essays/boys/english/e_boys
+	:title George Orwell: Boys' weeklies
+	:date 1940-03
+	:tags fiction
 https://www.orwellfoundation.com/the-orwell-foundation/orwell/essays-and-other-works/you-and-the-atom-bomb/
 	:title You and the Atom Bomb
 	:date 1945-10-19
@@ -57,7 +61,7 @@ http://www.smithtrust.com/htmlpages/advice.html
 http://profcohen.net/reli189/uploads/readings/davidson.pdf
 	:title On the Very Idea of a Conceptual Scheme
 	:date 1973-12-28
-	:tags rationality concepts philosophy language
+	:tags rationality concepts philosophy linguistics
 https://www.depauw.edu/sfs/backissues/5/lem5art.htm
 	:title Philip K. Dick: A Visionary Among the Charlatans
 	:date 1975-03
@@ -189,7 +193,7 @@ https://en.wikipedia.org/wiki/Lenin_was_a_mushroom
 http://www.pinyin.info/readings/texts/moser.html
 	:title Why Chinese Is So Damn Hard
 	:date 1991-08
-	:tags chinese language learning humor
+	:tags chinese linguistics learning humor
 http://luhmann.surge.sh/communicating-with-slip-boxes
 	:title Communicating with Slip Boxes
 	:date 1992
@@ -230,6 +234,10 @@ http://people.csail.mit.edu/shanir/publications/Topology.pdf
 	:title Applications of Algebraic Topology to Concurrent Computation
 	:date 1994-12
 	:tags computing topology
+https://www.evl.uic.edu/aej/AndyBattalion.html
+	:title Battalion
+	:date 1995
+	:tags games opengl
 http://www.call-with-current-continuation.org/rants/how-companies-die.txt
 	:title How Software Companies Die
 	:date 1995-03
@@ -377,7 +385,7 @@ https://arxiv.org/abs/quant-ph/9908043
 http://www.troubleshooters.com/tpromag/199911/199911.htm
 	:title Outlines: The Do Everything Tool
 	:date 1999-11
-	:tags outliner notetaking
+	:tags outliner notetaking plaintext
 https://okmij.org/ftp/cpp-digest/CPP-GUI-mismatch.html
 	:title Why C++ is not very fit for GUI programming
 	:date 1999-11-05
@@ -401,7 +409,11 @@ https://wummel.github.io/linkchecker/
 https://orionsarm.com/
 	:title Orion's Arm Universe Project
 	:date 2000-06-10
-	:tags space scifi
+	:tags space scifi orions-arm
+https://spot.colorado.edu/~obrian/IF.htm
+	:title Paul O'Brian's Interactive Fiction page
+	:date 2000-06-18
+	:tags interactive-fiction
 https://www.dreamsongs.com/Files/LispGoodNewsBadNews.pdf
 	:title Lisp: Good News, Bad News, How to Win Big
 	:date 2000-12-02
@@ -438,6 +450,10 @@ http://library.msri.org/books/sga/from_grothendieck.pdf
 	:title A mad day's work: From Grothendieck to Connes and Kontsevich
 	:date 2001-07-12
 	:tags math grothendieck
+https://jkorpela.fi/data/utd.html
+	:title UTD: Universal Text Data
+	:date 2001-08-31
+	:tags computing notetaking markup
 https://en.wikipedia.org/wiki/Probability_axioms
 	:title Probability axioms
 	:date 2001-09-13
@@ -514,9 +530,610 @@ https://www.doc.ic.ac.uk/~susan/475/HowToBeAProgrammer.pdf
 	:title How To Be a Programmer: A Short, Comprehensive, and Personal Summary
 	:date 2002-12-16
 	:tags computing empowerment
+http://pespmc1.vub.ac.be/INTRO.html
+	:title Introduction to Principia Cybernetica
+	:date 2003
+	:tags philosophy computing weird evolution systems wiki
+https://research.google.com/archive/gfs.html
+	:title The Google File System
+	:date 2003
+	:tags computing systems
+http://www.ccru.net/archive/burroughs.htm
+	:title Lemurian Time War
+	:date 2003
+	:tags weird william-burroughs
+https://web.archive.org/web/20030922235605/http://www.lhup.edu/~dsimanek/hollow/morrow.htm
+	:title Turning the Universe Inside-Out
+	:date 2003
+	:tags hollow-earth crackpot weird
+https://nickbostrom.com/ethics/values
+	:title Transhumanist values
+	:date 2003
+	:tags rationality transhumanism value philosophy
+http://www.troubleshooters.com/projects/vimoutliner/download/0.3.0/vo_README.otl
+	:title VimOutliner HOWTO
+	:date 2003
+	:tags outliner notetaking computing plaintext
+http://paulgraham.com/desres.html
+	:title Design and Research
+	:date 2003-01
+	:tags science design
+http://geocalc.clas.asu.edu/pdf/OerstedMedalLecture.pdf
+	:title Reforming the Mathematical Language of Physics
+	:date 2003-01-10
+	:tags geometric-algebra
+https://en.wikipedia.org/wiki/Appropriate_technology
+	:title Appropriate technology
+	:date 2003-03-02
+	:tags technology amistics
+https://en.wikipedia.org/wiki/Ultimate_fate_of_the_universe
+	:title Ultimate fate of the universe
+	:date 2003-03-07
+	:tags space cosmology physics
+http://www.paulgraham.com/hundred.html
+	:title The Hundred-Year Language
+	:date 2003-04
+	:tags computing
+https://web.archive.org/web/20110831062907/http://www.tlb.org/busywork.html
+	:title The best qualities of high- and low-level languages
+	:date 2003-04-02
+	:tags computing
+https://www.microsoft.com/en-us/research/publication/future-computing-logic-biology/
+	:title The Future of Computing: Logic or Biology
+	:date 2003-07-21
+	:tags computing math
+http://users.speakeasy.net/~lion/nb/book.pdf
+	:title How to Make a Complete Map of Every Thought You Think
+	:date 2003-07-26
+	:tags writing notetaking organization weird
+https://michaelnielsen.org/blog/archive/tough-learning/tough-learning-final.html
+	:title Extreme thinking
+	:date 2003-09-08
+	:tags rationality science
+http://www.catb.org/esr/writings/taoup/html/ch01s06.html
+	:title Basics of the Unix Philosophy
+	:date 2003-09-19
+	:tags computing unix
+https://en.wikipedia.org/wiki/Solomonoff%27s_theory_of_inductive_inference
+	:title Solomonoff's theory of inductive inference
+	:date 2003-12-17
+	:tags ai ait bayes minimalism
+https://nickbostrom.com/fut/evolution.html
+	:title The Future of Human Evolution
+	:date 2004
+	:tags future transhumanism singularity ai evolution
+https://imaginary.org/sites/default/files/taskbook_arnold_en_0.pdf
+	:title Problems for children from 5 to 15
+	:date 2004
+	:tags math learning
+http://www.ruthlessreviews.com/the-ruthless-guide-to-80s-action/
+	:title The Ruthless Guide to 80s Action
+	:date 2004
+	:tags movies
+http://www.amirrorclear.net/flowers/game/devours/
+	:title All Things Devours
+	:date 2004
+	:tags games interactive-fiction time-travel
+http://number-none.com/product/index.html
+	:title Articles from The Inner Product
+	:date 2004
+	:tags computing gamedev
+http://www.paulgraham.com/say.html
+	:title What You Can't Say
+	:date 2004-01
+	:tags politics
+http://trstn.net/karig/
+	:title Karig's commentary on ColorForth
+	:date 2004-02-14
+	:tags forth
+http://www.pvv.ntnu.no/~leirbakk/rpg/buckrogers/society/buckrogers_society_golden.html
+	:title What is Golden Age Science Fiction?
+	:date 2004-06
+	:tags scifi rpg buck-rogers
+https://en.wikipedia.org/wiki/Science_wars
+	:title Science wars
+	:date 2004-09-17
+	:tags science politics alan-sokal
+https://slashdot.org/story/04/10/20/1518217/neal-stephenson-responds-with-wit-and-humor
+	:title Neal Stephenson Slashdot interview
+	:date 2004-10-20
+	:tags neal-stephenson
+http://localroger.com/k5host/foodplant.html
+	:title Food Plant
+	:date 2004-10-26
+	:tags work farming
+https://keiapl.org/rhui/remember.htm
+	:title Remembering Ken Iverson
+	:date 2004-11
+	:tags computing apl
+https://en.wikipedia.org/wiki/Central_place_theory
+	:title Central Place Theory
+	:date 2004-11-29
+	:tags architecture systems geometry
+https://wiki.haskell.org/Frag
+	:title Frag
+	:date 2005
+	:tags gamedev haskell frp
+https://inky.org/if/think-player.html
+	:title Think Like a Player!
+	:date 2005
+	:tags gamedev interactive-fiction
+http://www.troubleshooters.com/linux/djbdns/djbdns_install.otl
+	:title Installing DJBDNS (example outline file)
+	:date 2005
+	:tags outliner notetaking computing
+https://www.roangelo.net/logwitt/logwit35.html
+	:title Wittgenstein's "Remarks on Frazer's Golden Bough"
+	:date 2005
+	:tags wittgenstein religion weird
+http://www.paulgraham.com/hs.html
+	:title What You'll Wish You'd Known
+	:date 2005-01
+	:tags social meaning effort
+http://web.mit.edu/wisdom/www/AIM-2005-003.pdf
+	:title Functional Differential Geometry
+	:date 2005-02
+	:tags math lisp
+https://sites.google.com/site/steveyegge2/scheming-is-believing
+	:title scheming-is-believing
+	:date 2005-02-07
+	:tags computing lisp
+https://sites.google.com/site/steveyegge2/five-essential-phone-screen-questions
+	:title The Five Essential Phone-Screen Questions
+	:date 2005-03-29
+	:tags computing recruiting work
+https://web.archive.org/web/20050406175856/http://www.janegalt.net/blog/archives/005244.html
+	:title A really, really, really long post about gay marriage that does not, in the end, support one side or the other
+	:date 2005-04-02
+	:tags politics
+https://www.cs.tufts.edu/comp/150FP/archive/graham-nelson/WhitePaper.pdf
+	:title Natural Language, Semantic Analysis and Interactive Fiction
+	:date 2005-04-10
+	:tags gamedev linguistics interactive-fiction inform-7
+https://blog.codinghorror.com/you-can-write-fortran-in-any-language/
+	:title You Can Write FORTRAN in any Language
+	:date 2005-04-22
+	:tags computing
+https://www.gamedevblog.com/2005/04/notes_on_emanci.html
+	:title Notes on Ancient Domains of Mystery
+	:date 2005-04-23
+	:tags gamedev crpg experiential-density
+https://web.archive.org/web/20100331000119/https://fluff.info/blog/arch/00000127.htm
+	:title A cult I almost joined
+	:date 2005-05-14
+	:tags lisp social
+http://lambda-the-ultimate.org/node/794
+	:title How to read a paper
+	:date 2005-06-23
+	:tags research computing
+https://www.eblong.com/zarf/gamerev/rhem2.html
+	:title Review: Rhem 2
+	:date 2005-07
+	:tags games
+https://games.slashdot.org/story/05/09/22/174259/world-of-warcraft-interview-responses
+	:title World of Warcraft Interview "Responses"
+	:date 2005-09-22
+	:tags games
+http://producingoss.com/en/difficult-people.html
+	:title Difficult People
+	:date 2005-10
+	:tags work social foss
+https://en.wikipedia.org/wiki/Algorithmic_information_theory
+	:title Algorithmic information theory
+	:date 2005-10-04
+	:tags ait
+http://bactra.org/reviews/wolfram/
+	:title A Rare Blend of Monster Raving Egomania and Utter Batshit Insanity
+	:date 2005-10-21
+	:tags stephen-wolfram science
+http://www.aaronsw.com/weblog/rewritingreddit
+	:title Rewriting Reddit
+	:date 2005-12-06
+	:tags reddit python lisp history
+https://en.wikipedia.org/wiki/Elitzur%E2%80%93Vaidman_bomb_tester
+	:title Elitzur–Vaidman bomb tester
+	:date 2005-12-06
+	:tags quantum-physics
+http://www.findinglisp.com/blog/2005/12/reddit-and-lisp-psychosis.html
+	:title Reddit and Lisp psychosis
+	:date 2005-12-09
+	:tags lisp social
+http://www.exemark.com/FORTH/eForthOverviewv5.pdf
+	:title eForth Overview
+	:date 2006
+	:tags forth
+	:desc Building a Forth system from very few primitives
+https://web.archive.org/web/20130618070850/http://material.talentum.com/talentum_com_images/Ollilan_kunto-ohjelma.pdf
+	:title Jorma Ollilan kunto-ohjelma
+	:date 2006
+	:tags calisthenics
+https://pdodds.w3.uvm.edu/files/papers/others/2006/stoll2006a.pdf
+	:title When Slide Rules Ruled
+	:date 2006
+	:tags math engineering
+https://edolstra.github.io/pubs/phd-thesis.pdf
+	:title The Purely Functional Software Deployment Model
+	:date 2006-01-18
+	:tags nix computing decentralized
+	:notes NixOS author's PhD thesis
+https://wiki.hh.se/wg211/images/5/58/Foozles.pdf
+	:title Foozles: A retrospective
+	:date 2006-01-27
+	:tags computing humor
+http://curtclifton.net/papers/MoseleyMarks06a.pdf
+	:title Out of the Tar Pit
+	:date 2006-02-06
+	:tags computing complexity
+http://www.davidchess.com/words/BrokenKoans.html
+	:title Broken Koans and other Zen debris
+	:date 2006-02-22
+	:tags humor buddhism
+https://en.wikipedia.org/wiki/Gompertz%E2%80%93Makeham_law_of_mortality
+	:title Gompertz–Makeham law of mortality
+	:date 2006-02-24
+	:tags longevity
+https://www.cs.cmu.edu/~15110-s13/Wing06-ct.pdf
+	:title Computational Thinking
+	:date 2006-03
+	:tags computing computational-thinking empowerment rationality
+https://steve-yegge.blogspot.com/2006/04/lisp-is-not-acceptable-lisp.html
+	:title Lisp is not an acceptable Lisp
+	:date 2006-04-14
+	:tags computing lisp
+https://vanderworld.blogspot.com/2006/04/exhaustive-essential-fantasy-reading.html
+	:title Exhaustive Essential Fantasy Reading Lists
+	:date 2006-04-21
+	:tags fiction fantasy reference
+https://marktarver.com/bipolar.html
+	:title The Bipolar Lisp Programmer
+	:date 2006-04-28
+	:tags social lisp
+https://www.joelonsoftware.com/2006/06/16/my-first-billg-review/
+	:title My First BillG Review
+	:date 2006-06-16
+	:tags computing work
+http://abstractmath.org/MM/MMTOC.htm
+	:title abstractmath.org
+	:date 2006-06-21
+	:tags math learning
+http://steve-yegge.blogspot.com/2006/07/wizard-school.html
+	:title Wizard School
+	:date 2006-07-01
+	:tags computing education empowerment
+https://nickgravgaard.com/elastic-tabstops/
+	:title Elastic tabstops
+	:date 2006-07-02
+	:tags computing plaintext
+https://en.wikipedia.org/wiki/Dual_process_theory
+	:title Dual process theory
+	:date 2006-08-03
+	:tags cognitive system-1
+https://www.youtube.com/watch?v=oCZMoY3q2uM
+	:title A new way to look at networking (video)
+	:date 2006-08-30
+	:tags decentralized computing internet
+https://web.archive.org/web/20090901012913/http://www.vpri.org/pdf/rn2006002_nsfprop.pdf
+	:title VPRI Proposal to NSF
+	:date 2006-08-31
+	:tags computing
+https://www.teemingbrain.com/interviews/interview-with-thomas-ligotti/
+	:title Interview with Thomas Ligotti
+	:date 2006-10
+	:tags thomas-ligotti fiction
+https://en.wikipedia.org/wiki/Outline_of_thought
+	:title Outline of thought
+	:date 2006-10-02
+	:tags cognitive
+https://www.cs.jhu.edu/~jason/advice/how-to-organize-your-files.html
+	:title How to Organize Your Files
+	:date 2006-10-17
+	:tags computing organization
+http://groups.csail.mit.edu/cag/crg/papers/sweeney06games.pdf
+	:title The Next Mainstream Programming Language: A Game Developer’s Perspective
+	:date 2006-11-01
+	:tags computing gamedev
+https://homepages.inf.ed.ac.uk/wadler/compthink.html
+	:title Computational Thinking and Outreach
+	:date 2006-11-04
+	:tags computational-thinking
+https://lparchive.org/Dwarf-Fortress-Boatmurdered/
+	:title Dwarf Fortress - Boatmurdered
+	:date 2006-11-10
+	:tags dwarf-fortress
+https://www.readthesequences.com/
+	:title The Less Wrong Sequences
+	:date 2006-11-22
+	:tags rationality
+https://wiki.laptop.org/go/OLPC_Human_Interface_Guidelines/The_Laptop_Experience/The_Journal
+	:title OLPC Human Interface Guidelines
+	:date 2006-11-28
+	:tags computing ui
+http://eagain.net/articles/git-for-computer-scientists/
+	:title Git for Computer Scientists
+	:date 2007
+	:tags git learning
+https://arocourse.neocities.org/
+	:title Aro Dzogchen Meditation Course
+	:date 2007
+	:tags dzogchen meditation
+https://www.grey-elf.com/philotomy.pdf
+	:title Philotomy's musings
+	:date 2007
+	:tags rpg osr mythic-underworld
+https://www.squidi.net/three/
+	:title Three Hundred Mechanics
+	:date 2007
+	:tags gamedev
+https://cowboyprogramming.com/2007/01/05/evolve-your-heirachy/
+	:title Evolve Your Hierarchy
+	:date 2007-01-05
+	:tags gamedev ecs
+https://unapologetic.wordpress.com/?order=asc
+	:title The Unapologetic Mathematician
+	:date 2007-01-15
+	:tags math
+https://web.archive.org/web/20070209222743/http://uzwi.wordpress.com/2007/01/27/very-afraid/
+	:title Every moment of a science fiction story must represent the triumph of writing over worldbuilding.
+	:date 2007-01-27
+	:tags fiction worldbuilding scifi
+https://arxiv.org/abs/math/0702396
+	:title What is good mathematics?
+	:date 2007-02-13
+	:tags math
+https://kk.org/thetechnium/lifelogging-an/
+	:title Lifelogging, an Inevitability
+	:date 2008-02-21
+	:tags computing identity future lifelogging
+https://www.gamedeveloper.com/design/the-history-of-computer-role-playing-games-part-1-the-early-years-1980-1983-
+	:title The History of Computer Role-Playing Games Part
+	:date 2007-02-23
+	:tags crpg
+	:sequence
+		https://www.gamedeveloper.com/business/the-history-of-computer-role-playing-games-part-2-the-golden-age-1985-1993-
+		https://www.gamedeveloper.com/design/the-history-of-computer-role-playing-games-part-iii-the-platinum-and-modern-ages-1994-2004-
+https://statmodeling.stat.columbia.edu/2007/02/28/watching_faces/
+	:title Watching faces on TV in the morning may cure depression
+	:date 2007-02-28
+	:tags depression social
+http://www.gregegan.net/PERMUTATION/FAQ/FAQ.html
+	:title Permutation City - The Dust Theory: Frequently Asked Questions
+	:date 2007-03-11
+	:tags greg-egan scifi identity uploads
+https://arxiv.org/abs/math/0703427
+	:title Mathematical knowledge: internal, social and cultural aspects
+	:date 2007-03-14
+	:tags math
+https://www.greaterwrong.com/posts/cKrgy7hLdszkse2pq/archimedes-s-chronophone
+	:title Archimedes’s Chronophone
+	:date 2007-03-23
+	:tags rationality asymmetric-weapon
+https://doi.org/10.1016/j.artint.2007.10.012
+	:title Why Heideggerian AI failed and how fixing it would require making it more Heideggerian
+	:date 2007-04
+	:tags ai heidegger metarationality frame-problem philosophy
+https://www.greaterwrong.com/posts/yxFkuyPANtL6GSwiC/the-majority-is-always-wrong
+	:title The Majority Is Always Wrong
+	:date 2007-04-03
+	:tags rationality
+https://www.gnxp.com/blog/2007/04/nerds-are-nuts.php
+	:title Nerds are nuts
+	:date 2007-04-04
+	:tags social crackpot religion science rationality
+https://arxiv.org/abs/0704.0646
+	:title The Mathematical Universe
+	:date 2007-04-05
+	:tags physics math reality max-tegmark uploads systems
+https://ravimohan.blogspot.com/2007/04/learning-from-sudoku-solvers.html
+	:title Learning From Sudoku Solvers
+	:date 2007-04-24
+	:tags computing sudoku peter-norvig ron-jeffries testing
+https://www.red-gate.com/simple-talk/opinion/opinion-pieces/fired-with-enthusiasm/
+	:title Fired With Enthusiasm
+	:date 2007-04-30
+	:tags computing business work
+https://www.dreamviews.com/induction-techniques/36683-finger-induced-lucid-dream-fild.html
+	:title Finger Induced Lucid Dream (FILD)
+	:date 2007-05-19
+	:tags lucid-dreaming sleep
+http://www.readingrockets.org/article/critical-thinking-why-it-so-hard-teach
+	:title Critical Thinking: Why Is It So Hard to Teach?
+	:date 2007-06
+	:tags critical-thinking rationality education
+https://en.wikipedia.org/wiki/Total_functional_programming
+	:title Total functional programming
+	:date 2007-06-05
+	:tags computing
+http://www.math.harvard.edu/~mazur/preprints/when_is_one.pdf
+	:title When is one thing equal to some other thing?
+	:date 2007-06-12
+	:tags mathematics category-theory
+http://www.antipope.org/charlie/blog-static/2007/06/the_high_frontier_redux.html
+	:title The High Frontier, Redux
+	:date 2007-06-16
+	:tags scifi space doomed science
+http://ccr.sigcomm.org/online/files/p83-keshavA.pdf
+	:title How to Read a Paper
+	:date 2007-07
+	:tags learning research science
+https://terrytao.wordpress.com/career-advice/
+	:title Terence Tao: Career advice
+	:date 2007-07
+	:tags math learning
+https://realization.org/p/susan-blackmore/blackmore.am-i-conscious-now.html
+	:title Am I Conscious Now?
+	:date 2007-07-09
+	:tags consciousness susan-blackmore
+https://lparchive.org/Ultima-4-5-and-6/
+	:title Nakar's Ultima Let's Plays
+	:date 2007-07-14
+	:tags ultima
+	:sequence
+		https://lparchive.org/Ultima-VII-The-Black-Gate/
+		https://lparchive.org/Ultima-VII-Part-2-Serpent-Isle/
+http://www.paulgraham.com/head.html
+	:title Holding a Program in One's Head
+	:date 2007-08
+	:tags computing minimalism cognitive complexity
+https://web.archive.org/web/20070818070904/http://www.vpri.org/html/work/ifnct.htm
+	:title Inventing Fundamental New Computing Technologies
+	:date 2007-08-18
+	:tags computing empowerment
+https://bldgblog.com/2007/08/derinkuyu-or-the-allure-of-the-underground-city/
+	:title Derinkuyu, or: the allure of the underground city
+	:date 2007-08-19
+	:tags architecture
+http://www.paulgraham.com/philosophy.html
+	:title How to Do Philosophy
+	:date 2007-09
+	:tags philosophy diseased-discipline rationality
+https://ask.metafilter.com/71101/What-single-book-is-the-best-introduction-to-your-field-or-specialization-within-your-field-for-laypeople
+	:title What single book is the best introduction to your field (or specialization within your field) for laypeople?
+	:date 2007-09-08
+	:tags learning science research reference
+https://arxiv.org/abs/0709.4024
+	:title Shut up and calculate
+	:date 2007-09-25
+	:tags physics max-tegmark reality
+https://savageminds.org/2007/10/01/how-to-read-a-good-book-in-one-hour/
+	:title How to read a (good) book in one hour
+	:date 2007-10-01
+	:tags learning research
+http://backreaction.blogspot.com/2007/10/mathematical-universe.html
+	:title Sabine Hossenfelder on The Mathematical Universe
+	:date 2007-10-11
+	:tags physics max-tegmark reality
+http://tinlizzie.org/~awarth/papers/dls07.pdf
+	:title OMeta: an Object-Oriented Language for Pattern Matching
+	:date 2007-10-22
+	:tags computing
+https://tinlizzie.org/VPRIPapers/tr2007008_steps.pdf
+	:title STEPS Toward The Reinvention of Programming
+	:date 2007-12
+	:tags computing ui empowerment
+https://www.androidarts.com/
+	:title Android Arts
+	:date 2008
+	:tags gamedev art
+http://www.maps.org/news-letters/v18n1/v18n1-MAPS_8-10.pdf
+	:title Mathematics and the Psychedelic Revolution
+	:date 2008
+	:tags math psychedelics history
+https://github.com/nothings/stb
+	:title single-file public domain (or MIT licensed) libraries for C/C++
+	:date 2008
+	:tags gamedev
+https://albigen.com/uarelove/most-rapid/contents.htm
+	:title The Most Rapid and Direct Means to Eternal Bliss
+	:date 2008
+	:tags meditation weird
+https://web.archive.org/web/20081031151429/http://www.alainconnes.org/docs/maths.pdf
+	:title A View of Mathematics
+	:date 2008
+	:tags math
+http://www.loper-os.org/?p=13
+	:title The Book (Architecture of Symbolic Computers)
+	:date 2008-01-04
+	:tags computing
+https://www.scottaaronson.com/blog/?p=304
+	:title Ten Signs a Claimed Mathematical Breakthrough is Wrong
+	:date 2008-01-05
+	:tags math research crackpot humor
+https://www.cs.ou.edu/~diochnos/research/other/heroes/internals/on_skills.pdf
+	:title On the offered skills in Heroes of Might and Magic III
+	:date 2008-01-06
+	:tags computing games math
+http://blog.sigfpe.com/2008/01/what-does-topology-have-to-do-with.html
+	:title What does topology have to do with computability?
+	:date 2008-01-06
+	:tags computing topology
+https://stuffwhitepeoplelike.com/
+	:title Stuff White People Like
+	:date 2008-01-18
+	:tags shitpost politics
+https://www.johndcook.com/blog/2008/01/31/three-hour-a-week-language/
+	:title Three-hour-a-week language
+	:date 2008-01-31
+	:tags perl cognitive
+https://www.overcomingbias.com/p/dinos-on-the-mohtml
+	:title Dinos on the Moon
+	:date 2008-02-12
+	:tags archeology reptilians weird aliens
+https://en.wikipedia.org/wiki/German_tank_problem
+	:title German Tank Problem
+	:date 2008-03-24
+	:tags statistics
+https://archive.org/details/TheArtOfMemetics
+	:title The Art of Memetics
+	:date 2008-04-09
+	:tags egregore weird
+https://web.archive.org/web/20151026020259/http://www.wired.com/2008/04/ff-wozniak/
+	:title Want to Remember Everything You'll Ever Learn? Surrender to This Algorithm
+	:date 2008-04-21
+	:tags spaced-repetition
+http://metamagician3000.blogspot.com/2008/04/transhumanism-still-at-crossroads.html
+	:title Transhumanism still at the crossroads
+	:date 2008-04-22
+	:tags transhumanism activism greg-egan
+https://arxiv.org/abs/0805.4057
+	:title Truth as value and duty: lessons of mathematics
+	:date 2008-05-27
+	:tags math
+https://cs.brown.edu/~sk/Publications/Papers/Published/sk-teach-pl-post-linnaean/paper.pdf
+	:title Teaching Programming Languages in a Post-Linnaean Age
+	:date 2008-05-29
+	:tags computing learning
+http://www.vetta.org/documents/Machine_Super_Intelligence.pdf
+	:title Machine Super Intelligence
+	:date 2008-06
+	:tags ai singularity
+https://web.archive.org/web/20120310105846/http://www.paul-almond.com/CivilizationLevelQuantumSuicide.htm
+	:title Civilization-Level Quantum Suicide
+	:date 2008-06-02
+	:tags rationality weird quantum-immortality philosophy
+https://web.archive.org/web/20101223224812/http://www4.in.tum.de/~blanchet/api-design.pdf
+	:title The Little Manual of API Design
+	:date 2008-06-19
+	:tags computing
+https://www.moserware.com/2008/06/ometa-who-what-when-where-why.html
+	:title OMeta#: Who? What? When? Where? Why?
+	:date 2008-06-24
+	:tags computing
+https://groups.google.com/g/comp.os.plan9/c/_YUEVbTFuME/m/tJHB8y8-0vYJ
+	:title Acme editor team responds to feature requests
+	:date 2008-08-19
+	:tags computing plan-9 minimalism management
+https://openresearch-repository.anu.edu.au/bitstream/1885/34343/2/01_Lineweaver_Life%2c_gravity_and_the_second_2008.pdf
+	:title Life, gravity and the second law of thermodynamics
+	:date 2008-08-22
+	:tags entropy systems evolution
+http://www.ams.org/notices/200808/tx080800930p.pdf
+	:title Who Is Alexander Grothendieck?
+	:date 2008-09
+	:tags math grothendieck
+http://grognardia.blogspot.com/2008/09/gygaxian-naturalism.html
+	:title Gygaxian "Naturalism"
+	:date 2008-09-04
+	:tags rpg realism
+http://steve-yegge.blogspot.com/2008/10/universal-design-pattern.html
+	:title The Universal Design Pattern
+	:date 2008-10-20
+	:tags computing gamedev properties
+http://www.fhi.ox.ac.uk/Reports/2008-3.pdf
+	:title Whole Brain Emulation: A Roadmap
+	:date 2008-10-31
+	:tags neuroscience uploads
+https://cr.yp.to/qmail/qmailsec-20071101.pdf
+	:title Some thoughts on security after ten years of qmail 1.0
+	:date 2008-11-02
+	:tags computing security qmail djb
 
+https://borretti.me/article/effective-spaced-repetition
+	:title Effective Spaced Repetition
+	:date 2023-04-10
+	:tags spaced-repetition learning
+	:added 2023-04-10T17:07:21+0300
 https://borretti.me/article/best-of-orions-arm
 	:title The Best of Orion's Arm
-	:tags scifi transhumanism
+	:tags scifi transhumanism orions-arm
 	:date 2023-04-16
 	:added 2023-04-16T09:04:28+0300
