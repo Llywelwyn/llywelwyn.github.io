@@ -11,7 +11,7 @@ The idea is nice, you do a Wikipedia-style breakdown where each concept gets its
 A problem is that when learning some new topic, it often explodes into dozens of new concepts, each of which could have their own wiki page.
 The pages end up as stubs, and with a regular text editor, a sort of navigational fatigue sets in.
 It takes extra effort to jump between pages, extra setup to show multiple of them next to each other on screen, and you might end up forgetting a page even is there if you don't have it linked in some index you view frequently.
-At some point I realized I can relax the assumption of 1 concept - 1 page - 1 file for the personal wiki.
+At some point I realized I can relax the assumption of 1 concept --- 1 page --- 1 file for the personal wiki.
 One file can have multiple concepts, just list them one after another and have some syntax convention for the headline of a new item.
 I decided to go for old-school camel case WikiWords for the headline convention.
 A new item is identified by its WikiWord title that is the only text on the line.
@@ -27,7 +27,7 @@ The result is less readable for outsiders, but it's a very efficient "notes to s
 There's also a convention for organizing prose text in a file called [ventilated prose](https://writetheasciidocs.netlify.app/ventilated-prose) or [semantic linebreaks](https://sembr.org/), where you write normal text but put every sentence on its own line.
 This works nicely with an outliner format, you just write full sentences for your bullet point items when you need proper prose.
 
-A nice thing with the orthodox 1 concept - 1 file wiki structure is that it is very simple.
+A nice thing with the orthodox 1 concept --- 1 file wiki structure is that it is very simple.
 You don't have to make structural decisions beyond coming up with concepts and naming them unambiguously.
 With multiple concepts in one file, you must now decide which concepts belong together and which order they are presented in.
 This can end up looking much like an article or a syllabus that presents some overarching narrative building on the individual topics.
