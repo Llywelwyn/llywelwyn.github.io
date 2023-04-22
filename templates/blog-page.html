@@ -27,7 +27,7 @@
     {% endfor %}
     |
 {% endif %}
-{{ page.date }}
+{{ page.date }}{% if page.updated %}, updated: {{ page.updated }}{% endif %}
 </em></div>
 
 {{ page.content | safe }}
