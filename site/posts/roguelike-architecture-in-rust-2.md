@@ -1,10 +1,6 @@
-+++
-title = "Roguelike game architecture in Rust 2 - The game application"
-date = 2015-03-22
-[taxonomies]
-cat = ["gamedev"]
-tags = ["rust", "deprecated"]
-+++
+:title Roguelike game architecture in Rust 2 - The game application
+:date 2015-03-22
+:tags cs/rust games/dev deprecated
 
 Continued from [part 1](../roguelike-architecture-in-rust-1).
 

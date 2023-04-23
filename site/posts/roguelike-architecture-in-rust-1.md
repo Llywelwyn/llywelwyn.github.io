@@ -1,10 +1,6 @@
-+++
-title = "Roguelike game architecture in Rust 1 - The utility layer"
-date = 2015-03-21
-[taxonomies]
-cat = ["gamedev"]
-tags = ["rust", "deprecated"]
-+++
+:title Roguelike game architecture in Rust 1 - The utility layer
+:date 2015-03-21
+:tags cs/rust games/dev deprecated
 
 I started looking into Mozilla's [Rust][rust] programming language
 around Summer 2013 and had gotten comfortable enough with it by the

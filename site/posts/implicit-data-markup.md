@@ -1,10 +1,6 @@
-+++
-title = "Implicit data markup"
-date = 2023-04-22
-[taxonomies]
-cat = ["notetaking"]
-tags = ["rust", "idm"]
-+++
+:title Implicit data markup
+:date 2023-04-22
+:tags cs/rust cs/idm org/notes
 
 **tl;dr**: Minimalist, non-self-describing markup and serialization language optimized for human-writability, with an implementation for Rust's Serde, available at [github](https://github.com/rsaarelm/idm) and [crates.io](https://crates.io/crates/idm).
 

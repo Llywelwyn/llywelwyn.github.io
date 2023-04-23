@@ -1,10 +1,6 @@
-+++
-title = "Game system objects"
-date = 2023-03-21
-[taxonomies]
-cat = ["gamedev"]
-tags = ["rust"]
-+++
+:title Game system objects
+:date 2023-03-21
+:tags games/dev cs/rust
 
 I've kept working on Rust game development since I last wrote about it in 2015.
 

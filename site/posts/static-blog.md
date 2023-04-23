@@ -1,9 +1,6 @@
-+++
-title = "Static blog"
-date = 2015-03-20
-[taxonomies]
-tags = ["deprecated"]
-+++
+:title Static blog
+:date 2015-03-20
+:tags cs/blog deprecated
 
 Set up a blog at github for writing one-off things that can slowly
 drift out of date.

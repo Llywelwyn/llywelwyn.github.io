@@ -1,10 +1,6 @@
-+++
-title = "Outline notes introduction"
-date = 2023-04-20
-[taxonomies]
-cat = ["notetaking"]
-tags = ["vim", "outliners", "wiki"]
-+++
+:title Outline notes introduction
+:date 2023-04-20
+:tags org/outliners org/wiki cs/vim
 
 I never managed to get personal wikis to quite work for me.
 The idea is nice, you do a Wikipedia-style breakdown where each concept gets its own wiki page, and then hyperlink between these.

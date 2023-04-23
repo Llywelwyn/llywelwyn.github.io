@@ -1,10 +1,6 @@
-+++
-title = "Reproducible gamestates"
-date = 2023-03-23
-[taxonomies]
-cat = ["gamedev"]
-tags = ["rust", "event-log"]
-+++
+:title Reproducible gamestates
+:date 2023-03-23
+:tags games/dev cs/rust cs/event-log
 
 There's a very simple and high-level model for any game program that still has practical use.
 It decomposes the game into

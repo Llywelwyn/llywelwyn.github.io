@@ -1,15 +1,10 @@
 # Run a local webserver to test the site.
 serve:
-    # Generate the link collections into Zola's public dir.
-    # Links page isn't handled by Zola generation.
-    mkdir -p public/links/
-    if [[ ! -e linkstamp ]]; then git clone --depth=1 https://github.com/rsaarelm/linkstamp; fi
-    cd linkstamp; git pull
-    cd linkstamp; cargo run < ../links.idm > ../public/links/index.html
-    cd linkstamp; cargo run -- --feed < ../links.idm > ../public/links/feed.xml
-
-    # Run Zola, links page should work.
-    zola serve
+    # Generate pages
+    @cargo run
+    @cargo install basic-http-server
+    @echo Running test server at http://localhost:4000/
+    ~/.cargo/bin/basic-http-server public/
 
 # One-time operation to activate versioned githooks.
 register-githooks:

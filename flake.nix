@@ -9,7 +9,15 @@
       let pkgs = (import nixpkgs) { inherit system; };
       in {
         devShell = pkgs.mkShell ({
-          buildInputs = with pkgs; [ cargo rustc act zola linkchecker ];
+          buildInputs = with pkgs; [
+            cargo
+            rustc
+            rust-analyzer
+            clippy
+            rustfmt
+            act
+            linkchecker
+          ];
         });
       });
 }

@@ -1,9 +1,6 @@
-+++
-title = "Lucid dream induction protocol"
-date = 2023-04-15
-[taxonomies]
-tags = ["lucid-dreaming"]
-+++
+:title Lucid dream induction protocol
+:date 2023-04-15
+:tags x/lucid
 
 The standard instructions to induce lucid dreams, from Stephen LaBerge's books and elsewhere, are centered on keeping a dream journal and developing a habit of doing reality checks that will fail when done in a dream.
 These have never worked well for me, the reality check habit does not persist in dreams and dream journaling doesn't seem to increase lucid dreams to any perceptible degree.
