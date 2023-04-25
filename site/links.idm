@@ -5,7 +5,7 @@ http://bactra.org/Daedalus.html
 https://erkelzaar.tsudao.com/reviews/H.G.Wells_on_Metropolis%201927.htm
 	:title H.G. Wells reviews Metropolis
 	:date 1927-04-17
-	:tags movies
+	:tags fiction/scifi movies
 http://i.imgur.com/4F7Af.jpg
 	:title North Sea Drainage Project to Increase Area of Europe
 	:date 1930-09
@@ -13,7 +13,7 @@ http://i.imgur.com/4F7Af.jpg
 https://www.orwell.ru/library/essays/boys/english/e_boys
 	:title George Orwell: Boys' weeklies
 	:date 1940-03
-	:tags fiction
+	:tags fiction/pulp
 https://www.orwellfoundation.com/the-orwell-foundation/orwell/essays-and-other-works/you-and-the-atom-bomb/
 	:title You and the Atom Bomb
 	:date 1945-10-19
@@ -29,11 +29,11 @@ https://apps.weber.edu/wsuimages/michaelwutz/6510.Trio/Rede-lecture-2-cultures.p
 https://fanac.org/timebinders/scienceers.html
 	:title History of the Scienceers
 	:date 1961-06
-	:tags scifi community
+	:tags fiction/scifi community
 https://www.softwarepreservation.org/projects/apl/Books/APROGRAMMING%20LANGUAGE
 	:title A Programming Language (pdf)
 	:date 1962
-	:tags computing apl
+	:tags cs/apl
 https://gwern.net/doc/psychology/1962-hunter.pdf
 	:title An Exceptional Talent for Calculative Thinking
 	:date 1962
@@ -41,7 +41,7 @@ https://gwern.net/doc/psychology/1962-hunter.pdf
 https://pvto.weebly.com/uploads/9/1/5/0/91508780/eight_o%E2%80%99clock_in_the_morning-nelson.pdf
 	:title Eight O'Clock in the Morning
 	:date 1963
-	:tags fiction reptilians
+	:tags fiction/scifi reptilians
 https://www.feynmanlectures.caltech.edu/
 	:title The Feynman Lectures on Physics
 	:date 1964
@@ -69,7 +69,7 @@ http://profcohen.net/reli189/uploads/readings/davidson.pdf
 https://www.depauw.edu/sfs/backissues/5/lem5art.htm
 	:title Philip K. Dick: A Visionary Among the Charlatans
 	:date 1975-03
-	:tags scifi philip-k-dick stanislaw-lem
+	:tags fiction/scifi philip-k-dick stanislaw-lem
 http://www.newbanner.com/SecHumSCM/IsGodTaoist.html
 	:title Is God a Taoist?
 	:date 1977
@@ -77,23 +77,23 @@ http://www.newbanner.com/SecHumSCM/IsGodTaoist.html
 https://daviddfriedman.substack.com/p/the-tolkien-puzzle
 	:title The Tolkien Puzzle
 	:date 1977-12-19
-	:tags tolkien fiction meaning religion
+	:tags tolkien fiction/fantasy meaning religion
 http://worrydream.com/refs/Backus-CanProgrammingBeLiberated.pdf
 	:title Can Programming Be Liberated from the von Neumann Style?
 	:date 1978
-	:tags computing
+	:tags cs
 https://deoxy.org/pkd_how2build.htm
 	:title How to Build a Universe That Doesn't Fall Apart Two Days Later
 	:date 1978
-	:tags worldbuilding scifi reality
+	:tags fiction/worldbuilding fiction/scifi reality
 https://warwick.ac.uk/fac/arts/english/currentstudents/undergraduate/modules/en361fantastika/bibliography/2.7moorcock_m.1978epic_pooh.pdf
 	:title Epic Pooh
 	:date 1978
-	:tags tolkien michael-moorcock fiction
+	:tags tolkien michael-moorcock fiction/fantasy
 https://www.jsoftware.com/papers/perlis78.htm
 	:title Almost Perfect Artifacts Improve only in Small Ways: APL is more French than English
 	:date 1978-03-29
-	:tags apl
+	:tags cs/apl
 https://www.joelvelasco.net/teaching/5330(fall2015)/dawkins79-12_Misunderstandings.pdf
 	:title Twelve Misunderstandings of Kin Selection
 	:date 1979-07-03
@@ -101,7 +101,7 @@ https://www.joelvelasco.net/teaching/5330(fall2015)/dawkins79-12_Misunderstandin
 http://www.eecg.toronto.edu/~jzhu/csc326/readings/iverson.pdf
 	:title Notation as a Tool of Thought
 	:date 1980-08
-	:tags apl
+	:tags cs/apl
 https://personalpages.manchester.ac.uk/staff/hung.bui/ideal.pdf
 	:title The Ideal Mathematician
 	:date 1981
@@ -109,15 +109,15 @@ https://personalpages.manchester.ac.uk/staff/hung.bui/ideal.pdf
 https://gist.github.com/camdez/812824ed9d48df14604d
 	:title Epigrams on Programming
 	:date 1982-09
-	:tags alan-perlis computing
+	:tags alan-perlis cs
 http://doc.cat-v.org/bell_labs/blit/blit.pdf
 	:title The Blit: A Multiplexed Graphics Terminal
 	:date 1983
-	:tags computing graphics ui historical rob-pike
+	:tags cs/ui historical rob-pike
 https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/acrobat-17.pdf
 	:title Hints for Computer System Design
 	:date 1983-07
-	:tags computing systems
+	:tags cs systems
 https://www.mit.edu/people/dmredish/wwwMLRF/links/Humor/Deep_Thoughts
 	:title Deep Thoughts by Jack Handey
 	:date 1983-11
@@ -125,15 +125,15 @@ https://www.mit.edu/people/dmredish/wwwMLRF/links/Humor/Deep_Thoughts
 https://people.mpi-inf.mpg.de/~mehlhorn/SeminarEvolvability/ValiantLearnable.pdf
 	:title A Theory of the Learnable
 	:date 1984
-	:tags ai computing
+	:tags cs/ai
 https://pages.cs.wisc.edu/~remzi/Naur.pdf
 	:title Programming as Theory Building
 	:date 1985
-	:tags computing philosophy
+	:tags cs philosophy
 https://www.bruceblinn.com/parable.html
 	:title The Parable of the Two Programmers
 	:date 1985-03
-	:tags computing social work
+	:tags cs social work
 http://www.cs.virginia.edu/~robins/YouAndYourResearch.html
 	:title Richard Hamming: You and Your Research
 	:date 1986-03-07
@@ -149,7 +149,7 @@ http://www.forth.org/fd/FD-V09N2.pdf#page=29
 https://www.cs.princeton.edu/courses/archive/fall14/cos561/papers/ARPAdesign-revisited13.pdf
 	:title The Design Philosophy of the Darpa Internet Protocols
 	:date 1988-08
-	:tags computing internet systems
+	:tags cs/net systems
 https://people.cs.umass.edu/~emery/misc/how-to.pdf
 	:title How to do Research at the MIT AI Lab
 	:date 1988-09
@@ -161,11 +161,11 @@ http://www.ralphmerkle.com/humanMemory.html
 https://www.cs.utexas.edu/~EWD/transcriptions/EWD10xx/EWD1036.html
 	:title On the cruelty of really teaching computing science
 	:date 1988-12-02
-	:tags computing empowerment dijkstra
+	:tags cs/empowerment dijkstra
 http://doc.cat-v.org/bell_labs/concurrent_window_system/concurrent_window_system.pdf
 	:title A Concurrent Window System
 	:date 1989
-	:tags computing ui rob-pike
+	:tags cs/ui rob-pike
 https://jmlr.csail.mit.edu/reviewing-papers/knuth_mathematical_writing.pdf
 	:title Mathematical Writing
 	:date 1989
@@ -173,15 +173,15 @@ https://jmlr.csail.mit.edu/reviewing-papers/knuth_mathematical_writing.pdf
 http://doc.cat-v.org/bell_labs/pikestyle
 	:title Notes on Programming in C
 	:date 1989-02-21
-	:tags computing c rob-pike
+	:tags cs/c rob-pike
 https://www.cs.ox.ac.uk/files/3395/PRG72.pdf
 	:title A Categorical Manifesto
 	:date 1989-03
-	:tags category-theory computing
+	:tags math/ct cs
 http://ttic.uchicago.edu/~dreyer/course/papers/wadler.pdf
 	:title Theorems for free!
 	:date 1989-06
-	:tags computing type-theory
+	:tags cs/type-theory
 https://www.math.upenn.edu/~wilf/DownldGF.html
 	:title Generatingfunctionology
 	:date 1990
@@ -209,11 +209,11 @@ http://luhmann.surge.sh/communicating-with-slip-boxes
 http://gagne.homedns.org/~tgagne/contrib/EarlyHistoryST.html
 	:title The Early History of Smalltalk
 	:date 1993
-	:tags computing smalltalk
+	:tags cs/smalltalk
 https://www.plover.com/~mjd/misc/hbaker-archive/ThermoGC.html
 	:title Thermodynamics and Garbage Collection
 	:date 1993
-	:tags entropy computing
+	:tags physics/entropy cs
 http://bayes.wustl.edu/etj/articles/backward.look.pdf
 	:title Physics and Probability: A Backward Look to the Future
 	:date 1993
@@ -233,7 +233,7 @@ https://fadep.org/wp-content/uploads/2016/10/D-63_THE_O-RING_THEORY.pdf
 https://www.tug.org/texshowcase/cheat.pdf
 	:title Theoretical Computer Science Cheat Sheet
 	:date 1994
-	:tags computing math
+	:tags cs math
 https://arxiv.org/abs/math/9404236
 	:title On proof and progress in mathematics
 	:date 1994-04-01
@@ -241,7 +241,7 @@ https://arxiv.org/abs/math/9404236
 http://people.csail.mit.edu/shanir/publications/Topology.pdf
 	:title Applications of Algebraic Topology to Concurrent Computation
 	:date 1994-12
-	:tags computing topology
+	:tags cs math/topology
 https://www.evl.uic.edu/aej/AndyBattalion.html
 	:title Battalion
 	:date 1995
@@ -249,11 +249,11 @@ https://www.evl.uic.edu/aej/AndyBattalion.html
 http://www.call-with-current-continuation.org/rants/how-companies-die.txt
 	:title How Software Companies Die
 	:date 1995-03
-	:tags computing business social
+	:tags cs business social
 https://wiki.c2.com/
 	:title C2 Wiki
 	:date 1995-03-25
-	:tags wiki historical computing wiki-words
+	:tags historical cs/wiki
 https://archive.org/details/nanonuts
 	:title Nanonuts
 	:date 1996
@@ -261,11 +261,11 @@ https://archive.org/details/nanonuts
 https://6826.csail.mit.edu/2020/papers/noproof.pdf
 	:title How Did Software Get So Reliable Without Proof?
 	:date 1996
-	:tags computing complexity math
+	:tags cs/swe math
 https://web.archive.org/web/20001119231700/http://www.research.ibm.com/people/l/lloydt/color/color.HTM
 	:title Why Should Engineers and Scientists Be Worried About Color?
 	:date 1996
-	:tags computing graphics
+	:tags cs/cg
 https://differentialclub.wdfiles.com/local--files/definitions-structure-and-measurement/Intelligence-Knowns-and-unknowns.pdf
 	:title Intelligence: Knowns and Unknowns
 	:date 1996-02
@@ -277,11 +277,11 @@ http://alumni.media.mit.edu/~cahn/life/gian-carlo-rota-10-lessons.html
 https://www.cs.tufts.edu/~nr/cs257/archive/chris-okasaki/dissertation.pdf
 	:title Purely Functional Data Structures
 	:date 1996-09
-	:tags computing haskell
+	:tags cs/haskell
 http://grafx2.chez.com/
 	:title GrafX2
 	:date 1996-11-01
-	:tags gamedev graphics
+	:tags gamedev cs/cg
 https://www1.udel.edu/educ/gottfredson/reprints/1997whygmatters.pdf
 	:title Why g Matters: The Complexity of Everyday Life
 	:date 1997
@@ -289,15 +289,15 @@ https://www1.udel.edu/educ/gottfredson/reprints/1997whygmatters.pdf
 https://www.oocities.org/connorbd/tarpit/bancstar.html
 	:title BANCStar
 	:date 1997
-	:tags computing cursed
+	:tags cs cursed
 https://www.gnu.org/philosophy/right-to-read.html
 	:title The Right to Read
 	:date 1997-02
-	:tags computing empowerment foss
+	:tags cs/empowerment cs/foss
 https://www.oocities.org/timessquare/maze/4979/lee.html
 	:title T.C. Lee on developing Starflight
 	:date 1997-02-05
-	:tags space starflight gamedev forth organization
+	:tags space games/starflight gamedev cs/forth org
 http://www.maia.ub.es/~vieiro/fitxers/teaching-math-arnold.pdf
 	:title On teaching mathematics
 	:date 1997-03-07
@@ -305,7 +305,7 @@ http://www.maia.ub.es/~vieiro/fitxers/teaching-math-arnold.pdf
 http://www.leighb.com/jhana2a.htm
 	:title The Jhanas in Theravadan Buddhist Meditation
 	:date 1997-03-20
-	:tags meditation jhana
+	:tags meditation/jhana
 https://cr.yp.to/papers/calculus.pdf
 	:title Calculus for mathematicians
 	:date 1997-04-03
@@ -317,11 +317,11 @@ http://miyaguchi.4sigma.org/BloodyHistory/history.html
 http://www.stlport.org/resources/StepanovUSA.html
 	:title An Interview with A. Stepanov
 	:date 1997-07
-	:tags computing c++
+	:tags computing/cxx
 https://www.datapacrat.com/Opinion/Reciprocality/r0/index.html
 	:title The Programmers' Stone
 	:date 1997-10-20
-	:tags rationality computing weird
+	:tags rationality cs weird
 https://www.w3.org/Provider/Style/URI
 	:title Cool URIs don't change
 	:date 1998
@@ -329,7 +329,7 @@ https://www.w3.org/Provider/Style/URI
 https://core.ac.uk/download/pdf/82129049.pdf
 	:title Book Review: B.C. Smith's On the Origin of Objects
 	:date 1998
-	:tags philosophy computing brian-cantwell-smith
+	:tags philosophy cs brian-cantwell-smith
 https://math.ucr.edu/home/baez/crackpot.html
 	:title The Crackpot Index
 	:date 1998
@@ -337,7 +337,7 @@ https://math.ucr.edu/home/baez/crackpot.html
 http://euro.ecom.cmu.edu/people/faculty/mshamos/1999EarlyYears.pdf
 	:title The Early Years of Computational Geometry - a Personal Memoir
 	:date 1998
-	:tags geometry
+	:tags cs/cg
 https://how.complexsystems.fail/
 	:title How Complex Systems Fail
 	:date 1998
@@ -349,11 +349,11 @@ http://www.hucama.com/wp-content/uploads/2017/11/g-factor-intellligence-1998.pdf
 http://www.cs.nott.ac.uk/~pszgmh/pearl.pdf
 	:title Monadic Parsing in Haskell
 	:date 1998
-	:tags computing haskell parsing
+	:tags cs/haskell cs/parsing
 https://norvig.com/21-days.html
 	:title Teach Yourself Programming in Ten Years
 	:date 1998
-	:tags computing learning
+	:tags cs learning
 https://geocalc.clas.asu.edu/pdf/SpaceTimeCalc.pdf
 	:title Spacetime calculus
 	:date 1998
@@ -381,23 +381,23 @@ http://www.viridiandesign.org/principles.html
 https://www.cs.virginia.edu/~evans/cs655/readings/steele.pdf
 	:title Growing a Language
 	:date 1998-10
-	:tags computing
+	:tags cs/plt
 http://electricsheepcomix.com/almostguy/
 	:title The Guy I Almost Was
 	:date 1998-10
-	:tags 1990s computing social
+	:tags 1990s cs social
 https://web.stanford.edu/class/cs81n/command.txt
 	:title In the Beginning was the Command Line
 	:date 1999
-	:tags computing empowerment neal-stephenson
+	:tags cs/empowerment neal-stephenson
 http://www.rheingold.com/texts/tft/
 	:title Tools for Thought
 	:date 1999
-	:tags computing technology history
+	:tags cs technology history
 https://www.christian-sauve.com/1999/04/the-killing-star-charles-pellegrino-and-george-zebrowski/
 	:title Review: The Killing Star
 	:date 1999-04-01
-	:tags scifi space aliens dark-forest
+	:tags fiction/scifi space aliens dark-forest
 http://www.industriallogic.com/papers/khdraft.pdf
 	:title Knowledge Hydrant: A Pattern Language for Study Groups
 	:date 1999-07
@@ -405,7 +405,7 @@ http://www.industriallogic.com/papers/khdraft.pdf
 https://arxiv.org/abs/quant-ph/9908043
 	:title Ultimate physical limits to computation
 	:date 1999-08-13
-	:tags computing physics
+	:tags cs physics
 http://www.troubleshooters.com/tpromag/199911/199911.htm
 	:title Outlines: The Do Everything Tool
 	:date 1999-11
@@ -413,11 +413,11 @@ http://www.troubleshooters.com/tpromag/199911/199911.htm
 https://okmij.org/ftp/cpp-digest/CPP-GUI-mismatch.html
 	:title Why C++ is not very fit for GUI programming
 	:date 1999-11-05
-	:tags computing ui c++
+	:tags cs/ui cs/cxx
 http://www.visual-memory.co.uk/amk/doc/0094.html
 	:title Ian Watson: Plumbing Stanley Kubrick
 	:date 2000
-	:tags scifi movies
+	:tags fiction/scifi movies
 https://www.scottaaronson.com/writings/athletes.html
 	:title Trigonometry? No Way: These Teens Would Rather Toss a Ball
 	:date 2000
@@ -425,7 +425,7 @@ https://www.scottaaronson.com/writings/athletes.html
 https://web.archive.org/web/20071002030029/https://www.very.net/~nikolai/
 	:title Nikolai Kingsley's Stuff
 	:date 2000
-	:tags fiction internet weird
+	:tags fiction cs/net weird
 https://bschwartz.domains.swarthmore.edu/self-determination.pdf
 	:title Self-Determination - The Tyranny of Freedom
 	:date 2000-01
@@ -433,11 +433,11 @@ https://bschwartz.domains.swarthmore.edu/self-determination.pdf
 https://wummel.github.io/linkchecker/
 	:title LinkChecker
 	:date 2000-02-26
-	:tags computing web scraping
+	:tags cs/net/scraping
 https://orionsarm.com/
 	:title Orion's Arm Universe Project
 	:date 2000-06-10
-	:tags space scifi orions-arm
+	:tags space fiction/scifi/orions-arm
 https://spot.colorado.edu/~obrian/IF.htm
 	:title Paul O'Brian's Interactive Fiction page
 	:date 2000-06-18
@@ -449,11 +449,11 @@ https://www.theguardian.com/uk/2000/aug/30/childprotection.society
 https://www.dreamsongs.com/Files/LispGoodNewsBadNews.pdf
 	:title Lisp: Good News, Bad News, How to Win Big
 	:date 2000-12-02
-	:tags computing lisp
+	:tags cs/lisp
 http://projectrho.com/
 	:title Atomic Rockets
 	:date 2001
-	:tags space scifi science reference
+	:tags space fiction/scifi science reference
 https://www.it-he.org/ultima.php
 	:title Misbehaving in the Ultima Games
 	:date 2001
@@ -461,11 +461,11 @@ https://www.it-he.org/ultima.php
 http://www.catb.org/esr/faqs/hacker-howto.html
 	:title How To Become A Hacker
 	:date 2001
-	:tags computing empowerment foss
+	:tags cs/empowerment cs/foss
 https://www.cs.purdue.edu/homes/comer/essay.criticize.html
 	:title How To Criticize Computer Scientists
 	:date 2001
-	:tags computing humor
+	:tags cs humor
 https://www.edge.org/conversation/is-life-analog-or-digital
 	:title Is Life Analog or Digital?
 	:date 2001-03-13
@@ -473,7 +473,7 @@ https://www.edge.org/conversation/is-life-analog-or-digital
 http://paulgraham.com/avg.html
 	:title Beating the Averages
 	:date 2001-04
-	:tags computing lisp business
+	:tags cs/lisp business
 https://www.gamedeveloper.com/design/-i-baldur-s-gate-ii-i-the-anatomy-of-a-sequel
 	:title Baldur's Gate II: The Anatomy of a Sequel
 	:date 2001-05-02
@@ -485,7 +485,7 @@ http://library.msri.org/books/sga/from_grothendieck.pdf
 https://jkorpela.fi/data/utd.html
 	:title UTD: Universal Text Data
 	:date 2001-08-31
-	:tags computing notetaking markup
+	:tags cs/markup org/notetaking
 https://en.wikipedia.org/wiki/Probability_axioms
 	:title Probability axioms
 	:date 2001-09-13
@@ -493,7 +493,7 @@ https://en.wikipedia.org/wiki/Probability_axioms
 https://en.wikipedia.org/wiki/Chorded_keyboard
 	:title Chorded keyboard
 	:date 2001-09-14
-	:tags computing keyboards
+	:tags cs/keyboards
 https://projecteuler.net/
 	:title Project Euler
 	:date 2001-10-05
@@ -505,11 +505,11 @@ https://stevedutch.net/pseudosc/toxicval.htm
 https://www.microsoft.com/en-us/research/publication/paxos-made-simple/
 	:title Paxos Made Simple
 	:date 2001-12
-	:tags computing decentralized
+	:tags cs decentralized
 http://www.paulgraham.com/thist.html
 	:title Olin Shivers: History of T
 	:date 2002
-	:tags computing lisp
+	:tags cs/lisp
 https://math.vanderbilt.edu/schectex/commerrs/
 	:title The most common errors in undergraduate mathematics
 	:date 2002
@@ -517,7 +517,7 @@ https://math.vanderbilt.edu/schectex/commerrs/
 http://www.localroger.com/prime-intellect/
 	:title The Metamorphosis of Prime Intellect
 	:date 2002
-	:tags fiction ai singularity uploads
+	:tags fiction/scifi ai singularity uploads
 http://www.flownet.com/gat/jpl-lisp.html
 	:title Lisping at JPL
 	:date 2002
@@ -537,7 +537,7 @@ http://www.leighb.com/jhana3.htm
 http://lemonodor.com/archives/000022.html
 	:title On Lisp on line (comment section spontaneously turns into support forum)
 	:date 2002-02-02
-	:tags lisp internet historical
+	:tags cs/lisp cs/net historical
 https://en.wikipedia.org/wiki/Mnemonic_major_system
 	:title Mnemonic major system
 	:date 2002-02-26
@@ -545,11 +545,11 @@ https://en.wikipedia.org/wiki/Mnemonic_major_system
 http://www.stardestroyer.net/Empire/Essays/BrainBugs.html
 	:title Brain Bugs
 	:date 2002-04-27
-	:tags scifi worldbuilding realism simulacra
+	:tags fiction/scifi fiction/worldbuilding realism simulacra
 http://www.paulgraham.com/power.html
 	:title Succinctness is Power
 	:date 2002-05
-	:tags computing minimalism
+	:tags cs minimalism
 https://www.researchgate.net/profile/Walter-Whiteley/publication/247702109_Teaching_to_See_Like_a_Mathematician/links/00b49537dec6c942c6000000/Teaching-to-See-Like-a-Mathematician.pdf
 	:title Teaching To See Like a Mathematician
 	:date 2002-07
@@ -573,7 +573,7 @@ http://esr.ibiblio.org/?p=67
 https://www.doc.ic.ac.uk/~susan/475/HowToBeAProgrammer.pdf
 	:title How To Be a Programmer: A Short, Comprehensive, and Personal Summary
 	:date 2002-12-16
-	:tags computing empowerment
+	:tags cs/empowerment
 http://www.indie-rpgs.com/reviews/1/
 	:title Universalis review
 	:date 2002-12-16
@@ -581,11 +581,11 @@ http://www.indie-rpgs.com/reviews/1/
 http://pespmc1.vub.ac.be/INTRO.html
 	:title Introduction to Principia Cybernetica
 	:date 2003
-	:tags philosophy computing weird evolution systems wiki
+	:tags philosophy cs/wiki weird evolution systems
 https://research.google.com/archive/gfs.html
 	:title The Google File System
 	:date 2003
-	:tags computing systems
+	:tags cs/sys
 http://www.ccru.net/archive/burroughs.htm
 	:title Lemurian Time War
 	:date 2003
@@ -601,7 +601,7 @@ https://nickbostrom.com/ethics/values
 http://www.troubleshooters.com/projects/vimoutliner/download/0.3.0/vo_README.otl
 	:title VimOutliner HOWTO
 	:date 2003
-	:tags outliner notetaking computing plaintext
+	:tags org/outliner org/notetaking cs/plaintext
 http://paulgraham.com/desres.html
 	:title Design and Research
 	:date 2003-01
@@ -609,15 +609,15 @@ http://paulgraham.com/desres.html
 http://geocalc.clas.asu.edu/pdf/OerstedMedalLecture.pdf
 	:title Reforming the Mathematical Language of Physics
 	:date 2003-01-10
-	:tags geometric-algebra
+	:tags math/geometric-algebra
 https://en.wikipedia.org/wiki/Appropriate_technology
 	:title Appropriate technology
 	:date 2003-03-02
-	:tags technology amistics
+	:tags technology/amistics
 https://en.wikipedia.org/wiki/Ultimate_fate_of_the_universe
 	:title Ultimate fate of the universe
 	:date 2003-03-07
-	:tags space cosmology physics
+	:tags space/cosmology physics
 https://en.wikipedia.org/wiki/Siddhi
 	:title Siddhi
 	:date 2003-03-25
@@ -625,19 +625,19 @@ https://en.wikipedia.org/wiki/Siddhi
 http://www.paulgraham.com/hundred.html
 	:title The Hundred-Year Language
 	:date 2003-04
-	:tags computing
+	:tags cs/plt
 https://web.archive.org/web/20110831062907/http://www.tlb.org/busywork.html
 	:title The best qualities of high- and low-level languages
 	:date 2003-04-02
-	:tags computing
+	:tags cs/plt
 https://elldimensional.wordpress.com/2015/07/12/the-compendium-of-limyaaels-rants/
 	:title Limyaael's Fantasy Rants
 	:date 2003-05-24
-	:tags worldbuilding
+	:tags fiction/worldbuilding
 https://www.microsoft.com/en-us/research/publication/future-computing-logic-biology/
 	:title The Future of Computing: Logic or Biology
 	:date 2003-07-21
-	:tags computing math
+	:tags cs math
 http://users.speakeasy.net/~lion/nb/book.pdf
 	:title How to Make a Complete Map of Every Thought You Think
 	:date 2003-07-26
@@ -649,7 +649,7 @@ https://michaelnielsen.org/blog/archive/tough-learning/tough-learning-final.html
 http://www.catb.org/esr/writings/taoup/html/ch01s06.html
 	:title Basics of the Unix Philosophy
 	:date 2003-09-19
-	:tags computing unix
+	:tags cs/sys
 https://en.wikipedia.org/wiki/Solomonoff%27s_theory_of_inductive_inference
 	:title Solomonoff's theory of inductive inference
 	:date 2003-12-17
@@ -673,7 +673,7 @@ http://www.amirrorclear.net/flowers/game/devours/
 http://number-none.com/product/index.html
 	:title Articles from The Inner Product
 	:date 2004
-	:tags computing gamedev
+	:tags cs/plt gamedev
 http://www.paulgraham.com/say.html
 	:title What You Can't Say
 	:date 2004-01
@@ -681,19 +681,19 @@ http://www.paulgraham.com/say.html
 http://trstn.net/karig/
 	:title Karig's commentary on ColorForth
 	:date 2004-02-14
-	:tags forth
+	:tags cs/forth
 https://en.wikipedia.org/wiki/Lexicographic_order
 	:title Lexicographic order
 	:date 2004-03-31
-	:tags computing
+	:tags cs
 https://en.wikipedia.org/wiki/Ford_Nucleon
 	:title Ford Nucleon
 	:date 2004-05-29
-	:tags technology nuclear
+	:tags technology/nuclear
 http://www.pvv.ntnu.no/~leirbakk/rpg/buckrogers/society/buckrogers_society_golden.html
 	:title What is Golden Age Science Fiction?
 	:date 2004-06
-	:tags scifi rpg buck-rogers
+	:tags ficton/scifi/buck-rogers rpg
 https://en.wikipedia.org/wiki/Science_wars
 	:title Science wars
 	:date 2004-09-17
@@ -709,7 +709,7 @@ http://localroger.com/k5host/foodplant.html
 https://keiapl.org/rhui/remember.htm
 	:title Remembering Ken Iverson
 	:date 2004-11
-	:tags computing apl
+	:tags cs/apl
 https://en.wikipedia.org/wiki/Central_place_theory
 	:title Central Place Theory
 	:date 2004-11-29
@@ -721,11 +721,11 @@ https://en.wikipedia.org/wiki/Arecibo_message
 http://www.cap-lore.com/Hardware/Wheel.html
 	:title The wheel of reincarnation in computer hardware
 	:date 2005
-	:tags computing
+	:tags cs
 https://wiki.haskell.org/Frag
 	:title Frag
 	:date 2005
-	:tags gamedev haskell frp
+	:tags gamedev cs/haskell cs/frp
 https://inky.org/if/think-player.html
 	:title Think Like a Player!
 	:date 2005
@@ -733,7 +733,7 @@ https://inky.org/if/think-player.html
 http://www.troubleshooters.com/linux/djbdns/djbdns_install.otl
 	:title Installing DJBDNS (example outline file)
 	:date 2005
-	:tags outliner notetaking computing
+	:tags org/outliner org/notetaking cs
 https://www.roangelo.net/logwitt/logwit35.html
 	:title Wittgenstein's "Remarks on Frazer's Golden Bough"
 	:date 2005
@@ -753,11 +753,11 @@ http://web.mit.edu/wisdom/www/AIM-2005-003.pdf
 https://sites.google.com/site/steveyegge2/scheming-is-believing
 	:title scheming-is-believing
 	:date 2005-02-07
-	:tags computing lisp
+	:tags cs/lisp
 https://sites.google.com/site/steveyegge2/five-essential-phone-screen-questions
 	:title The Five Essential Phone-Screen Questions
 	:date 2005-03-29
-	:tags computing recruiting work
+	:tags cs recruiting work
 https://web.archive.org/web/20050406175856/http://www.janegalt.net/blog/archives/005244.html
 	:title A really, really, really long post about gay marriage that does not, in the end, support one side or the other
 	:date 2005-04-02
@@ -769,7 +769,7 @@ https://www.cs.tufts.edu/comp/150FP/archive/graham-nelson/WhitePaper.pdf
 https://blog.codinghorror.com/you-can-write-fortran-in-any-language/
 	:title You Can Write FORTRAN in any Language
 	:date 2005-04-22
-	:tags computing
+	:tags cs
 https://www.gamedevblog.com/2005/04/notes_on_emanci.html
 	:title Notes on Ancient Domains of Mystery
 	:date 2005-04-23
@@ -777,11 +777,11 @@ https://www.gamedevblog.com/2005/04/notes_on_emanci.html
 https://web.archive.org/web/20100331000119/https://fluff.info/blog/arch/00000127.htm
 	:title A cult I almost joined
 	:date 2005-05-14
-	:tags lisp social
+	:tags cs/lisp social
 http://lambda-the-ultimate.org/node/794
 	:title How to read a paper
 	:date 2005-06-23
-	:tags research computing
+	:tags research cs
 https://www.eblong.com/zarf/gamerev/rhem2.html
 	:title Review: Rhem 2
 	:date 2005-07
@@ -809,23 +809,23 @@ http://bactra.org/reviews/wolfram/
 http://www.aaronsw.com/weblog/rewritingreddit
 	:title Rewriting Reddit
 	:date 2005-12-06
-	:tags reddit python lisp history
+	:tags reddit cs/python cs/lisp history
 https://en.wikipedia.org/wiki/Elitzur%E2%80%93Vaidman_bomb_tester
 	:title Elitzur–Vaidman bomb tester
 	:date 2005-12-06
-	:tags quantum-physics
+	:tags physics/quantum
 http://www.findinglisp.com/blog/2005/12/reddit-and-lisp-psychosis.html
 	:title Reddit and Lisp psychosis
 	:date 2005-12-09
-	:tags lisp social
+	:tags cs/lisp social
 https://en.wikipedia.org/wiki/GopherVR
 	:title GopherVR
 	:date 2005-12-29
-	:tags computing cg 1990s gopher
+	:tags cs/cg 1990s cs/net/gopher
 http://www.exemark.com/FORTH/eForthOverviewv5.pdf
 	:title eForth Overview
 	:date 2006
-	:tags forth
+	:tags cs/forth
 	:desc Building a Forth system from very few primitives
 https://web.archive.org/web/20130618070850/http://material.talentum.com/talentum_com_images/Ollilan_kunto-ohjelma.pdf
 	:title Jorma Ollilan kunto-ohjelma
@@ -838,16 +838,16 @@ https://pdodds.w3.uvm.edu/files/papers/others/2006/stoll2006a.pdf
 https://edolstra.github.io/pubs/phd-thesis.pdf
 	:title The Purely Functional Software Deployment Model
 	:date 2006-01-18
-	:tags nix computing decentralized
+	:tags cs/nix decentralized
 	NixOS author's PhD thesis
 https://wiki.hh.se/wg211/images/5/58/Foozles.pdf
 	:title Foozles: A retrospective
 	:date 2006-01-27
-	:tags computing humor
+	:tags cs humor
 http://curtclifton.net/papers/MoseleyMarks06a.pdf
 	:title Out of the Tar Pit
 	:date 2006-02-06
-	:tags computing complexity
+	:tags cs/swe
 http://www.davidchess.com/words/BrokenKoans.html
 	:title Broken Koans and other Zen debris
 	:date 2006-02-22
@@ -867,7 +867,7 @@ https://steve-yegge.blogspot.com/2006/04/lisp-is-not-acceptable-lisp.html
 https://vanderworld.blogspot.com/2006/04/exhaustive-essential-fantasy-reading.html
 	:title Exhaustive Essential Fantasy Reading Lists
 	:date 2006-04-21
-	:tags fiction fantasy reference
+	:tags fiction/fantasy reference
 https://marktarver.com/bipolar.html
 	:title The Bipolar Lisp Programmer
 	:date 2006-04-28
@@ -907,7 +907,7 @@ https://web.archive.org/web/20090901012913/http://www.vpri.org/pdf/rn2006002_nsf
 https://www.teemingbrain.com/interviews/interview-with-thomas-ligotti/
 	:title Interview with Thomas Ligotti
 	:date 2006-10
-	:tags thomas-ligotti fiction
+	:tags thomas-ligotti fiction/horror
 https://en.wikipedia.org/wiki/Outline_of_thought
 	:title Outline of thought
 	:date 2006-10-02
@@ -971,7 +971,7 @@ https://unapologetic.wordpress.com/?order=asc
 https://web.archive.org/web/20070209222743/http://uzwi.wordpress.com/2007/01/27/very-afraid/
 	:title Every moment of a science fiction story must represent the triumph of writing over worldbuilding.
 	:date 2007-01-27
-	:tags fiction worldbuilding scifi
+	:tags fiction/scifi fiction/worldbuilding
 https://arxiv.org/abs/math/0702396
 	:title What is good mathematics?
 	:date 2007-02-13
@@ -994,7 +994,7 @@ https://statmodeling.stat.columbia.edu/2007/02/28/watching_faces/
 http://www.gregegan.net/PERMUTATION/FAQ/FAQ.html
 	:title Permutation City - The Dust Theory: Frequently Asked Questions
 	:date 2007-03-11
-	:tags greg-egan scifi identity uploads
+	:tags greg-egan fiction/scifi identity uploads
 https://arxiv.org/abs/math/0703427
 	:title Mathematical knowledge: internal, social and cultural aspects
 	:date 2007-03-14
@@ -1022,7 +1022,7 @@ https://arxiv.org/abs/0704.0646
 https://en.wikipedia.org/wiki/Derinkuyu_underground_city
 	:title Derinkuyu underground city
 	:date 2007-04-06
-	:tags archeology worldbuilding
+	:tags archeology fiction/worldbuilding
 https://ravimohan.blogspot.com/2007/04/learning-from-sudoku-solvers.html
 	:title Learning From Sudoku Solvers
 	:date 2007-04-24
@@ -1054,7 +1054,7 @@ http://www.math.harvard.edu/~mazur/preprints/when_is_one.pdf
 http://www.antipope.org/charlie/blog-static/2007/06/the_high_frontier_redux.html
 	:title The High Frontier, Redux
 	:date 2007-06-16
-	:tags scifi space doomed science
+	:tags fiction/scifi space doomed science
 http://ccr.sigcomm.org/online/files/p83-keshavA.pdf
 	:title How to Read a Paper
 	:date 2007-07
@@ -1207,7 +1207,7 @@ http://www.paulgraham.com/distraction.html
 https://doi.org/10.1038/453562a
 	:title The Neanderthal correlation
 	:date 2008-05-22
-	:tags scifi genetics
+	:tags fiction/scifi genetics
 https://arxiv.org/abs/0805.4057
 	:title Truth as value and duty: lessons of mathematics
 	:date 2008-05-27
@@ -1347,7 +1347,7 @@ https://gwern.net/on-really-trying
 https://mumpsimus.blogspot.com/2009/06/mimetic-fiction.html
 	:title "Mimetic Fiction"
 	:date 2009-07-01
-	:tags worldbuilding scifi reality
+	:tags fiction/worldbuilding fiction/scifi reality
 https://gravityandlevity.wordpress.com/2009/07/08/your-body-wasnt-built-to-last-a-lesson-from-human-mortality-rates/
 	:title Your body wasn’t built to last: a lesson from human mortality rates
 	:date 2009-07-08
@@ -1355,7 +1355,7 @@ https://gravityandlevity.wordpress.com/2009/07/08/your-body-wasnt-built-to-last-
 https://ideas.4brad.com/battlestar/battlestars-daybreak-worst-ending-history-screen-science-fiction
 	:title Battlestar's "Daybreak:" The worst ending in the history of on-screen science fiction
 	:date 2009-07-13
-	:tags worldbuilding scifi
+	:tags fiction/worldbuilding fiction/scifi
 http://ascii.textfiles.com/archives/2063
 	:title Goodbye, Paul Panks
 	:date 2009-07-15
@@ -1383,7 +1383,7 @@ https://github.com/AlexandreAbreu/jonesforth/blob/master/jonesforth.S
 https://www.fanfiction.net/s/5389450/1/The-Finale-of-the-Ultimate-Meta-Mega-Crossover
 	:title The Finale of the Ultimate Meta Mega Crossover
 	:date 2009-09-20
-	:tags fiction uploads
+	:tags fiction/scifi uploads
 https://bentilly.blogspot.com/2009/09/teaching-linear-algebra.html
 	:title Teaching linear algebra
 	:date 2009-09-28
@@ -1427,7 +1427,7 @@ https://borretti.me/article/effective-spaced-repetition
 	:added 2023-04-10T17:07:21+0300
 https://borretti.me/article/best-of-orions-arm
 	:title The Best of Orion's Arm
-	:tags scifi transhumanism orions-arm
+	:tags fiction/scifi/orions-arm transhumanism
 	:date 2023-04-16
 	:added 2023-04-16T09:04:28+0300
 https://doi.org/10.1145/3547137
@@ -1454,4 +1454,4 @@ https://www.ribbonfarm.com/2023/04/20/storytelling-the-penumbra-of-mortality/
 	:title Storytelling — The Penumbra of Mortality
 	:date 2023-04-20
 	:added 2023-04-21T12:58:05+0300
-	:tags jg-ballard greg-egan fiction social meaning
+	:tags jg-ballard greg-egan fiction/scifi social meaning
