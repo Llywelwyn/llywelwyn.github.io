@@ -6,6 +6,9 @@ serve:
     @echo Running test server at http://localhost:4000/
     ~/.cargo/bin/basic-http-server public/
 
+build:
+    cargo run
+
 # One-time operation to activate versioned githooks.
 register-githooks:
     git config --local core.hooksPath githooks/
