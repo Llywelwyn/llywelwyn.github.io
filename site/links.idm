@@ -26,6 +26,10 @@ https://apps.weber.edu/wsuimages/michaelwutz/6510.Trio/Rede-lecture-2-cultures.p
 	:title The Two Cultures
 	:date 1959
 	:tags science academia sensemaking
+https://philosophy.as.uky.edu/sites/default/files/The%20Theologian's%20Nightmare%20-%20Bertrand%20Russell.pdf
+	:title Bertrand Russell: The Theologician's Nightmare
+	:date 1961
+	:tags religion meaning space
 https://fanac.org/timebinders/scienceers.html
 	:title History of the Scienceers
 	:date 1961-06
@@ -66,6 +70,10 @@ http://profcohen.net/reli189/uploads/readings/davidson.pdf
 	:title On the Very Idea of a Conceptual Scheme
 	:date 1973-12-28
 	:tags rationality concepts philosophy linguistics
+https://archive.org/details/space-gamer
+	:title The Space Gamer magazine
+	:date 1975
+	:tags games/rpg space scifi
 https://www.depauw.edu/sfs/backissues/5/lem5art.htm
 	:title Philip K. Dick: A Visionary Among the Charlatans
 	:date 1975-03
@@ -106,6 +114,10 @@ https://personalpages.manchester.ac.uk/staff/hung.bui/ideal.pdf
 	:title The Ideal Mathematician
 	:date 1981
 	:tags math
+https://archive.org/details/computergamingworld
+	:title Computer Gaming World magazine
+	:date 1981
+	:tags games
 https://gist.github.com/camdez/812824ed9d48df14604d
 	:title Epigrams on Programming
 	:date 1982-09
@@ -122,6 +134,10 @@ https://www.mit.edu/people/dmredish/wwwMLRF/links/Humor/Deep_Thoughts
 	:title Deep Thoughts by Jack Handey
 	:date 1983-11
 	:tags humor
+https://archive.org/details/artofcomputergam00chri/
+	:title The Art of Computer Game Design
+	:date 1984
+	:tags gamedev historical
 https://people.mpi-inf.mpg.de/~mehlhorn/SeminarEvolvability/ValiantLearnable.pdf
 	:title A Theory of the Learnable
 	:date 1984
@@ -186,6 +202,10 @@ https://www.math.upenn.edu/~wilf/DownldGF.html
 	:title Generatingfunctionology
 	:date 1990
 	:tags math
+https://doi.org/10.1016/0167-6423(91)90036-W
+	:title On the expressive power of programming languages
+	:date 1991
+	:tags cs/plt/turing-tarpit
 https://web.maths.unsw.edu.au/~jim/wrongthoughts.html
 	:title What is Wrong with Our Thoughts? A Neo-Positivst Credo
 	:date 1991
@@ -234,10 +254,21 @@ https://www.tug.org/texshowcase/cheat.pdf
 	:title Theoretical Computer Science Cheat Sheet
 	:date 1994
 	:tags cs math
+http://mirror.ifarchive.org/if-archive/info/authorship-guide.base
+	:title Whizzard's Guide to Text Adventure Authorship
+	:date 1994
+	:tags gamedev interactive-fiction
+	:sequence
+		http://mirror.ifarchive.org/if-archive/info/authorship-guide.sup1
+		http://mirror.ifarchive.org/if-archive/info/authorship-guide.sup2
 https://arxiv.org/abs/math/9404236
 	:title On proof and progress in mathematics
 	:date 1994-04-01
 	:tags math learning social
+http://www.spagmag.org/
+	:title Society for the Promotion of Adventure Games
+	:date 1994-05-15
+	:tags interactive-fiction
 http://people.csail.mit.edu/shanir/publications/Topology.pdf
 	:title Applications of Algebraic Topology to Concurrent Computation
 	:date 1994-12
@@ -246,6 +277,10 @@ https://www.evl.uic.edu/aej/AndyBattalion.html
 	:title Battalion
 	:date 1995
 	:tags games opengl
+https://www.ifarchive.org/if-archive/programming/general-discussion/Craft.Of.Adventure.txt
+	:title The Craft of Adventure
+	:date 1995-01-19
+	:tags gamedev interactive-fiction commandments
 http://www.call-with-current-continuation.org/rants/how-companies-die.txt
 	:title How Software Companies Die
 	:date 1995-03
@@ -414,6 +449,10 @@ https://okmij.org/ftp/cpp-digest/CPP-GUI-mismatch.html
 	:title Why C++ is not very fit for GUI programming
 	:date 1999-11-05
 	:tags cs/ui cs/cxx
+https://generativedesign.com/
+	:title Generative Design
+	:date 2000
+	:tags cs/cg architecture
 http://www.visual-memory.co.uk/amk/doc/0094.html
 	:title Ian Watson: Plumbing Stanley Kubrick
 	:date 2000
@@ -450,6 +489,10 @@ https://www.dreamsongs.com/Files/LispGoodNewsBadNews.pdf
 	:title Lisp: Good News, Bad News, How to Win Big
 	:date 2000-12-02
 	:tags cs/lisp
+http://www.brasslantern.org/writers/iftheory/setting.html
+	:title Developing a Setting for Fantastical IF
+	:date 2001
+	:tags gamedev worldbuilding interactive-fiction
 http://projectrho.com/
 	:title Atomic Rockets
 	:date 2001
@@ -497,7 +540,7 @@ https://en.wikipedia.org/wiki/Chorded_keyboard
 https://projecteuler.net/
 	:title Project Euler
 	:date 2001-10-05
-	:tags exercise math
+	:tags cs/exercise math
 https://stevedutch.net/pseudosc/toxicval.htm
 	:title The World's Most Toxic Value System
 	:date 2001-11-19
@@ -506,6 +549,14 @@ https://www.microsoft.com/en-us/research/publication/paxos-made-simple/
 	:title Paxos Made Simple
 	:date 2001-12
 	:tags cs decentralized
+https://www.orionsarm.com/eg-article/47bcf671e4c7e
+	:title Pattern Identity Theory
+	:date 2001-12-19
+	:tags identity uploads
+https://iquilezles.org/articles/terrainmarching/
+	:title Raymarching terrains
+	:date 2002
+	:tags cg
 http://www.paulgraham.com/thist.html
 	:title Olin Shivers: History of T
 	:date 2002
@@ -746,6 +797,14 @@ http://www.paulgraham.com/hs.html
 	:title What You'll Wish You'd Known
 	:date 2005-01
 	:tags social meaning effort
+http://itre.cis.upenn.edu/~myl/languagelog/archives/001812.html
+	:title Twat v. Browning
+	:date 2005-01-19
+	:tags robert-browning poetry history weird
+http://www.roguebasin.com/index.php?title=ShockFrost
+	:title ShockFrost
+	:date 2005-01-30
+	:tags vg/dev vg/roguelike
 http://web.mit.edu/wisdom/www/AIM-2005-003.pdf
 	:title Functional Differential Geometry
 	:date 2005-02
@@ -754,6 +813,10 @@ https://sites.google.com/site/steveyegge2/scheming-is-believing
 	:title scheming-is-believing
 	:date 2005-02-07
 	:tags cs/lisp
+https://arxiv.org/abs/quant-ph/0502072
+	:title NP-complete Problems and Physical Reality
+	:date 2005-02-12
+	:tags cs/np physics
 https://sites.google.com/site/steveyegge2/five-essential-phone-screen-questions
 	:title The Five Essential Phone-Screen Questions
 	:date 2005-03-29
@@ -964,6 +1027,10 @@ https://cowboyprogramming.com/2007/01/05/evolve-your-heirachy/
 	:title Evolve Your Hierarchy
 	:date 2007-01-05
 	:tags gamedev ecs
+https://www.iconbar.com/articles/Running_the_gauntlet_-_NetHack_vs._Angband/index1119.html
+	:title Running the gauntlet - NetHack vs. Angband
+	:date 2007-01-14
+	:tags games crpg
 https://unapologetic.wordpress.com/?order=asc
 	:title The Unapologetic Mathematician
 	:date 2007-01-15
@@ -995,6 +1062,10 @@ http://www.gregegan.net/PERMUTATION/FAQ/FAQ.html
 	:title Permutation City - The Dust Theory: Frequently Asked Questions
 	:date 2007-03-11
 	:tags greg-egan fiction/scifi identity uploads
+https://thealexandrian.net/wordpress/587/roleplaying-games/dd-calibrating-your-expectations-2
+	:title D&D: Calibrating Your Expectations
+	:date 2007-03-13
+	:tags games/rpg
 https://arxiv.org/abs/math/0703427
 	:title Mathematical knowledge: internal, social and cultural aspects
 	:date 2007-03-14
@@ -1120,6 +1191,10 @@ https://tinlizzie.org/VPRIPapers/tr2007008_steps.pdf
 	:title STEPS Toward The Reinvention of Programming
 	:date 2007-12
 	:tags computing ui empowerment
+https://inky.org/if/great-games.html
+	:title How to Write a Great Game
+	:date 2008
+	:tags gamedev interactive-fiction
 https://www.androidarts.com/
 	:title Android Arts
 	:date 2008
@@ -1204,6 +1279,25 @@ http://www.paulgraham.com/distraction.html
 	:title Disconnecting Distraction
 	:date 2008-05
 	:tags effort akrasia effort internet
+http://roguelikedeveloper.blogspot.com/2008/05/unangband-magic-system-part-one.html
+	:title Designing a Magic System
+	:date 2008-05-03
+	:tags games/dev games/crpg
+	:sequence
+		http://roguelikedeveloper.blogspot.com/2008/05/unangband-magic-system-part-two-choices.html
+		http://roguelikedeveloper.blogspot.com/2008/05/unangband-magic-system-part-three.html
+		http://roguelikedeveloper.blogspot.com/2008/06/unangband-magic-system-part-four.html
+		http://roguelikedeveloper.blogspot.com/2008/06/unangband-magic-system-part-five.html
+		http://roguelikedeveloper.blogspot.com/2008/07/unangband-magic-system-part-six-initial.html
+		http://roguelikedeveloper.blogspot.com/2008/08/unangband-magic-system-part-seven.html
+		http://roguelikedeveloper.blogspot.com/2008/08/designing-magic-system-part-eight.html
+		http://roguelikedeveloper.blogspot.com/2008/09/designing-magic-system-part-nine-shapes.html
+		http://roguelikedeveloper.blogspot.com/2008/09/designing-magic-system-part-ten.html
+		http://roguelikedeveloper.blogspot.com/2008/09/designing-magic-system-part-eleven.html
+		http://roguelikedeveloper.blogspot.com/2008/10/designing-magic-system-part-twelve.html
+		http://roguelikedeveloper.blogspot.com/2008/11/designing-magic-system-part-thirteen.html
+		http://roguelikedeveloper.blogspot.com/2008/11/designing-magic-system-part-fourteen.html
+		http://roguelikedeveloper.blogspot.com/2008/12/designing-magic-system-part-fifteen-on.html
 https://doi.org/10.1038/453562a
 	:title The Neanderthal correlation
 	:date 2008-05-22
@@ -1236,6 +1330,14 @@ https://www.moserware.com/2008/06/ometa-who-what-when-where-why.html
 	:title OMeta#: Who? What? When? Where? Why?
 	:date 2008-06-24
 	:tags computing
+https://web.archive.org/web/20080721075804/http://ycombinator.com/ideas.html
+	:title Startup Ideas We'd Like to Fund
+	:date 2008-07
+	:tags business cs
+https://en.wikipedia.org/wiki/High_Level_Architecture
+	:title High Level Architecture
+	:date 2008-07-17
+	:tags games/war weird bureaucracy
 https://groups.google.com/g/comp.os.plan9/c/_YUEVbTFuME/m/tJHB8y8-0vYJ
 	:title Acme editor team responds to feature requests
 	:date 2008-08-19
@@ -1244,6 +1346,10 @@ https://openresearch-repository.anu.edu.au/bitstream/1885/34343/2/01_Lineweaver_
 	:title Life, gravity and the second law of thermodynamics
 	:date 2008-08-22
 	:tags entropy systems evolution
+https://iquilezles.org/articles/nvscene2008/rwwtt.pdf
+	:title Rendering Worlds with Two Triangles with raytracing on the GPU in 4096 bytes
+	:date 2008-08-22
+	:tags cg
 http://www.ams.org/notices/200808/tx080800930p.pdf
 	:title Who Is Alexander Grothendieck?
 	:date 2008-09
@@ -1252,6 +1358,10 @@ http://grognardia.blogspot.com/2008/09/gygaxian-naturalism.html
 	:title Gygaxian "Naturalism"
 	:date 2008-09-04
 	:tags rpg realism
+https://web.archive.org/web/20100723174129/http://www.odditycentral.com/pics/japanese-neon-lamp-fights.html
+	:title Japanese Neon Lamp Fights
+	:date 2008-10-08
+	:tags japan weird
 http://steve-yegge.blogspot.com/2008/10/universal-design-pattern.html
 	:title The Universal Design Pattern
 	:date 2008-10-20
@@ -1280,6 +1390,10 @@ https://terrytao.wordpress.com/career-advice/theres-more-to-mathematics-than-rig
 	:title There’s more to mathematics than rigour and proofs
 	:date 2009
 	:tags math beginners-mind
+https://colorforth.github.io/compress.htm
+	:title colorForth Source Compression
+	:date 2009
+	:tags cs/forth
 https://gwern.net/subculture
 	:title The Melancholy of Subculture Society
 	:date 2009-01-12
@@ -1364,6 +1478,10 @@ https://www.brusselsjournal.com/node/4011
 	:title Robert Edgerton’s ‘Sick Societies’ (1992) Revisited: Is Culture Adaptive?
 	:date 2009-07-16
 	:tags social politics community
+https://www.gamedeveloper.com/programming/dirty-coding-tricks
+	:title Dirty Coding Tricks
+	:date 2009-08-20
+	:tags gamedev
 https://bbs.stardestroyer.net/viewtopic.php?p=3151364
 	:title Starglider's Mini-FAQ on Artificial Intelligence
 	:date 2009-08-28
@@ -1404,6 +1522,19 @@ https://arxiv.org/abs/0911.1383
 	:title Information Geometry and Evolutionary Game Theory
 	:date 2009-11-09
 	:tags math systems
+http://roguelikedeveloper.blogspot.com/2009/10/quest-for-quests-cast-part-one.html
+	:title The Quest for Quests
+	:date 2009-10-18
+	:tags games/dev
+	:sequence
+		http://roguelikedeveloper.blogspot.com/2009/10/quest-for-quests-puzzle-part-two.html
+		http://roguelikedeveloper.blogspot.com/2009/10/quest-for-quests-part-three-map.html
+		http://roguelikedeveloper.blogspot.com/2009/10/quest-for-quests-part-four-assumptions.html
+		http://roguelikedeveloper.blogspot.com/2010/01/quest-for-quests-part-five-failure.html
+		http://roguelikedeveloper.blogspot.com/2010/01/why-are-games-difficult.html
+		http://roguelikedeveloper.blogspot.com/2010/03/quest-for-quests-part-seven-enumeration.html
+		http://roguelikedeveloper.blogspot.com/2010/11/quest-for-quests-part-eight-enumeration.html
+		http://roguelikedeveloper.blogspot.com/2011/01/quest-for-quests-part-nine-interlude.html
 https://arxiv.org/abs/0911.5703
 	:title Hierarchies in Dictionary Definition Space
 	:date 2009-11-30
@@ -1412,6 +1543,10 @@ http://www.loper-os.org/?p=55
 	:title You have made your bedrock, now lie in it
 	:date 2009-12-07
 	:tags computing empowerment minimalism
+https://groups.google.com/g/rec.games.roguelike.development/c/LIeTV-Okt20
+	:title filesystem hierarchy standard for game developers
+	:date 2009-12-10
+	:tags games/dev
 https://doi.org/10.1136/bmj.b4965
 	:title Auto-appendectomy in the Antarctic: case report
 	:date 2009-12-15
@@ -1420,6 +1555,227 @@ https://steveblank.com/2009/12/21/the-elves-leave-middle-earth-%E2%80%93-soda%E2
 	:title The Elves Leave Middle Earth – Sodas Are No Longer Free
 	:date 2009-12-21
 	:tags business social community
+https://www.math.upenn.edu/~ghrist/preprints/ATSN.pdf
+	:title Applied Algebraic Topology & Sensor Networks
+	:date 2010
+	:tags math topology art
+https://philpapers.org/rec/CHATSA
+	:title The singularity: A philosophical analysis
+	:date 2010
+	:tags ai transhumanism singularity philosophy david-chalmers
+http://xahlee.info/math/i/Alexander_Grothendieck_cartier.pdf
+	:title A country of which nothing is known but the name
+	:date 2010
+	:tags math grothendieck
+http://www.cs.cornell.edu/home/kleinber/networks-book/
+	:title Networks, Crowds, and Markets: Reasoning About a Highly Connected World
+	:date 2010
+	:tags systems
+https://www.kaggle.com/
+	:title Kaggle: Your Home for Data Science
+	:date 2010
+	:tags cs/exercise data-science
+https://excamera.com/files/j1.pdf
+	:title J1: a small Forth CPU Core for FPGAs
+	:date 2010
+	:tags forth
+https://slatestarcodex.com/2017/02/22/repost-the-non-libertarian-faq/
+	:title The Non-Libertarian FAQ
+	:date 2010
+	:tags politics libertarianism
+https://snarkmarket.com/2010/4890
+	:title Stock and flow
+	:date 2010-01-18
+	:tags economics
+https://mathoverflow.net/questions/13089/why-do-so-many-textbooks-have-so-much-technical-detail-and-so-little-enlightenme
+	:title Why do so many textbooks have so much technical detail and so little enlightenment?
+	:date 2010-01-27
+	:tags learning math
+https://crpgaddict.blogspot.com/
+	:title The CRPG Addict
+	:date 2010-02-15
+	:tags games crpg
+https://www.gamedeveloper.com/design/the-anatomy-of-a-shmup
+	:title The Anatomy of a Shmup
+	:date 2010-02-18
+	:tags gamedev
+https://hpmor.com/
+	:title Harry Potter and the Methods of Rationality
+	:date 2010-02-28
+	:tags fiction ratsphere
+http://www.aaronsw.com/weblog/morebooks
+	:title HOWTO: Read more books
+	:date 2010-03-02
+	:tags learning
+https://trenchbroom.github.io/
+	:title TrechBroom
+	:date 2010-03-14
+	:tags gamedev architecture cg
+http://www.aaronsw.com/weblog/theoryofchange
+	:title Theory of Change
+	:date 2010-03-14
+	:tags social rationality
+https://www.theguardian.com/theobserver/2010/mar/21/tom-bissell-video-game-cocaine-addiction
+	:title Video games: the addiction
+	:date 2010-03-21
+	:tags games drugs
+https://arxiv.org/abs/1003.4394
+	:title Mathematical Foundations for a Compositional Distributional Model of Meaning
+	:date 2010-03-23
+	:tags ai category-theory language meaning
+https://peopletobe.blogspot.com/2010/03/runequest-appendix-n.html
+	:title Runequest Appendix N
+	:date 2010-03-26
+	:tags games/rpg/runequest fiction/appendix-n
+https://solhsa.com/dr_gdm.html
+	:title Porting from DOS to Windows
+	:date 2010-04
+	:tags gamedev
+https://lweb.cfa.harvard.edu/~ejchaisson/reprints/EnergyRateDensity_I_FINAL_2011.pdf
+	:title Energy Rate Density as a Complexity Metric and Evolutionary Driver
+	:date 2010-04-05
+	:tags physics entropy systems
+https://people.umass.edu/klement/tlp/tlp.pdf
+	:title Tractatus Logico-Philosophicus side-by-side edition
+	:date 2010-04-14
+	:tags philosophy wittgenstein
+http://roguelikedeveloper.blogspot.com/2010/05/proceduralism-part-one-revision.html
+	:title Proceduralism
+	:date 2010-05-31
+	:tags games/dev procgen
+	:sequence
+		http://roguelikedeveloper.blogspot.com/2010/06/proceduralism-part-two-taxonomies.html
+		http://roguelikedeveloper.blogspot.com/2010/08/proceduralism-part-three-what-is.html
+		http://roguelikedeveloper.blogspot.com/2010/08/proceduralism-part-four-what-is.html
+		http://roguelikedeveloper.blogspot.com/2010/09/proceduralism-part-five-perspectives.html
+		http://roguelikedeveloper.blogspot.com/2011/08/proceduralism-part-six-architecture.html
+		http://roguelikedeveloper.blogspot.com/2011/08/proceduralism-part-seven-education.html
+		http://roguelikedeveloper.blogspot.com/2011/08/proceduralism-part-eight-content.html
+http://www.thenewatlantis.com/publications/hiding-behind-the-screen
+	:title Roger Scruton: Hiding Behind the Screen
+	:date 2010-06
+	:tags internet philosophy atomization
+https://www.npr.org/sections/money/2010/06/14/127829646/23-things-not-to-say-in-an-email
+	:title 23 Things Not To Write In An E-mail
+	:date 2010-06-14
+	:tags business
+https://goertzel.org/dynapsyc/MorphicPilot.pdf
+	:title Morphic Pilot Theory: Toward an Extension of Quantum Physics that Better Explains Psi Phenomena
+	:date 2010-06-24
+	:tags physics psi weird
+http://www.paulgraham.com/addiction.html
+	:title The Acceleration of Addictiveness
+	:date 2010-07
+	:tags social internet
+https://doi.org/10.1186/1744-9081-6-47
+	:title Meditation acutely improves psychomotor vigilance, and may decrease sleep need
+	:date 2010-07-29
+	:tags meditation sleep
+http://deanradin.blogspot.com/2010/08/how-to-win-million-dollars.html
+	:title How to win a million dollars
+	:date 2010-08-02
+	:tags psi
+http://conal.net/blog/posts/topless-data
+	:title Topless data
+	:date 2010-08-02
+	:tags computing type-theory
+http://roguelikedeveloper.blogspot.com/2010/08/design-magic-system-redux-status.html
+	:title Design a Magic System Redux
+	:date 2010-08-08
+	:tags games/dev games/crpg
+	:sequence
+		http://roguelikedeveloper.blogspot.com/2010/08/designing-magic-system-redux-status.html
+		http://roguelikedeveloper.blogspot.com/2010/09/designing-magic-system-redux-part-three.html
+		http://roguelikedeveloper.blogspot.com/2010/06/designing-magic-system-redux-part-four.html
+https://web.archive.org/web/20120310112244/http://www.paul-almond.com/UsedToBeAnAtheist.pdf
+	:title The “I used to be an atheist” Claim
+	:date 2010-08-10
+	:tags rationality religion
+https://lostgarden.home.blog/2010/08/17/visualizing-the-creative-process/
+	:title Visualizing the Creative Process
+	:date 2010-08-17
+	:tags gamedev work
+http://www.loper-os.org/?p=284
+	:title Seven Laws of Sane Personal Computing
+	:date 2010-08-26
+	:tags computing empowerment
+https://www.gamedeveloper.com/design/a-journey-across-the-main-stream-games-for-my-mother-in-law
+	:title A Journey Across the Main Stream: Games for My Mother-in-Law
+	:date 2010-09-01
+	:tags gamedev testing
+https://apenwarr.ca/log/20100901
+	:title The sad evolution of wikis
+	:date 2010-09-01
+	:tags cs/wiki wikipedia soc/community
+http://www-cs-students.stanford.edu/~amitp/game-programming/polygon-map-generation/
+	:title Polygonal Map Generation for Games
+	:date 2010-09-04
+	:tags procgen
+https://yosefk.com/blog/my-history-with-forth-stack-machines.html
+	:title My history with Forth & stack machines
+	:date 2010-09-10
+	:tags computing forth
+https://www.greaterwrong.com/posts/9kcTNWopvXFncXgPy/intellectual-hipsters-and-meta-contrarianism
+	:title Intellectual Hipsters and Meta-Contrarianism
+	:date 2010-09-14
+	:tags rationality sensemaking politics social luxury-beliefs
+https://www.greaterwrong.com/posts/9kcTNWopvXFncXgPy/intellectual-hipsters-and-meta-contrarianism/comment/2pDYk25pP98rc7gQq
+	:title Suppose “uneducated” and “contrarian” opinion are two independent random (e.g. normal) variables with the same mean representing the truth...
+	:date 2010-09-14
+	:tags rationality sensemaking
+https://www.popsci.com/science/article/2010-09/bulky-tight-fitting-gloves-cause-tough-nails-astronauts-lose-their-fingernails/
+	:title The Worst Part of Going to Space? Your Fingernails Come Off
+	:date 2010-09-16
+	:tags space body-horror
+https://www.brainygamer.com/the_brainy_gamer/2010/09/unplayable.html
+	:title Unplayable
+	:date 2010-09-22
+	:tags games ultima
+http://drdoug.livejournal.com/209373.html
+	:title How wrong can you be?
+	:date 2010-09-27
+	:tags science chemistry rationality
+https://web.archive.org/web/20110905075141/https://sixwingedseraph.wordpress.com/2010/09/28/knowledge-is-a-presheaf/
+	:title Knowledge is a (pre)sheaf
+	:date 2010-09-28
+	:tags math science category-theory
+https://arxiv.org/abs/1010.2067
+	:title Algorithmic Thermodynamics
+	:date 2010-10-11
+	:tags physics entropy ait systems
+https://www.metafilter.com/96977/Whats-it-like-to-be-Peter-Hacker
+	:title What's it like to be Peter Hacker?
+	:date 2010-10-25
+	:tags diseased-discipline language peter-hacker philosophy
+https://www.gbgames.com/2010/10/27/state-of-the-art-game-objects/
+	:title State of the Art Game Objects
+	:date 2010-10-27
+	:tags gamedev
+http://multiverseaccordingtoben.blogspot.com/2010/10/singularity-institutes-scary-idea-and.html
+	:title The Singularity Institute's Scary Idea (and Why I Don't Buy It)
+	:date 2010-10-29
+	:tags ai singularity
+http://cyborganthropology.com/Hypersigil
+	:title Hypersigil
+	:date 2010-11-26
+	:tags egregore weird
+https://sullla.com/Civ5/whatwentwrong.html
+	:title What Went Wrong with Civ5?
+	:date 2010-12
+	:tags games
+https://web.archive.org/web/20101204095207/http://fob.po8.org/student-code
+	:title Things I see in student code
+	:date 2010-12
+	:tags computing learning
+https://gwern.net/review/anime
+	:title Gwern's anime reviews
+	:date 2010-12-14
+	:tags anime
+https://newrepublic.com/article/79747/reading-leo-strauss-in-beijing-china-marx
+	:title Reading Struss in Beijing
+	:date 2010-12-17
+	:tags strauss china politics
+
 https://borretti.me/article/effective-spaced-repetition
 	:title Effective Spaced Repetition
 	:date 2023-04-10
