@@ -1,11 +1,11 @@
 http://bactra.org/Daedalus.html
 	:title Daedalus, or, Science and the Future
 	:date 1923-02-04
-	:tags historical science rationality
+	:tags historical science rationality jbs-haldane
 https://erkelzaar.tsudao.com/reviews/H.G.Wells_on_Metropolis%201927.htm
 	:title H.G. Wells reviews Metropolis
 	:date 1927-04-17
-	:tags fiction/scifi movies
+	:tags fiction/scifi movies hg-wells
 http://i.imgur.com/4F7Af.jpg
 	:title North Sea Drainage Project to Increase Area of Europe
 	:date 1930-09
@@ -29,7 +29,7 @@ https://apps.weber.edu/wsuimages/michaelwutz/6510.Trio/Rede-lecture-2-cultures.p
 https://philosophy.as.uky.edu/sites/default/files/The%20Theologian's%20Nightmare%20-%20Bertrand%20Russell.pdf
 	:title Bertrand Russell: The Theologician's Nightmare
 	:date 1961
-	:tags religion meaning space
+	:tags religion meaning space russell
 https://fanac.org/timebinders/scienceers.html
 	:title History of the Scienceers
 	:date 1961-06
@@ -49,11 +49,11 @@ https://pvto.weebly.com/uploads/9/1/5/0/91508780/eight_o%E2%80%99clock_in_the_mo
 https://www.feynmanlectures.caltech.edu/
 	:title The Feynman Lectures on Physics
 	:date 1964
-	:tags physics
+	:tags physics feynman
 http://www.feynman.com/science/what-is-science/
 	:title Richard Feynman: What is Science?
 	:date 1969
-	:tags rationality science
+	:tags rationality science feynman
 http://www.forth.org/POL.pdf
 	:title Programming a Problem-Oriented Language
 	:date 1970-06
