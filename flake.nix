@@ -17,6 +17,7 @@
             rustfmt
             act
             linkchecker
+            entr
           ];
         });
       });
