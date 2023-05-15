@@ -14,12 +14,12 @@ The bookmark generator turned out to be a surprisingly simple affair using IDM d
 I started thinking about ditching Zola and generating the entire site from IDM using my own code.
 
             idm::from_str    convert::From         Template::render
-     ┌──────────┐ |  ┌──────────┐ |  ┌──────────────────┐ |  ┌─────────────┐
-     │ IDM text ├────► IDM data ├────►  template data   ├─╭──► static HTML │
-     └──────────┘    └──────────┘    └──────────────────┘ │  └─────────────┘
-                                                 ┌────────┴─────────┐
-                                                 │ Askama templates │
-                                                 └──────────────────┘
+     +----------+ |  +----------+ |  +------------------+    +-------------+
+     | IDM text |--->| IDM data |--->|  template data   |-/->| static HTML |
+     +----------+    +----------+    +------------------+ |  +-------------+
+                                                 +------------------+
+                                                 | Askama templates |
+                                                 +------------------+
 
 An insight that helped with this was that I could print out an entire directory as an outline with file and directory names as headlines and file contents indented under the file name headline.
 Fixed file or directory names in this scheme correspond to struct field names in the site datatype when the whole directory is printed out as an outline and deserialized with IDM.
