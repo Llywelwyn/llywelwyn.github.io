@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>llywelwyn.github.io</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <script src="./rust/rust-llyrl.js"></script>
+        <script>
+            window.addEventListener("load", async () => {
+                await wasm_bindgen("./rust/rust-llyrl_bg.wasm")
+            })
+        </script>
+
+        <div id="header">
+            <div class="container">
+                <nav>
+                    <a class="simple" id="hover_anim" href="https://github.com/Llywelwyn">my github</a>
+                    <ul>
+                        <li>
+                            <a class="simple" href="index.html"><span>[</span> bracket-lib roguelike <span>]</span></a>
+                        </li>
+                        <li><a class="simple" id="hover_anim" href="rot.js.html">rot.js roguelike</a></li>
+                    </ul>
+                </nav>
+                <div class="main">
+                    <figure id="rl">
+                        <canvas id="canvas" width="640" height="480"></canvas>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
