@@ -1,0 +1,44 @@
+Game.EntityRepository.define('generic', {
+    name: <string>,              -       entity name
+    noun: {
+        plural: <bool>,          -       whether name should be pluralised
+        proper: <bool>,          -       whether name is a proper noun
+    }
+    character: <string>,         -       glyph representation of entity in-game
+    foreground: <string>,        -       entity colour (https://www.w3.org/wiki/CSS/Properties/color/keywords)
+    background: <string>,        -       tile colour behind the entity
+    weight: <int>,               -       weight in grams
+    height: {
+        full: <int>,             -       maximum height (standing, usually)
+        crouching: <int>,        -       height when crouching
+        crawling: <int>          -       height when crawling (minimum possible size)
+    },
+    stats: {
+        max_hp: <int>,           -       maximum hp of entity
+        hp: <int>,               -       current hp of entity. defaults to max
+        speed: <int>,            -       how frequently this entity takes a turn. standard is 100
+        attack_bonus: <int>,     -       increases hit chance when attacking
+        defence_bonus: <int>,    -       reduces hit chance against entity
+        strength_bonus: <int>,   -       increases max hit when attacking (1:1)
+        level: <int>             -       entity current level
+    }
+    sight_radius: <int>,         -       vision range if Sight mixin is present
+    inventory_slots: <int>,      -       size of inventory if HasInventory mixin is present
+    verb: {
+        singular: [<string>],    -       array of verbs to be used on attack messages, singular form
+        plural: [<string>]       -       plural form array, should correspond to singular at same index
+    },
+    hunger: {
+        max_fullness: [<int>],   -       maximum fullness
+        fullness: [<int>],       -       current fullness, used to specify starting at a specific hunger state
+        depletion_rate: [<int>]  -       amount to reduce fullness per turn of hunger  
+    },
+    growth: {
+        remaining: <int>,        -       remaining times this entity will replicate if GrowthActor
+        chance: <int>            -       percent chance to grow per turn
+    },
+    bleed_rate: <int>,           -       percent chance to bleed on receiving damage
+    corpse_drop_rate: <int>,     -       percent chance to drop an edible corpse
+    tasks: [<string>]            -       array of strings defining tasks to complete
+    mixins: [<object>]           -       array of mixins - full list is @ /assets/mixins/entity.js
+});
