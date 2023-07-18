@@ -151,7 +151,7 @@ That's a bit awkward with the leading `--`, but looks okay, syntax is pretty min
 I could maybe make it even more minimal, do I really need the colons after the attribute names?
 Attribute sets look like I could parse them with my existing machinery and a type like `Vec<(String, String)>` (no raw mode this time), but that would not support the colon in the middle.
 
-In another fit of weirdness, I started thinking of Clojure's `:keyword` syntax with a colon before the name, much easier to parse since it precedes the entire pair rather than showing in the middle of it, and the awkward initial indentation of the metadata block.
+In another fit of weirdness, I started thinking of Clojure's `:keyword` syntax with a colon before the name, much easier to parse since the colon precedes the entire pair rather than showing up in the middle of it, and the awkward initial indentation of the metadata block.
 The end result was the second bit of dedicated IDM syntax that makes it look like struct attributes have Clojure-like keyword syntax while actually having nothing to do with attributes.
 The actual colon-syntax rule in IDM is that a group of consecutive section headlines starting with colons at the start of an outline is treated as an indented sub-outline with an empty headline.
 
