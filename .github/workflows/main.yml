@@ -6,7 +6,7 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - name: Checkout blog
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@v3
       - name: Build site to public/
         run: cargo run
       - name: Publish static website
