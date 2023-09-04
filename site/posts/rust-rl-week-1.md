@@ -1,6 +1,7 @@
 :title RUST-RL does /r/roguelikedev follows the complete tutorial, week 1
 :date 2023-07-11
 :tags RUST-RL roguelikedev
+:desc setting up the basics, some simple colour offsets for a brogue-inspired visual flair, and a fast_fov() implementation from roguebasin
 
 this week was fairly productive. i got the busywork out of the way. there's a boring, placeholder map, enemies that move around and attack the player (just goblins for now), field of view, etc. it was all pretty easy to get going with [bracket-lib][bracket-lib]. in terms of more interesting deviations to talk about:
 

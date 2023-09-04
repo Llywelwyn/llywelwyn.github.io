@@ -1,6 +1,7 @@
 :title RUST-RL does /r/roguelikedev follows the complete tutorial, week 2
 :date 2023-07-18
 :tags RUST-RL roguelikedev procgen
+:desc better wall bitmasks, and a step-by-step look at how modular builders can be chained together for more varied maps
 
 procgen this week! and probably for the next long time. i messed around with the bitmask being used for the walls, and got chained builders in. of those things, the chains are the most fun to talk about.
 
