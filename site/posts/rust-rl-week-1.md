@@ -2,11 +2,13 @@
 :date 2023-07-11
 :tags RUST-RL roguelikedev
 
+this week was fairly productive. i got the busywork out of the way. there's a boring, placeholder map, enemies that move around and attack the player (just goblins for now), field of view, etc. it was all pretty easy to get going with [bracket-lib][bracket-lib]. in terms of more interesting deviations to talk about:
+
 ### brogue-like colours
 
 i was staring at a horrible-looking game for a while as i tried to figure out how to make it look nice, before deciding to try the brogue method of colour offsets. when a map is generated, it also generates a red, green, and blue offset value for every tile on the map, and applies them during rendering. after making that change i started to miss the previous hue, so i combined the two. as it stands, every tile starts off a subtle green/blue, has rgb offsets applied on top of that, and then has the actual tile colour applied. and it ends up making something like this
 
-![image](https://github.com/Llywelwyn/rust-rl/assets/82828093/2ded4eb7-b758-4022-8fee-fdf12673cf0e)
+![image](/broguelike-colours.png)
 
 ### fov
 
@@ -61,3 +63,4 @@ pub fn tile_blocks_telepathy(tt: TileType) -> bool {
 when refactoring comes around, i'll probably want to be able to pass a function to `fast_fov()`, and be able to change how many rays shoot out. note-to-self.
 
 [eligloscode]: https://www.roguebasin.com/index.php/Eligloscode
+[bracket-lib]: https://github.com/amethyst/bracket-lib/
