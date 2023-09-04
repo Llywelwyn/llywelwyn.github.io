@@ -59,7 +59,8 @@
         {% endfor %}
         <br />
         {% if link.desc != "" %}<div class="desc">{{link.desc }}</div>{% endif %}
-        <div class="date">{{ link.date }} | </a> {% for tag in link.tags %}<a class="tag" href="#tags={{ tag }}">{{ tag
+        <div class="date">{{ link.date }}{% if link.authored != "" %} | <b>authored:</b> {{ link.authored }}
+            {% endif %} | </a> {% for tag in link.tags %}<a class="tag" href="#tags={{ tag }}">{{ tag
                 }}</a>{% if !loop.last %}, {% endif %}&nbsp;{% endfor %}</div>
         <hr>
     </li>{% endfor %}

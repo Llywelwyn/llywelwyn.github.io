@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} {{ title }} {% endblock title %}
+{% block title %} {{title}} {% endblock title %}
 
 {% block content %}
 
@@ -12,7 +12,7 @@
 </header>
 
 <h1 class="title">
-  {{ title }}
+  {{title}}
 </h1>
 <ul>
   {% for post in posts %}
@@ -20,7 +20,7 @@
     <a class="title" href="/{{ post.slug|e }}/">{{ post.title }}</a>
     {% if post.desc != "" %}<div class="desc">{{post.desc }}</div>{% endif %}
     <div class="date">{{ post.date }}{% if post.updated != "" %} | <b>updated:</b> {{ post.updated }}
-      {% endif %} | </a> {% for tag in post.tags %}<a class="tag" href="#tags={{ tag }}">{{ tag
+      {% endif %} | </a> {% for tag in post.tags %}<a class="tag" href="/tags/{{tag}}/">{{ tag
         }}</a>{% if !loop.last %}, {% endif %}&nbsp;{% endfor %}</div>
     <hr>
   </li>
