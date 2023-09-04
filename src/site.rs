@@ -152,8 +152,8 @@ pub struct Link {
     pub url: String,
     pub title: String,
     pub desc: String,
-    pub added: String,
     pub date: String,
+    pub authored: String,
     pub tags: Vec<String>,
     pub sequence: Vec<String>,
     pub content: String,
@@ -174,8 +174,8 @@ impl From<(&String, &((input::LinkHeader,), String))> for Link {
             url: url.clone(),
             title,
             desc: data.desc.clone(),
-            added: data.added.clone(),
             date: data.date.clone(),
+            authored: data.authored.clone(),
             tags: data.tags.clone(),
             sequence: data.sequence.clone(),
             content: {
@@ -204,7 +204,7 @@ impl From<&Link> for FeedEntry {
             desc: value.desc.clone(),
             link: format!("{}links/#{}", crate::WEBSITE, value.id),
             date: value.date.clone(),
-            updated: value.added.clone(),
+            updated: value.authored.clone(),
             content: format!("<a href='{}'>{}</a>", value.url, value.title),
         }
     }

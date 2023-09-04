@@ -33,8 +33,8 @@ pub struct PostHeader {
 pub struct LinkHeader {
     pub title: String,
     pub desc: String,
-    pub added: String,
     pub date: String,
+    pub authored: String,
     pub tags: Vec<String>,
     pub sequence: Vec<String>,
 }
