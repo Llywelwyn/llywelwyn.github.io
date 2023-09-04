@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>{{ title }}</title>
+  <icon>http://localhost:4000/rss-feed.svg</icon>
   <link href="{{ link }}"/>
   <link href="{{ link }}feed.xml" rel="self"/>
   <updated>{{ updated }}</updated>
@@ -10,7 +11,8 @@
     <title>{{ entry.title }}</title>
     <link href="{{ entry.link }}"/>
     <id>{{ entry.link }}</id>
+    <published>{{ entry.date }}</published>
     <updated>{{ entry.updated }}</updated>
-    <summary type="html">{{ entry.content|e("none") }}</summary>
+    <summary type="html">{{ entry.desc|e("none") }}</summary>
   </entry>{% endfor %}
 </feed>

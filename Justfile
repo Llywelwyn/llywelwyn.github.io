@@ -1,4 +1,4 @@
-#set shell := ["sh"]
+set shell := ["powershell.exe", "-c"]
 
 # Run a local webserver to test the site.
 serve:
@@ -7,10 +7,14 @@ serve:
     @echo Running test server at http://localhost:4000/
     # Run entr to regenerate the site whenever a post changes.
     # Set Ctrl-C to stop both the background server and the updater daemon.
-    @(trap 'kill 0' SIGINT; ~/.cargo/bin/basic-http-server public/ & (find site/ | entr cargo run) )
+    @Start-Process -NoNewWindow "~/.cargo/bin/basic-http-server.exe" "public/"
 
-build:
-    cargo run
+stop:
+    @Stop-Process -Name 'basic-http-server' -Force
+
+regenerate:
+    @just stop
+    @just serve
 
 # One-time operation to activate versioned githooks.
 register-githooks:
@@ -22,7 +26,7 @@ local-workflow:
 
 # Check link health for the website deployed to GH pages.
 check-links:
-    linkchecker --check-extern https://rsaarelm.github.io/links/
+    linkchecker --check-extern https://llywelwyn.github.io/links/
 
 # Test any Rust code examples embedded in blog posts.
 #

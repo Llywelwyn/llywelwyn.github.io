@@ -1,21 +1,38 @@
 {% extends "base.html" %}
 
-{% block title %} rsaarelm blog: Tags {% endblock title %}
+{% block title %} Llyw - tags {% endblock title %}
 
 {% block content %}
 
 <header>
-    <a href="/">posts</a>
-    | tags
-    | <a href="/links/">links</a>
+  <a href="/">posts</a>
+  | <b>tags</b>
+  | <a href="/links/">misc. links</a>
+  | <a href="/rust-rl/">play rust-rl here</a>
 </header>
 
 <h1 class="title">
   Tags
 </h1>
-<ul>
+<ul id="tag-list">
   {% for (tag, count) in tags %}
   <li><a href="{{ tag|e }}/">{{ tag }}</a> ({{ count }})</li>
   {% endfor %}
 </ul>
+<script>
+  // get tag-list by ID
+  var tag_list = document.getElementById("tag-list");
+  var tag_items = Array.from(tag_list.getElementsByTagName("li"));
+  // sort by count
+  tag_items.sort(function (a, b) {
+    var a_count = parseInt(a.textContent.match(/\((\d+)\)/)[1]);
+    var b_count = parseInt(b.textContent.match(/\((\d+)\)/)[1]);
+    return b_count - a_count;
+  });
+  // clear list and append sorted list
+  tag_list.innerHTML = "";
+  tag_items.forEach(function (item) {
+    tag_list.appendChild(item);
+  });
+</script>
 {% endblock content %}

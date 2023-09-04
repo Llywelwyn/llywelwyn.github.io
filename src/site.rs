@@ -1,12 +1,12 @@
 //! Output types that emit templates.
 
-use std::collections::{BTreeMap, HashSet};
+use std::collections::{ BTreeMap, HashSet };
 use std::fmt::Write;
 
 use askama::Template;
 use serde::Deserialize;
 
-use crate::{input::{self, Format}, util};
+use crate::{ input::{ self, Format }, util };
 
 #[derive(Default, Debug, Deserialize)]
 #[serde(from = "input::Site")]
@@ -63,6 +63,7 @@ pub struct Post {
     pub url: String,
     pub slug: String,
     pub title: String,
+    pub desc: String,
     pub date: String,
     pub updated: String,
     pub feed_date: String,
@@ -74,7 +75,7 @@ impl Post {
     pub fn matches_tag(&self, tag: &str) -> bool {
         let prefix = format!("{tag}/");
 
-        self.tags.iter().any(|t| t == tag || t.starts_with(&prefix))
+        self.tags.iter().any(|t| (t == tag || t.starts_with(&prefix)))
     }
 }
 
@@ -89,6 +90,7 @@ impl From<(&String, &((input::PostHeader,), String))> for Post {
             } else {
                 data.title.clone()
             },
+            desc: data.desc.clone(),
             date: data.date.clone(),
             updated: data.updated.clone(),
             feed_date: if !data.updated.is_empty() {
@@ -104,10 +106,7 @@ impl From<(&String, &((input::PostHeader,), String))> for Post {
                 Format::Markdown => {
                     // Convert markdown content to HTML.
                     let mut html = String::new();
-                    pulldown_cmark::html::push_html(
-                        &mut html,
-                        pulldown_cmark::Parser::new(body),
-                    );
+                    pulldown_cmark::html::push_html(&mut html, pulldown_cmark::Parser::new(body));
                     html
                 }
                 Format::Outline => {
@@ -152,9 +151,9 @@ pub struct Links {
 pub struct Link {
     pub url: String,
     pub title: String,
+    pub desc: String,
     pub added: String,
     pub date: String,
-    pub feed_date: String,
     pub tags: Vec<String>,
     pub sequence: Vec<String>,
     pub content: String,
@@ -164,29 +163,19 @@ pub struct Link {
 impl From<(&String, &((input::LinkHeader,), String))> for Link {
     fn from((url, ((data,), content)): (&String, &((input::LinkHeader,), String))) -> Self {
         // Use URL as title if input didn't specify a title.
-        let mut title = if data.title.is_empty() {
-            url.clone()
-        } else {
-            data.title.clone()
-        };
+        let mut title = if data.title.is_empty() { url.clone() } else { data.title.clone() };
 
         // Mark PDF links
-        if url.ends_with(".pdf") && (!title.ends_with(".pdf") && !title.ends_with(" (pdf)")) {
+        if url.ends_with(".pdf") && !title.ends_with(".pdf") && !title.ends_with(" (pdf)") {
             title.push_str(" (pdf)");
         }
 
         Link {
             url: url.clone(),
             title,
+            desc: data.desc.clone(),
             added: data.added.clone(),
             date: data.date.clone(),
-            feed_date: if !data.added.is_empty() {
-                util::normalize_date(&data.added)
-            } else if !data.date.is_empty() {
-                util::normalize_date(&data.date)
-            } else {
-                util::EPOCH.to_owned()
-            },
             tags: data.tags.clone(),
             sequence: data.sequence.clone(),
             content: {
@@ -201,7 +190,9 @@ impl From<(&String, &((input::LinkHeader,), String))> for Link {
 
 pub struct FeedEntry {
     pub title: String,
+    pub desc: String,
     pub link: String,
+    pub date: String,
     pub updated: String,
     pub content: String,
 }
@@ -210,8 +201,10 @@ impl From<&Link> for FeedEntry {
     fn from(value: &Link) -> Self {
         FeedEntry {
             title: value.title.clone(),
+            desc: value.desc.clone(),
             link: format!("{}links/#{}", crate::WEBSITE, value.id),
-            updated: value.feed_date.clone(),
+            date: value.date.clone(),
+            updated: value.added.clone(),
             content: format!("<a href='{}'>{}</a>", value.url, value.title),
         }
     }
@@ -221,8 +214,10 @@ impl From<&Post> for FeedEntry {
     fn from(value: &Post) -> Self {
         FeedEntry {
             title: value.title.clone(),
+            desc: value.desc.clone(),
             link: format!("{}{}/", crate::WEBSITE, value.slug),
-            updated: value.feed_date.clone(),
+            date: value.date.clone(),
+            updated: value.updated.clone(),
             content: "".to_owned(),
         }
     }
@@ -241,7 +236,7 @@ impl<'a> Listing<'a> {
     pub fn new(
         title: impl Into<String>,
         tag: &str,
-        posts: impl IntoIterator<Item = &'a Post>,
+        posts: impl IntoIterator<Item = &'a Post>
     ) -> Self {
         let mut posts: Vec<&'a Post> = posts.into_iter().collect();
         posts.sort_by_key(|a| &a.date);
@@ -273,7 +268,7 @@ impl Feed {
     pub fn new<T: Into<FeedEntry>>(
         title: impl Into<String>,
         path: &str,
-        entries: impl IntoIterator<Item = T>,
+        entries: impl IntoIterator<Item = T>
     ) -> Self {
         let mut entries: Vec<FeedEntry> = entries.into_iter().map(Into::into).collect();
         entries.sort_by(|a, b| a.updated.cmp(&b.updated));

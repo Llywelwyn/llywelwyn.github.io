@@ -1,20 +1,23 @@
 {% extends "base.html" %}
 
-{% block title %} {{ title }} {% endblock title %}
+{% block title %} Llyw - posts {% endblock title %}
 
 {% block content %}
 <header>
-    <a href="/">posts</a>
+    <b><a href="/">posts</a></b>
     | <a href="/tags/">tags</a>
-    | <a href="/links/">links</a>
+    | <a href="/links/">misc. links</a>
+    | <a href="/rust-rl/">play rust-rl here</a>
 </header>
 
 <h1 class="title">{{ title }}</h1>
 
-<div><em>{% if tags.len() > 0 %}Tags:
-{% for tag in tags %}<a href="/tags/{{tag}}/">{{ tag }}</a>{% if !loop.last %}, {% endif %}{% endfor %}
-| {% endif %}{{ date }}{% if updated != "" %}, updated: {{ updated }}{% endif %}
-</em></div>
+<div class="post-tags">
+    {% if tags.len() > 0 %}
+    {% for tag in tags %}<a href="/tags/{{tag}}/">{{ tag }}</a>{% if !loop.last %}, {% endif %}{% endfor %}
+    | {% endif %}{{ date }}{% if updated != "" %} | <b>updated:</b> {{ updated }}
+    {% endif %}
+</div>
 
 {{ content|e("none") }}
 

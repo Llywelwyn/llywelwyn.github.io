@@ -2,9 +2,9 @@
 edition = "2021"
 name = "blog-engine"
 version = "0.1.0"
-authors = ["Risto Saarelma <risto.saarelma@iki.fi>"]
-description = "IDM-based blog generator"
-license = "MIT OR Apache-2.0"
+authors = ["Llywelwyn <https://www.github.com/Llywelwyn>"]
+description = "IDM-based blog generator - forked from Risto Saarelma <risto.saarelma@iki.fi>'s original, and modified for personal use."
+license = "MIT"
 resolver = "2"
 
 [dependencies]
@@ -13,6 +13,7 @@ base64-url = "2"
 dircpy = "0.3"
 idm = "0.4"
 indexmap = { version = "1", features = ["serde"] }
+just = "1.14.0"
 md5 = "0.7"
 pulldown-cmark = { version = "0.9", features = ["simd"] }
 serde = { version = "1", features = ["derive"] }

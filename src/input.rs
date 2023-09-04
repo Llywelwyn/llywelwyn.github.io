@@ -8,7 +8,7 @@ use serde::Deserialize;
 pub enum Format {
     #[default]
     Markdown,
-    Outline
+    Outline,
 }
 
 #[derive(Default, Debug, Deserialize)]
@@ -21,6 +21,7 @@ pub struct Site {
 #[serde(default)]
 pub struct PostHeader {
     pub title: String,
+    pub desc: String,
     pub date: String,
     pub updated: String,
     pub tags: Vec<String>,
@@ -31,6 +32,7 @@ pub struct PostHeader {
 #[serde(default)]
 pub struct LinkHeader {
     pub title: String,
+    pub desc: String,
     pub added: String,
     pub date: String,
     pub tags: Vec<String>,

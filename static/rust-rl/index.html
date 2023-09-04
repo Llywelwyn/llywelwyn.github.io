@@ -1,0 +1,45 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-rust.min.js"></script>
+    <link rel="stylesheet" href="/style/style-ide.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+    <title> Llyw - RUST-RL</title>
+</head>
+
+<body>
+    <div id='content'>
+        <style>
+            figure#rl {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-inline-start: 0px !important;
+                margin-inline-end: 0px !important;
+                box-sizing: border-box !important;
+            }
+        </style>
+        <script src="./rust-rl.js"></script>
+        <script>
+            window.addEventListener("load", async () => {
+                await wasm_bindgen("./rust-rl_bg.wasm")
+            })
+        </script>
+        </script>
+        <header>
+            <a href="/">posts</a>
+            | <a href="/tags/">tags</a>
+            | <a href="/links/">misc. links</a>
+            | <b>play rust-rl here</b>
+        </header>
+        <figure id="rl">
+            <canvas id="canvas" width="640" height="480"></canvas>
+        </figure>
+    </div>
+</body>
+
+</html>
