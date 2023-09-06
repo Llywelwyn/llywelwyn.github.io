@@ -10,7 +10,7 @@
     | <a href="/rl/">play rust-rl here</a>
 </header>
 
-<h1 class="title">{{ title }}</h1>
+<h1 class="title">{{title}}</h1>
 
 <div class="post-tags">
     {% if tags.len() > 0 %}
@@ -21,4 +21,20 @@
 
 {{ content|e("none") }}
 
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+        var href = window.location.href;
+        this.page.url = href;
+        this.page.identifier = href;
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://llyw-1.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered
+        by Disqus.</a></noscript>
 {% endblock content %}
