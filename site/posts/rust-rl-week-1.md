@@ -9,7 +9,7 @@ this week was fairly productive. i got the busywork out of the way. there's a bo
 
 i was staring at a horrible-looking game for a while as i tried to figure out how to make it look nice, before deciding to try the brogue method of colour offsets. when a map is generated, it also generates a red, green, and blue offset value for every tile on the map, and applies them during rendering. after making that change i started to miss the previous hue, so i combined the two. as it stands, every tile starts off a subtle green/blue, has rgb offsets applied on top of that, and then has the actual tile colour applied. and it ends up making something like this
 
-![image](/broguelike-colours.png)
+![image](/assets/broguelike-colours.png)
 
 ## fov
 

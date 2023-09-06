@@ -69,7 +69,7 @@ of all of these stages, the only ones that are completely mandatory are a starti
 
 but in this case, here's what we ended up getting.
 
-![image](/builder-chain.png)
+![image](/assets/builder-chain.png)
 
 hopefully this is at least a somewhat decent show of how a chain of builders can be beneficial. there's *a lot* of room to expand or modify a system like this, so this is where procgen becomes really fun. dungeon features, themeing different rooms, spawning a dragon in the largest room - anything.
 

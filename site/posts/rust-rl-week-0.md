@@ -4,7 +4,7 @@
 :tags RUST-RL roguelikedev
 :desc another preamble, this time on what RUST-RL and "roguelikedev does the complete tutorial" are
 
-![image](/roguelikedev-complete-tutorial.png)
+![image](/assets/roguelikedev-complete-tutorial.png)
 
 *roguelikedev does the complete tutorial* is a yearly sprint hosted by the /r/roguelikedev subreddit, with the aim of giving roguelike devs some encouragement to start a new project and carry it through to an achievable end. it always has a good mix of skill levels - from people setting up their first ide and following a tutorial verbatim, all the way up to people who're already successful in the industry trying out something new.
 
