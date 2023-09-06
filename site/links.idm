@@ -10,13 +10,13 @@ https://github.com/Llywelwyn/rust-rl
 	:desc the RUST-RL (name NYI) repo: a roguelike in rust using bracket-lib, and specs for ecs. there's build instructions in the README, and the occasional release available, if the WASM build hosted on this site doesn't suit you.
 https://www.youtube.com/watch?v=TlLIOgWYVpI
 	:title Herbert Wolverson - Procedural Map Generation Techniques
-	:date 2023-09-03
+	:date 2023-09-04
 	:authored 2020-10-15
 	:tags gamedev procgen roguelike
 	:desc a 27 minute talk from the 2020 roguelike celebration on procgen maps, covering: simple rooms, binary space partitioning, cellular automata, drunkard's walks, mazes, DLA, voronoi cells, wave function collapse, and prefabs.
 https://www.youtube.com/watch?v=Uo9-IcHhq_w
 	:title Brian Walker - Procedural Level Design in Brogue and Beyond
-	:date 2023-09-03
+	:date 2023-09-04
 	:authored 2018-10-10
 	:tags gamedev procgen roguelike
 	:desc another 30 minute roguelike celebration talk, this time covering a closer look at room accretion, and how 'machines' can be used to re-run room accretion to repurpose rooms and/or create dungeon features.

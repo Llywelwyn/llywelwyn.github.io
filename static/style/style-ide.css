@@ -5,9 +5,17 @@ body {
 }
 
 figure#diagram {
+    display: block;
+    justify-content: center;
+    align-items: center;
     margin-inline-start: 0px !important;
     margin-inline-end: 0px !important;
-    box-sizing: block !important;
+    box-sizing: content-box !important;
+}
+
+svg {
+    display: block;
+    background: lightgray;
 }
 
 code[class*=language-],
@@ -28,10 +36,11 @@ img {
 }
 
 iframe {
-    width: 100% !important;
-    border: none !important;
-    margin: none !important;
-    padding: none !important;
+    display: block;
+    width: 100%;
+    border: 0;
+    margin: 0;
+    padding: 0;
 }
 
 h1 {
@@ -42,13 +51,15 @@ h1 {
 }
 
 h2 {
+    padding-top: 1rem;
     font-size: 1.25rem;
     color: #009F9F;
 }
 
 h3 {
-    font-size: 1.125rem;
-    color: #009F9F;
+    padding-top: 1rem;
+    font-size: 1rem;
+    color: #027e7e;
 }
 
 hr {
@@ -147,4 +158,23 @@ a {
 
 .title {
     color: #009F9F;
+}
+
+.group .button {
+    background-color: #2F1E1F;
+    /* Green */
+    border: 1px solid #8F3F41;
+    color: #8F3F41;
+    margin-top: 5px;
+    margin-right: 5px;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    float: left;
+}
+
+.group .button:hover {
+    background-color: #382728;
 }

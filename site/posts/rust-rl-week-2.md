@@ -5,7 +5,7 @@
 
 procgen this week! and probably for the next long time. i messed around with the bitmask being used for the walls, and got chained builders in. of those things, the chains are the most fun to talk about.
 
-### chained builders
+## chained builders
 
 this is more or less straight from bracket, but i think it's interesting to talk about. in essence, instead of defining one function that's generating a map from some parameters, map generation has turned into a modular chain of builders, that each accept the build data from the previous builder, and do some procgen magic, and then pass the build data on to the next builder.
 

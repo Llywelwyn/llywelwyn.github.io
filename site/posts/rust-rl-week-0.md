@@ -10,7 +10,7 @@
 
 it has a rough schedule lasting 8 weeks, which consists of 7 weeks of *making stuff* and weekly update posts, followed by an 8th week for everyone to show off what they've got done in the time. i've taken part before privately, but this year i have the free time available to actually follow along with everyone else, so that's what i'll be doing.
 
-### my project for this year - RUST-RL (name NYI)
+## my project for this year - RUST-RL (name NYI)
 
 i wasn't sure what to do this year, because i've already followed along with a couple of the tutorials before, as well as seen projects of my own through to the end, but then i remembered thebracket's [roguelike tutorial in rust][bracket-tutorial], and decided that's where i'll start. it uses ECS, which is great, because it's what i prefer and have the most experience with, and it's data-driven, which is also great, because it means that ultimately i can strip out all of that data and leverage the end result as a really good example of using bracket-lib as, essentially, a game engine.
 
