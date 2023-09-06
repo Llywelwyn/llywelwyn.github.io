@@ -1,4 +1,4 @@
-import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.esm.browser.js'
+import Vue from '/vue.esm.browser.js'
 
 const gridCols = 50;
 const gridRows = 30;
