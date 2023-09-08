@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Cellular Automata</title>
+    <script type="module" src="cellular-automata.js"></script>
+    <link rel="stylesheet" href="/style/style-ide.css">
+    <style>
+        body {
+            background-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <figure id="diagram">
+        <svg viewBox="0 0 500 300">
+            <rect v-for="{x, y} in positions" :x="x * scale + 1/2" :y="y * scale + 1/2" :width="scale-1"
+                :height="scale-1" :fill="state({x, y}) ? '#8F3F41' : 'hsl(250 10% 93%)'" />
+        </svg>
+        <div class="group">
+            <button class="button" @click="randomise">start fresh!</button>
+            <button class="button" @click="step">step</button>
+        </div>
+    </figure>
+</body>
+
+</html>

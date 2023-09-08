@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Llyw: disclaimer</title>
+  <icon>http://localhost:4000/rss-feed.svg</icon>
+  <link href="https://llywelwyn.github.io/tags/disclaimer/"/>
+  <link href="https://llywelwyn.github.io/tags/disclaimer/feed.xml" rel="self"/>
+  <updated></updated>
+  <id>https://llywelwyn.github.io/tags/disclaimer/</id>
+
+  <entry>
+    <title>preamble</title>
+    <link href="https://llywelwyn.github.io/preamble/"/>
+    <id>https://llywelwyn.github.io/preamble/</id>
+    <published>2023-06-04</published>
+    <updated></updated>
+    <summary type="html">a small preamble on what this site is and isn't</summary>
+  </entry>
+</feed>
