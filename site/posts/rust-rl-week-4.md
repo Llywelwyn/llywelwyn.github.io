@@ -118,6 +118,8 @@ for (entity, energy, position) in (&entities, &mut energies, &positions).join() 
 }
 ```
 
+### helper functions
+
 ```rust
 fn get_burden_modifier(burdens: &ReadStorage<Burden>, entity: Entity) -> f32 {
     return if let Some(burden) = burdens.get(entity) {

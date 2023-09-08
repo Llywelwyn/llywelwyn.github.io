@@ -56,7 +56,6 @@ new Vue({
                         if (states[ny * gridCols + nx]) count++;
                     }
                 }
-                console.log(count);
                 return count;
             }
             for (let y = 0; y < gridRows; y++) {
