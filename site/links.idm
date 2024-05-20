@@ -2,7 +2,6 @@ https://github.com/Llywelwyn
 	:title github/Llywelwyn
 	:date 2023-09-03
 	:tags gamedev rust
-	:desc my github profile
 https://github.com/Llywelwyn/rust-rl
 	:title github/RUST-RL
 	:date 2023-09-03
@@ -20,3 +19,12 @@ https://www.youtube.com/watch?v=Uo9-IcHhq_w
 	:authored 2018-10-10
 	:tags gamedev procgen roguelike
 	:desc another 30 minute roguelike celebration talk, this time covering a closer look at room accretion, and how 'machines' can be used to re-run room accretion to repurpose rooms and/or create dungeon features.
+https://gamejobs.co/
+	:title GameJobs.co
+	:date 2024-05-20
+	:tags gamedev
+https://gameprogrammingpatterns.com/contents.html
+	:title Robert Nystrom - Game Programming Patterns
+	:date 2024-05-20
+	:tags gamedev
+	:desc a free web version of Nystrom's book on gamedev patterns.
