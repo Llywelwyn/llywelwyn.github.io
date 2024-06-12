@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Llyw: turn-systems</title>
+  <icon>http://localhost:4000/rss-feed.svg</icon>
+  <link href="https://llywelwyn.github.io/tags/turn-systems/"/>
+  <link href="https://llywelwyn.github.io/tags/turn-systems/feed.xml" rel="self"/>
+  <updated></updated>
+  <id>https://llywelwyn.github.io/tags/turn-systems/</id>
+
+  <entry>
+    <title>RUST-RL does /r/roguelikedev follows the complete tutorial, week 4, part 1</title>
+    <link href="https://llywelwyn.github.io/rust-rl-week-4/"/>
+    <id>https://llywelwyn.github.io/rust-rl-week-4/</id>
+    <published>2023-08-01</published>
+    <updated></updated>
+    <summary type="html">running through the details of my own solution for variable entity speeds, and a look at the problems that i think are solved by deviating from thebracket's system</summary>
+  </entry>
+</feed>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/style/prism-ide.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-rust.min.js"></script>
+    <link rel="stylesheet" href="/style/style-ide.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+     
+    <title>  Llyw - tags  </title>
+</head>
+
+<body>
+    <div id='content'>
+        
+
+<header>
+  <a href="/">posts</a>
+  | <b>tags</b>
+  | <a href="/links/">misc. links</a>
+  | <a href="/rl/">play rust-rl here</a>
+</header>
+
+<h1 class="title">
+  Tags
+</h1>
+<ul id="tag-list">
+  
+  <li><a href="RUST-RL/">RUST-RL</a> (6)</li>
+  
+  <li><a href="disclaimer/">disclaimer</a> (2)</li>
+  
+  <li><a href="procgen/">procgen</a> (2)</li>
+  
+  <li><a href="roguelikedev/">roguelikedev</a> (6)</li>
+  
+  <li><a href="turn-systems/">turn-systems</a> (1)</li>
+  
+</ul>
+<script>
+  // get tag-list by ID
+  var tag_list = document.getElementById("tag-list");
+  var tag_items = Array.from(tag_list.getElementsByTagName("li"));
+  // sort by count
+  tag_items.sort(function (a, b) {
+    var a_count = parseInt(a.textContent.match(/\((\d+)\)/)[1]);
+    var b_count = parseInt(b.textContent.match(/\((\d+)\)/)[1]);
+    return b_count - a_count;
+  });
+  // clear list and append sorted list
+  tag_list.innerHTML = "";
+  tag_items.forEach(function (item) {
+    tag_list.appendChild(item);
+  });
+</script>
+
+        <div id='footer'>
+            <a type="application/atom+xml" rel="alternate" href="/feed.xml"><img
+                    src="/assets/rss-feed.svg" alt="Atom Feed"></a>
+        </div>
+    </div>
+</body>
+
+</html>

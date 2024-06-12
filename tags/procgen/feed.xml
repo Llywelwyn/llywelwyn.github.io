@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Llyw: procgen</title>
+  <icon>http://localhost:4000/rss-feed.svg</icon>
+  <link href="https://llywelwyn.github.io/tags/procgen/"/>
+  <link href="https://llywelwyn.github.io/tags/procgen/feed.xml" rel="self"/>
+  <updated></updated>
+  <id>https://llywelwyn.github.io/tags/procgen/</id>
+
+  <entry>
+    <title>RUST-RL does /r/roguelikedev follows the complete tutorial, week 3</title>
+    <link href="https://llywelwyn.github.io/rust-rl-week-3/"/>
+    <id>https://llywelwyn.github.io/rust-rl-week-3/</id>
+    <published>2023-07-25</published>
+    <updated></updated>
+    <summary type="html">data-driven entities, input handling, and a brief overview of each of the main procgen techniques implemented so far and how they work</summary>
+  </entry><entry>
+    <title>RUST-RL does /r/roguelikedev follows the complete tutorial, week 2</title>
+    <link href="https://llywelwyn.github.io/rust-rl-week-2/"/>
+    <id>https://llywelwyn.github.io/rust-rl-week-2/</id>
+    <published>2023-07-18</published>
+    <updated></updated>
+    <summary type="html">better wall bitmasks, and a step-by-step look at how modular builders can be chained together for more varied maps</summary>
+  </entry>
+</feed>

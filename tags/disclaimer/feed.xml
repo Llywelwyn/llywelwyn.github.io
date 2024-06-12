@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Llyw: disclaimer</title>
+  <icon>http://localhost:4000/rss-feed.svg</icon>
+  <link href="https://llywelwyn.github.io/tags/disclaimer/"/>
+  <link href="https://llywelwyn.github.io/tags/disclaimer/feed.xml" rel="self"/>
+  <updated>2024-05-20</updated>
+  <id>https://llywelwyn.github.io/tags/disclaimer/</id>
+
+  <entry>
+    <title>renovations</title>
+    <link href="https://llywelwyn.github.io/renovation/"/>
+    <id>https://llywelwyn.github.io/renovation/</id>
+    <published>2024-05-20</published>
+    <updated></updated>
+    <summary type="html">a post about nothing, other than saying this site'll be updated soon</summary>
+  </entry><entry>
+    <title>preamble</title>
+    <link href="https://llywelwyn.github.io/preamble/"/>
+    <id>https://llywelwyn.github.io/preamble/</id>
+    <published>2023-06-04</published>
+    <updated>2024-05-20</updated>
+    <summary type="html">a small preamble on what this site is and isn't</summary>
+  </entry>
+</feed>

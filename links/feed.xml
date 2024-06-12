@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Llyw: links</title>
+  <icon>http://localhost:4000/rss-feed.svg</icon>
+  <link href="https://llywelwyn.github.io/links/"/>
+  <link href="https://llywelwyn.github.io/links/feed.xml" rel="self"/>
+  <updated>2020-10-15</updated>
+  <id>https://llywelwyn.github.io/links/</id>
+
+  <entry>
+    <title>Robert Nystrom - Game Programming Patterns</title>
+    <link href="https://llywelwyn.github.io/links/#SnZyOnZwoQI28dMArkKZ-w"/>
+    <id>https://llywelwyn.github.io/links/#SnZyOnZwoQI28dMArkKZ-w</id>
+    <published>2024-05-20</published>
+    <updated></updated>
+    <summary type="html">a free web version of Nystrom's book on gamedev patterns.</summary>
+  </entry><entry>
+    <title>GameJobs.co</title>
+    <link href="https://llywelwyn.github.io/links/#HUHS-PVeNGu9l4xLljgyNw"/>
+    <id>https://llywelwyn.github.io/links/#HUHS-PVeNGu9l4xLljgyNw</id>
+    <published>2024-05-20</published>
+    <updated></updated>
+    <summary type="html"></summary>
+  </entry><entry>
+    <title>github/RUST-RL</title>
+    <link href="https://llywelwyn.github.io/links/#6Jb-Zeko-VAFiob0mZ6g4w"/>
+    <id>https://llywelwyn.github.io/links/#6Jb-Zeko-VAFiob0mZ6g4w</id>
+    <published>2023-09-03</published>
+    <updated></updated>
+    <summary type="html">the RUST-RL (name NYI) repo: a roguelike in rust using bracket-lib, and specs for ecs. there's build instructions in the README, and the occasional release available, if the WASM build hosted on this site doesn't suit you.</summary>
+  </entry><entry>
+    <title>github/Llywelwyn</title>
+    <link href="https://llywelwyn.github.io/links/#PbKBj--0Ul4UZ7x9tgi0jA"/>
+    <id>https://llywelwyn.github.io/links/#PbKBj--0Ul4UZ7x9tgi0jA</id>
+    <published>2023-09-03</published>
+    <updated></updated>
+    <summary type="html"></summary>
+  </entry><entry>
+    <title>Brian Walker - Procedural Level Design in Brogue and Beyond</title>
+    <link href="https://llywelwyn.github.io/links/#0rvKQEd-jWa4e8cYwjBU0w"/>
+    <id>https://llywelwyn.github.io/links/#0rvKQEd-jWa4e8cYwjBU0w</id>
+    <published>2023-09-04</published>
+    <updated>2018-10-10</updated>
+    <summary type="html">another 30 minute roguelike celebration talk, this time covering a closer look at room accretion, and how 'machines' can be used to re-run room accretion to repurpose rooms and/or create dungeon features.</summary>
+  </entry><entry>
+    <title>Herbert Wolverson - Procedural Map Generation Techniques</title>
+    <link href="https://llywelwyn.github.io/links/#FooKUno3fRvFFRjTeRoCQw"/>
+    <id>https://llywelwyn.github.io/links/#FooKUno3fRvFFRjTeRoCQw</id>
+    <published>2023-09-04</published>
+    <updated>2020-10-15</updated>
+    <summary type="html">a 27 minute talk from the 2020 roguelike celebration on procgen maps, covering: simple rooms, binary space partitioning, cellular automata, drunkard's walks, mazes, DLA, voronoi cells, wave function collapse, and prefabs.</summary>
+  </entry>
+</feed>
