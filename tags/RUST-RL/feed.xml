@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Llyw: RUST-RL</title>
+  <icon>http://localhost:4000/rss-feed.svg</icon>
+  <link href="https://llywelwyn.github.io/tags/RUST-RL/"/>
+  <link href="https://llywelwyn.github.io/tags/RUST-RL/feed.xml" rel="self"/>
+  <updated>2023-08-05</updated>
+  <id>https://llywelwyn.github.io/tags/RUST-RL/</id>
+
+  <entry>
+    <title>RUST-RL does /r/roguelikedev follows the complete tutorial, week 3</title>
+    <link href="https://llywelwyn.github.io/rust-rl-week-3/"/>
+    <id>https://llywelwyn.github.io/rust-rl-week-3/</id>
+    <published>2023-07-25</published>
+    <updated></updated>
+    <summary type="html">data-driven entities, input handling, and a brief overview of each of the main procgen techniques implemented so far and how they work</summary>
+  </entry><entry>
+    <title>RUST-RL does /r/roguelikedev follows the complete tutorial, week 4, part 1</title>
+    <link href="https://llywelwyn.github.io/rust-rl-week-4/"/>
+    <id>https://llywelwyn.github.io/rust-rl-week-4/</id>
+    <published>2023-08-01</published>
+    <updated></updated>
+    <summary type="html">running through the details of my own solution for variable entity speeds, and a look at the problems that i think are solved by deviating from thebracket's system</summary>
+  </entry><entry>
+    <title>RUST-RL does /r/roguelikedev follows the complete tutorial, week 5</title>
+    <link href="https://llywelwyn.github.io/rust-rl-week-5/"/>
+    <id>https://llywelwyn.github.io/rust-rl-week-5/</id>
+    <published>2024-06-12</published>
+    <updated></updated>
+    <summary type="html">not a whole lot - busy week, so mostly just some tweaks and tidying up</summary>
+  </entry><entry>
+    <title>RUST-RL does /r/roguelikedev follows the complete tutorial, week 1</title>
+    <link href="https://llywelwyn.github.io/rust-rl-week-1/"/>
+    <id>https://llywelwyn.github.io/rust-rl-week-1/</id>
+    <published>2023-07-11</published>
+    <updated></updated>
+    <summary type="html">setting up the basics, some simple colour offsets for a brogue-inspired visual flair, and a fast_fov() implementation from roguebasin</summary>
+  </entry><entry>
+    <title>RUST-RL does /r/roguelikedev follows the complete tutorial, week 2</title>
+    <link href="https://llywelwyn.github.io/rust-rl-week-2/"/>
+    <id>https://llywelwyn.github.io/rust-rl-week-2/</id>
+    <published>2023-07-18</published>
+    <updated></updated>
+    <summary type="html">better wall bitmasks, and a step-by-step look at how modular builders can be chained together for more varied maps</summary>
+  </entry><entry>
+    <title>RUST-RL does /r/roguelikedev follows the complete tutorial, preface</title>
+    <link href="https://llywelwyn.github.io/rust-rl-week-0/"/>
+    <id>https://llywelwyn.github.io/rust-rl-week-0/</id>
+    <published>2023-07-04</published>
+    <updated>2023-08-05</updated>
+    <summary type="html">another preamble, this time on what RUST-RL and "roguelikedev does the complete tutorial" are</summary>
+  </entry>
+</feed>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/style/prism-ide.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-rust.min.js"></script>
+    <link rel="stylesheet" href="/style/style-ide.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+    
+<script>
+    function showTaggedOnly(requested) {
+        const items = document.querySelectorAll('li');
+        items.forEach(item => {
+            const tags = Array.from(item.getElementsByClassName('tag')).map(x => x.textContent);
+            const show = requested.every(tag => {
+                return tags.some(tag2 => { return tag2 === tag || tag2.startsWith(tag + '/') })
+            });
+
+            if (show) {
+                item.style.display = 'list-item';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    function showAll() {
+        const items = document.querySelectorAll('li');
+        items.forEach(item => {
+            item.style.display = 'list-item';
+        })
+    }
+
+    window.onhashchange = function () {
+        const hash = window.location.hash;
+        const params = new URLSearchParams(hash.slice(1));
+        if (params.has('tags')) {
+            console.log(params.get('tags'));
+            const tags = params.get('tags').split(' ');
+            showTaggedOnly(tags)
+        } else {
+            showAll()
+        }
+    }
+</script>
+    <title>  Llyw - links  </title>
+</head>
+
+<body>
+    <div id='content'>
+        
+<header>
+    <title> Llyw - links </title>
+    <a href="/">posts</a>
+    | <a href="/tags/">tags</a>
+    | <b>misc. links</b>
+    | <a href="/rl/">play rust-rl here</a>
+</header>
+
+<h1 class="title">
+    Links
+</h1>
+
+<ul>
+    <li style="margin-bottom:4px" id="SnZyOnZwoQI28dMArkKZ-w">
+        <a class="title" href="https://gameprogrammingpatterns.com/contents.html" target="_blank">Robert Nystrom - Game Programming Patterns</a>
+        
+        <br />
+        <div class="desc">a free web version of Nystrom&#x27;s book on gamedev patterns.</div>
+        <div class="date">2024-05-20 | </a> <a class="tag" href="#tags=gamedev">gamedev</a>&nbsp;</div>
+        <hr>
+    </li>
+    <li style="margin-bottom:4px" id="HUHS-PVeNGu9l4xLljgyNw">
+        <a class="title" href="https://gamejobs.co/" target="_blank">GameJobs.co</a>
+        
+        <br />
+        
+        <div class="date">2024-05-20 | </a> <a class="tag" href="#tags=gamedev">gamedev</a>&nbsp;</div>
+        <hr>
+    </li>
+    <li style="margin-bottom:4px" id="0rvKQEd-jWa4e8cYwjBU0w">
+        <a class="title" href="https://www.youtube.com/watch?v=Uo9-IcHhq_w" target="_blank">Brian Walker - Procedural Level Design in Brogue and Beyond</a>
+        
+        <br />
+        <div class="desc">another 30 minute roguelike celebration talk, this time covering a closer look at room accretion, and how &#x27;machines&#x27; can be used to re-run room accretion to repurpose rooms and/or create dungeon features.</div>
+        <div class="date">2023-09-04 | <b>authored:</b> 2018-10-10
+             | </a> <a class="tag" href="#tags=gamedev">gamedev</a>, &nbsp;<a class="tag" href="#tags=procgen">procgen</a>, &nbsp;<a class="tag" href="#tags=roguelike">roguelike</a>&nbsp;</div>
+        <hr>
+    </li>
+    <li style="margin-bottom:4px" id="FooKUno3fRvFFRjTeRoCQw">
+        <a class="title" href="https://www.youtube.com/watch?v=TlLIOgWYVpI" target="_blank">Herbert Wolverson - Procedural Map Generation Techniques</a>
+        
+        <br />
+        <div class="desc">a 27 minute talk from the 2020 roguelike celebration on procgen maps, covering: simple rooms, binary space partitioning, cellular automata, drunkard&#x27;s walks, mazes, DLA, voronoi cells, wave function collapse, and prefabs.</div>
+        <div class="date">2023-09-04 | <b>authored:</b> 2020-10-15
+             | </a> <a class="tag" href="#tags=gamedev">gamedev</a>, &nbsp;<a class="tag" href="#tags=procgen">procgen</a>, &nbsp;<a class="tag" href="#tags=roguelike">roguelike</a>&nbsp;</div>
+        <hr>
+    </li>
+    <li style="margin-bottom:4px" id="6Jb-Zeko-VAFiob0mZ6g4w">
+        <a class="title" href="https://github.com/Llywelwyn/rust-rl" target="_blank">github/RUST-RL</a>
+        
+        <br />
+        <div class="desc">the RUST-RL (name NYI) repo: a roguelike in rust using bracket-lib, and specs for ecs. there&#x27;s build instructions in the README, and the occasional release available, if the WASM build hosted on this site doesn&#x27;t suit you.</div>
+        <div class="date">2023-09-03 | </a> <a class="tag" href="#tags=gamedev">gamedev</a>, &nbsp;<a class="tag" href="#tags=procgen">procgen</a>, &nbsp;<a class="tag" href="#tags=roguelike">roguelike</a>, &nbsp;<a class="tag" href="#tags=rust">rust</a>&nbsp;</div>
+        <hr>
+    </li>
+    <li style="margin-bottom:4px" id="PbKBj--0Ul4UZ7x9tgi0jA">
+        <a class="title" href="https://github.com/Llywelwyn" target="_blank">github/Llywelwyn</a>
+        
+        <br />
+        
+        <div class="date">2023-09-03 | </a> <a class="tag" href="#tags=gamedev">gamedev</a>, &nbsp;<a class="tag" href="#tags=rust">rust</a>&nbsp;</div>
+        <hr>
+    </li>
+</ul>
+
+
+        <div id='footer'>
+            <a type="application/atom+xml" rel="alternate" href="feed.xml"><img
+                    src="/assets/rss-feed.svg" alt="Atom Feed"></a>
+        </div>
+    </div>
+</body>
+
+</html>

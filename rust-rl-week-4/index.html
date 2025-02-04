@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/style/prism-ide.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-rust.min.js"></script>
+    <link rel="stylesheet" href="/style/style-ide.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+     
+    <title>  Llyw - posts  </title>
+</head>
+
+<body>
+    <div id='content'>
+        
+<header>
+    <b><a href="/">posts</a></b>
+    | <a href="/tags/">tags</a>
+    | <a href="/links/">misc. links</a>
+    | <a href="/rl/">play rust-rl here</a>
+</header>
+
+<h1 class="title">RUST-RL does /r/roguelikedev follows the complete tutorial, week 4, part 1</h1>
+
+<div class="post-tags">
+    
+    <a href="/tags/RUST-RL/">RUST-RL</a>, <a href="/tags/roguelikedev/">roguelikedev</a>, <a href="/tags/turn-systems/">turn-systems</a>
+    | 2023-08-01
+</div>
+
+<h2>handling entity speeds</h2>
+<p>to immediately preface this, the <em>problems</em> with the tutorial content are only problems insofar as they're simplified for the sake of being a tutorial. it's a great first look at how a system like this should be implemented, without being overly specific or complex and making it hard for the viewer to adapt (like i've chosen to do here). that is: no discredit to the content. it's great, and if you don't have a specific intent already in mind like i have, you could totally just rip the system from <em>roguelike tutorial in rust</em> directly into your game and do perfectly well with it.</p>
+<h2>the speed system - thebracket's implementation, and why i differed</h2>
+<p>in thebracket's tutorial, he implements a system that goes roughly like this:</p>
+<ul>
+<li>every entity that can take turns has an <code>Initiative</code> component</li>
+<li>every tick, we iterate through every entity with an <code>Initiative</code>:
+<ul>
+<li>subtract one from the entity's current initiative score</li>
+<li>if the new score is &lt;=0, add a <code>MyTurn</code> component to give the entity a turn</li>
+<li>re-roll a new initiative number for every entity who needs one; he uses <code>6 + 1d6 - Quickness bonus</code></li>
+</ul>
+</li>
+</ul>
+<p>i like this system. it's great for the purposes of the tutorial. it introduces the reader to a simple system in which every entity may or may not take a turn on a given tick, and explains the purpose of the <code>1d6</code> of randomness when generating the initiative score in ensuring that you can't predict exactly when every entity will take a turn.</p>
+<p>however, for my purposes, there's a few things that don't agree with the direction i wanted to go:</p>
+<ul>
+<li>the degree of randomness is too large - an entity of a neutral quickness score can have their turn delay be anywhere from 7-12 ticks. i think the player occasionally acting at almost half the speed (if they roll a 12) than they do on other turns (if they roll a 7) may lead to some instances of the system feeling pretty unfair.</li>
+<li>the impact of attributes (or in the case of the system i'm using, a dedicated speed stat) is too low, meaning less variation in entity speeds than i'd like</li>
+<li>using attributes here also necessities giving every entity attributes; i'd prefer for attributes to be something that largely defaults to neutral for most entities, and is modified only by special cases like entities under stat-changing effects, just for the sake of ease. i think an orc being stronger than an average person is easier seen in raws by increasing the damage of their swing, etc., than having to calculate a balanced strength score for them (as well as all 5 other stats).</li>
+</ul>
+<h2>the speed system - my implementation</h2>
+<p>to solve the first issue of randomness, i'm going with a modified Nethack-style implementation of only randomising speeds that aren't a whole-number multiple of the standard speed, defined as <code>NORMAL_SPEED</code>. to solve the latter two issues, i'm giving every entity that needs one a specific speed stat. </p>
+<p>this method almost eliminates the problem of energy-counting for slower entities by making it completely random on which turns they will get to act, whilst keeping the average turns they get to take over their lifetime exactly the same. the problem does still exist if a given entity has a speed that is a whole multiple of <code>NORMAL_SPEED</code> less than the player's - e.g. the player has 2x the standard speed, and the entity has 1x. however, right now i think the idea is more interesting than a negative; if a player manages to reach such high speeds, and then faces off against an enemy significantly slower than them, <em>and</em> has the exact knowledge of what their speed is, i think the reward of being able to dance in and out of range of their enemy is well-earned.</p>
+<h3>pseudocode</h3>
+<pre><code class="language-rust">for every entity with a speed on the current map {
+    let energy potential = entity speed * any modifiers (burdened, etc.)
+    // Add to the entity's energy in whole increments of normal speed
+    while energy potential &gt;= NORMAL_SPEED {
+        take NORMAL_SPEED away from the entity's potential
+        add NORMAL_SPEED to the entity's current energy
+    }
+    // Roll to determine if we add the remainder
+    while some energy potential is leftover {
+        let roll = a dice-roll from 1 to NORMAL_SPEED
+        if roll &lt;= the leftover energy potential {
+            add NORMAL_SPEED to the entity's current energy
+        }
+    }
+    // Give the entity a turn, if their current energy is more than a turn's energy cost
+    if current energy &gt;= the TURN_COST {
+        take TURN_COST away from the entity's current energy
+        grant the entity a turn
+        if the entity is the player {
+            set the new runstate correctly
+        }
+    }
+}
+</code></pre>
+<h3>explaining with arithmetic (feel free to skip this)</h3>
+<p>the system uses <a href="https://en.wikipedia.org/wiki/Euclidean_division">Euclidean division</a> to determine how much energy an entity gets per tick.</p>
+<ol>
+<li>energy potential is the dividend; </li>
+<li>NORMAL_SPEED is the divisor;</li>
+<li>the entity's current energy is incremented by the divisor * the integer quotient;</li>
+<li>a divisor-sided die is rolled; if it's less than the remainder, the entity's current energy is incremented once more by the divisor </li>
+</ol>
+<pre><code class="language-rust">ENERGY_POTENTIAL = 40; NORMAL_SPEED = 12;
+ENERGY_POTENTIAL / NORMAL_SPEED = 3 remainder 4
+
+current energy += 3 * NORMAL_SPEED
+current energy += NORMAL_SPEED, if 1d12 &lt; the remainder of 4
+</code></pre>
+<h3>some plain-english examples</h3>
+<ol>
+<li>an entity has a speed of 2.3 * NORMAL_SPEED
+<ul>
+<li>on an energy tick, they always have 2 * NORMAL_SPEED added to their current energy; </li>
+<li>30% of the time they get to add another NORMAL_SPEED to their current energy, and 70% of the time they do not. </li>
+</ul>
+</li>
+<li>another entity has a speed of 0.5 * NORMAL_SPEED. 
+<ul>
+<li>on an energy tick, 50% of the time they add NORMAL_SPEED to their current energy</li>
+</ul>
+</li>
+<li>an entity has a speed of exactly NORMAL_SPEED
+<ul>
+<li>every energy tick, they increment their current energy by exactly NORMAL_SPEED</li>
+</ul>
+</li>
+</ol>
+<h3>the actual implementation in Rust</h3>
+<pre><code class="language-rust">for (entity, energy, position) in (&amp;entities, &amp;mut energies, &amp;positions).join() {
+    let burden_modifier = get_burden_modifier(&amp;burdens, entity);
+    let overmap_modifier = get_overmap_modifier(&amp;map);
+    let mut energy_potential: i32 = ((energy.speed as f32) 
+        * burden_modifier 
+        * overmap_modifier) as i32;
+
+    while energy_potential &gt;= NORMAL_SPEED {
+        energy_potential -= NORMAL_SPEED;
+        energy.current += NORMAL_SPEED;
+    }
+
+    if energy_potential &gt; 0 {
+        if rng.roll_dice(1, NORMAL_SPEED) &lt;= ENERGY_POTENTIAL {
+            energy.current += NORMAL_SPEED;
+        }
+    }
+
+    if energy.current &gt;= TURN_COST {
+        energy.current -= TURN_COST;
+        if entity == *player {
+           *runstate = RunState::AwaitingInput;
+        } else if cull_turns_by_distance(&amp;player_pos, pos) {
+            continue;
+        }
+        turns.insert(entity, TakingTurn{}).expect(&quot;Unable to insert TakingTurn.&quot;);
+    }
+}
+</code></pre>
+<h3>helper functions</h3>
+<pre><code class="language-rust">fn get_burden_modifier(burdens: &amp;ReadStorage&lt;Burden&gt;, entity: Entity) -&gt; f32 {
+    return if let Some(burden) = burdens.get(entity) {
+        match burden.level {
+            BurdenLevel::Burdened =&gt; SPEED_MOD_BURDENED,
+            BurdenLevel::Strained =&gt; SPEED_MOD_STRAINED,
+            BurdenLevel::Overloaded =&gt; SPEED_MOD_OVERLOADED,
+        }
+    } else {
+        1.0
+    };
+}
+</code></pre>
+<pre><code class="language-rust">fn get_overmap_modifier(map: &amp;ReadExpect&lt;Map&gt;) -&gt; f32 {
+    return if map.overmap { SPEED_MOD_OVERMAP_TRAVEL } else { 1.0 };
+}
+</code></pre>
+<pre><code class="language-rust">fn cull_turn_by_distance(player_pos: &amp;Point, pos: &amp;Position) -&gt; bool {
+    let distance = DistanceAlg::Pythagoras.distance2d(
+        *player_pos, 
+        Point::new(pos.x, pos.y));
+    if distance &gt; 20.0 {
+        return true;
+    }
+    return false;
+}
+</code></pre>
+
+
+
+        <div id='footer'>
+            <a type="application/atom+xml" rel="alternate" href="/feed.xml"><img
+                    src="/assets/rss-feed.svg" alt="Atom Feed"></a>
+        </div>
+    </div>
+</body>
+
+</html>

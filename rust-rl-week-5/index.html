@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/style/prism-ide.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-rust.min.js"></script>
+    <link rel="stylesheet" href="/style/style-ide.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+     
+    <title>  Llyw - posts  </title>
+</head>
+
+<body>
+    <div id='content'>
+        
+<header>
+    <b><a href="/">posts</a></b>
+    | <a href="/tags/">tags</a>
+    | <a href="/links/">misc. links</a>
+    | <a href="/rl/">play rust-rl here</a>
+</header>
+
+<h1 class="title">RUST-RL does /r/roguelikedev follows the complete tutorial, week 5</h1>
+
+<div class="post-tags">
+    
+    <a href="/tags/RUST-RL/">RUST-RL</a>, <a href="/tags/roguelikedev/">roguelikedev</a>
+    | 2024-06-12
+</div>
+
+<h2>tweaks</h2>
+<p>this ended up being a really busy week for me, so hobby stuff had to take a backseat for a while. in the free time i did manage to grab, i mostly focused on things i could get finished in the time that i had, rather than anything i might end up starting and then with all likelihood not be able to get back to until the next week when things were quieter again - by which point, i'd probably have forgotten where i was</p>
+<ul>
+<li>logs from the same tick now <em>mostly</em> share a line, outside of some special circumstances. e.g. <code>You hit the goblin. The goblin hits you.</code>, as opposed to that being split over multiple lines. 
+<ul>
+<li>this was pretty easy. previously logs were being posted each time anything happened; now a logger is created the first time a system is run each tick, messages are appended to the logger, and if the logger isn't blank by the time the system completes everything gets posted all on the same line</li>
+</ul>
+</li>
+<li>the <em>chance to spawn a guy each turn</em> system works with groupsize flags now: where appropriate, there's a chance to spawn a pack of creatures each turn rather than packs only spawning on initial map generation</li>
+<li>and that's about it</li>
+</ul>
+<p>more next week; thankfully with how much i managed to get out during the first 4 weeks, i'm still massively ahead on time even wtih mostly taking this week off. </p>
+<p>next week's plans are ambitious. visuals, item identification, and encumbrance.</p>
+
+
+
+        <div id='footer'>
+            <a type="application/atom+xml" rel="alternate" href="/feed.xml"><img
+                    src="/assets/rss-feed.svg" alt="Atom Feed"></a>
+        </div>
+    </div>
+</body>
+
+</html>
